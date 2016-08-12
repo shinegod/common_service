@@ -30,12 +30,6 @@
         <jackson.version>2.4.3</jackson.version>
     </properties>
 
-    <scm>
-	    <url>scm:svn:${svn.host}/svn/kcm-crm2.0/trunk/</url>
-        <connection>scm:svn:${svn.host}/svn/kcm-crm2.0/trunk</connection>
-        <developerConnection>scm:svn:${svn.host}/svn/kcm-crm2.0/trunk</developerConnection>
-    </scm>
-
     <repositories>
         <repository>
             <id>releases</id>
@@ -280,15 +274,6 @@
                 <version>1.9.1</version>
                 <configuration>
                   <connectionType>developerConnection</connectionType>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <branchBase>${svn.host}/svn/kcm-crm2.0/branches/</branchBase>
-                    <tagBase>${svn.host}/svn/kcm-crm2.0/tags/</tagBase>
                 </configuration>
             </plugin>
         </plugins>
