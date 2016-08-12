@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="SQL Server (Microsoft) - DB_KCM_AU_TEST@192.168.1.212" uuid="eba56259-8757-4560-a341-5d4df3481253">
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>crm_v2</user-name>
+    </data-source>
+  </component>
+</project>
