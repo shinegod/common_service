@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="common.service:war">
-    <output-path>$PROJECT_DIR$/kcm.cron/target</output-path>
-    <root id="archive" name="kcm.cron.war">
-      <element id="artifact" artifact-name="common.service:war exploded" />
-    </root>
-  </artifact>
-</component>
