@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.mail.dao.IMailUserDao" >
+  <resultMap id="BaseResultMap" type="com.fx.mail.model.MailUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="api_user" property="apiUser" jdbcType="VARCHAR" />
+    <result column="api_key" property="apiKey" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="api_user_type" property="apiUserType" jdbcType="INTEGER" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="is_default" property="isDefault" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, api_user, api_key, is_del, api_user_type, sid,is_default
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_mail_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.mail.model.MailUser" >
+    insert into tb_mail_user ( api_user, api_key, 
+      is_del, api_user_type, sid, is_default
+      )
+    values (#{apiUser,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=INTEGER}, #{apiUserType,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{isDefault,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.mail.model.MailUser" >
+    update tb_mail_user
+    set api_user = #{apiUser,jdbcType=VARCHAR},
+      api_key = #{apiKey,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=INTEGER},
+      api_user_type = #{apiUserType,jdbcType=INTEGER},
+      sid = #{sid,jdbcType=INTEGER},
+      is_default = #{isDefault,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_user where is_del = 0
+  </select>
+  <select id="queryListByCondition" resultMap="BaseResultMap" parameterType="com.fx.mail.model.MailUser" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_user 
+    where sid = #{sid,jdbcType=INTEGER} and is_del = 0
+    order by id
+  </select>
+  <select id="findBySidAndisDefault" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_user 
+    where sid = #{sid,jdbcType=INTEGER} and is_default = 1 and is_del = 0
+  </select>
+  <update id="updateAllNoDefault" parameterType="com.fx.mail.model.MailUser" >
+    update tb_mail_user
+    set 
+      is_default = 0
+       where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

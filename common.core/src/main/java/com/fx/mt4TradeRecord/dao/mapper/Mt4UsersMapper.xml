@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.mt4TradeRecord.dao.IMt4UsersDao" >
+  <resultMap id="BaseResultMap" type="com.fx.mt4TradeRecord.model.Mt4Users" >
+    <id column="LOGIN" property="login" jdbcType="INTEGER" />
+    <result column="GROUP" property="group" jdbcType="CHAR" />
+    <result column="ENABLE" property="enable" jdbcType="INTEGER" />
+    <result column="ENABLE_CHANGE_PASS" property="enableChangePass" jdbcType="INTEGER" />
+    <result column="ENABLE_READONLY" property="enableReadonly" jdbcType="INTEGER" />
+    <result column="PASSWORD_PHONE" property="passwordPhone" jdbcType="CHAR" />
+    <result column="NAME" property="name" jdbcType="CHAR" />
+    <result column="COUNTRY" property="country" jdbcType="CHAR" />
+    <result column="CITY" property="city" jdbcType="CHAR" />
+    <result column="STATE" property="state" jdbcType="CHAR" />
+    <result column="ZIPCODE" property="zipcode" jdbcType="CHAR" />
+    <result column="ADDRESS" property="address" jdbcType="CHAR" />
+    <result column="PHONE" property="phone" jdbcType="CHAR" />
+    <result column="EMAIL" property="email" jdbcType="CHAR" />
+    <result column="COMMENT" property="comment" jdbcType="CHAR" />
+    <result column="ID" property="id" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="REGDATE" property="regdate" jdbcType="TIMESTAMP" />
+    <result column="LASTDATE" property="lastdate" jdbcType="TIMESTAMP" />
+    <result column="LEVERAGE" property="leverage" jdbcType="INTEGER" />
+    <result column="AGENT_ACCOUNT" property="agentAccount" jdbcType="INTEGER" />
+    <result column="TIMESTAMP" property="timestamp" jdbcType="INTEGER" />
+    <result column="BALANCE" property="balance" jdbcType="DOUBLE" />
+    <result column="PREVMONTHBALANCE" property="prevmonthbalance" jdbcType="DOUBLE" />
+    <result column="PREVBALANCE" property="prevbalance" jdbcType="DOUBLE" />
+    <result column="CREDIT" property="credit" jdbcType="DOUBLE" />
+    <result column="INTERESTRATE" property="interestrate" jdbcType="DOUBLE" />
+    <result column="TAXES" property="taxes" jdbcType="DOUBLE" />
+    <result column="SEND_REPORTS" property="sendReports" jdbcType="INTEGER" />
+    <result column="MQID" property="mqid" jdbcType="DOUBLE" />
+    <result column="USER_COLOR" property="userColor" jdbcType="INTEGER" />
+    <result column="EQUITY" property="equity" jdbcType="DOUBLE" />
+    <result column="MARGIN" property="margin" jdbcType="DOUBLE" />
+    <result column="MARGIN_LEVEL" property="marginLevel" jdbcType="DOUBLE" />
+    <result column="MARGIN_FREE" property="marginFree" jdbcType="DOUBLE" />
+    <result column="CURRENCY" property="currency" jdbcType="CHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="API_DATA" property="apiData" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOGIN, 'GROUP' AS MT4_GROUP, ENABLE, ENABLE_CHANGE_PASS, ENABLE_READONLY, PASSWORD_PHONE, NAME,
+    COUNTRY, CITY, STATE, ZIPCODE, ADDRESS, PHONE, EMAIL, COMMENT, ID, STATUS, REGDATE,
+    LASTDATE, LEVERAGE, AGENT_ACCOUNT, TIMESTAMP, BALANCE, PREVMONTHBALANCE, PREVBALANCE, 
+    CREDIT, INTERESTRATE, TAXES, SEND_REPORTS, MQID, USER_COLOR, EQUITY, MARGIN, MARGIN_LEVEL, 
+    MARGIN_FREE, CURRENCY, MODIFY_TIME, API_DATA
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mt4_users
+    where LOGIN = #{login,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.mt4TradeRecord.model.Mt4Users" >
+    insert into mt4_users (LOGIN, GROUP, ENABLE, 
+      ENABLE_CHANGE_PASS, ENABLE_READONLY, PASSWORD_PHONE, 
+      NAME, COUNTRY, CITY, STATE, 
+      ZIPCODE, ADDRESS, PHONE, EMAIL, 
+      COMMENT, ID, STATUS, REGDATE, 
+      LASTDATE, LEVERAGE, AGENT_ACCOUNT, 
+      TIMESTAMP, BALANCE, PREVMONTHBALANCE, 
+      PREVBALANCE, CREDIT, INTERESTRATE, 
+      TAXES, SEND_REPORTS, MQID, 
+      USER_COLOR, EQUITY, MARGIN, 
+      MARGIN_LEVEL, MARGIN_FREE, CURRENCY, 
+      MODIFY_TIME, API_DATA)
+    values (#{login,jdbcType=INTEGER}, #{group,jdbcType=CHAR}, #{enable,jdbcType=INTEGER}, 
+      #{enableChangePass,jdbcType=INTEGER}, #{enableReadonly,jdbcType=INTEGER}, #{passwordPhone,jdbcType=CHAR}, 
+      #{name,jdbcType=CHAR}, #{country,jdbcType=CHAR}, #{city,jdbcType=CHAR}, #{state,jdbcType=CHAR}, 
+      #{zipcode,jdbcType=CHAR}, #{address,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{email,jdbcType=CHAR}, 
+      #{comment,jdbcType=CHAR}, #{id,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{regdate,jdbcType=TIMESTAMP}, 
+      #{lastdate,jdbcType=TIMESTAMP}, #{leverage,jdbcType=INTEGER}, #{agentAccount,jdbcType=INTEGER}, 
+      #{timestamp,jdbcType=INTEGER}, #{balance,jdbcType=DOUBLE}, #{prevmonthbalance,jdbcType=DOUBLE}, 
+      #{prevbalance,jdbcType=DOUBLE}, #{credit,jdbcType=DOUBLE}, #{interestrate,jdbcType=DOUBLE}, 
+      #{taxes,jdbcType=DOUBLE}, #{sendReports,jdbcType=INTEGER}, #{mqid,jdbcType=INTEGER}, 
+      #{userColor,jdbcType=INTEGER}, #{equity,jdbcType=DOUBLE}, #{margin,jdbcType=DOUBLE}, 
+      #{marginLevel,jdbcType=DOUBLE}, #{marginFree,jdbcType=DOUBLE}, #{currency,jdbcType=CHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{apiData,jdbcType=LONGVARBINARY})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.mt4TradeRecord.model.Mt4Users" >
+    update mt4_users
+    set GROUP = #{group,jdbcType=CHAR},
+      ENABLE = #{enable,jdbcType=INTEGER},
+      ENABLE_CHANGE_PASS = #{enableChangePass,jdbcType=INTEGER},
+      ENABLE_READONLY = #{enableReadonly,jdbcType=INTEGER},
+      PASSWORD_PHONE = #{passwordPhone,jdbcType=CHAR},
+      NAME = #{name,jdbcType=CHAR},
+      COUNTRY = #{country,jdbcType=CHAR},
+      CITY = #{city,jdbcType=CHAR},
+      STATE = #{state,jdbcType=CHAR},
+      ZIPCODE = #{zipcode,jdbcType=CHAR},
+      ADDRESS = #{address,jdbcType=CHAR},
+      PHONE = #{phone,jdbcType=CHAR},
+      EMAIL = #{email,jdbcType=CHAR},
+      COMMENT = #{comment,jdbcType=CHAR},
+      ID = #{id,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      REGDATE = #{regdate,jdbcType=TIMESTAMP},
+      LASTDATE = #{lastdate,jdbcType=TIMESTAMP},
+      LEVERAGE = #{leverage,jdbcType=INTEGER},
+      AGENT_ACCOUNT = #{agentAccount,jdbcType=INTEGER},
+      TIMESTAMP = #{timestamp,jdbcType=INTEGER},
+      BALANCE = #{balance,jdbcType=DOUBLE},
+      PREVMONTHBALANCE = #{prevmonthbalance,jdbcType=DOUBLE},
+      PREVBALANCE = #{prevbalance,jdbcType=DOUBLE},
+      CREDIT = #{credit,jdbcType=DOUBLE},
+      INTERESTRATE = #{interestrate,jdbcType=DOUBLE},
+      TAXES = #{taxes,jdbcType=DOUBLE},
+      SEND_REPORTS = #{sendReports,jdbcType=INTEGER},
+      MQID = #{mqid,jdbcType=INTEGER},
+      USER_COLOR = #{userColor,jdbcType=INTEGER},
+      EQUITY = #{equity,jdbcType=DOUBLE},
+      MARGIN = #{margin,jdbcType=DOUBLE},
+      MARGIN_LEVEL = #{marginLevel,jdbcType=DOUBLE},
+      MARGIN_FREE = #{marginFree,jdbcType=DOUBLE},
+      CURRENCY = #{currency,jdbcType=CHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      API_DATA = #{apiData,jdbcType=LONGVARBINARY}
+    where LOGIN = #{login,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from mt4_users
+    where LOGIN = #{login,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select *
+    from mt4_users
+  </select>
+  <select id="getMt4UsersByMt4Account" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from mt4_users
+    where LOGIN = #{mt4Account,jdbcType=INTEGER}
+  </select>
+  <select id="getMt4UsersByMt4AccountAndBalanceLeverage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select *
+    from mt4_users
+    where 1 = 1
+    <if test="loginlist != null and loginlist.size !=0 ">
+      and login in
+      <foreach item="logins" index="index" collection="loginlist"
+               open="(" separator="," close=")">
+        #{logins}
+      </foreach>
+    </if>
+    <if test="loginlist == null">
+      and login in ('')
+    </if>
+    <if test="loginlist.size ==0">
+      and login in ('')
+    </if>
+    <if test="leverage_QUERY_EQUALS != null">
+      and leverage = #{findmt4Users.leverage,jdbcType=INTEGER}
+    </if>
+    <if test="leverage_QUERY_NOTEQUALS != null">
+      and leverage != #{findmt4Users.leverage,jdbcType=INTEGER}
+    </if>
+    <if test="balance_QUERY_EQUALS != null">
+      and balance = #{findmt4Users.balance,jdbcType=DOUBLE}
+    </if>
+    <if test="balance_QUERY_MORE != null">
+      and balance > #{findmt4Users.balance,jdbcType=DOUBLE}
+    </if>
+    <if test="balance_QUERY_LESS != null">
+      and balance &lt; #{findmt4Users.balance,jdbcType=DOUBLE}
+    </if>
+    <if test="balance_QUERY_NOMORE != null">
+      and balance &lt;= #{findmt4Users.balance,jdbcType=DOUBLE}
+    </if>
+    <if test="balance_QUERY_NOLESS != null">
+      and balance >= #{findmt4Users.balance,jdbcType=DOUBLE}
+    </if>
+    <if test="orderByName == null">
+      ORDER BY REGDATE DESC
+    </if>
+    <if test="orderByName != null">
+      ${orderByName}
+    </if>
+
+
+  </select>
+
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    SELECT
+      COUNT(1)
+    FROM mt4_users
+    WHERE  1=1
+      <if test="login != 0 and login != null">
+        and login = #{login,jdbcType=INTEGER}
+      </if>
+  </select>
+
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT <include refid="Base_Column_List" /> FROM mt4_users
+    WHERE 1 = 1
+    <if test="login != 0 and login != null">
+      and login = #{login,jdbcType=INTEGER}
+    </if>
+    order by REGDATE DESC LIMIT ${offset}, ${limit}
+  </select>
+    <select id="selectByPage2" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT <include refid="Base_Column_List" /> FROM mt4_users
+        WHERE 1 = 1
+        <if test="login != 0 and login != null">
+            and login = #{login,jdbcType=INTEGER}
+        </if>
+        order by REGDATE DESC
+    </select>
+  <select id="repeatMT4Account" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select COUNT(*) from mt4_users
+    where login = #{login,jdbcType=INTEGER}
+  </select>
+
+  <select id="getMt4UsersByLogin" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select  LOGIN
+    from mt4_users
+    where 1 = 1
+    <if test="loginList != null">
+      and login in
+      <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+        #{login}
+      </foreach>
+    </if>
+    <if test="loginList == null">
+      and login in ('')
+    </if>
+    order by LOGIN DESC
+  </select>
+  <select id="queryNewAccounts" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mt4_users
+   	<where>
+	<if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+      AND REGDATE BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+    </if>
+   	<if test="loginList != null">
+   	and login in
+    <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+		#{login}
+	</foreach>
+	</if>
+	<if test="loginList == null">
+		and login in ('')
+	</if>
+	</where>
+    order by REGDATE DESC
+  </select>
+
+  <select id="queryAllAccounts" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mt4_users
+    <where>
+      <if test="loginList != null">
+        and login in
+        <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+          #{login}
+        </foreach>
+      </if>
+      <if test="loginList == null">
+        and login in ('')
+      </if>
+    </where>
+    order by REGDATE DESC
+  </select>
+
+  <select id="findLoginByDate" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT
+    DISTINCT login
+    FROM mt4_users
+    <where>
+      <if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+        AND REGDATE BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    order by REGDATE DESC
+  </select>
+
+  <select id="getTotalBalance" resultType="java.lang.Double" parameterType="java.util.Map">
+    SELECT
+    sum(BALANCE)
+    FROM mt4_users
+   	<where>
+	<if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+      AND REGDATE BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+    </if>
+   	<if test="loginList != null">
+   	and login in
+    <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+		#{login}
+	</foreach>
+	</if>
+	<if test="loginList == null">
+		and login in ('')
+	</if>
+	</where>
+  </select>
+  <select id="getTotalEquity" resultType="java.lang.Double" parameterType="java.util.Map">
+    SELECT
+    sum(EQUITY)
+    FROM mt4_users
+   		<where>
+	<if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+      AND REGDATE BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+    </if>
+   	<if test="loginList != null">
+   	and login in
+    <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+		#{login}
+	</foreach>
+	</if>
+	<if test="loginList == null">
+		and login in ('')
+	</if>
+	</where>
+  </select>
+  <select id="getTotalFloatingProfitLoss" resultType="java.lang.Double" parameterType="java.util.Map">
+    SELECT
+    sum(EQUITY-BALANCE-CREDIT)
+    FROM mt4_users
+   	<where>
+	<if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+      AND REGDATE BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+    </if>
+   	<if test="loginList != null">
+   	and login in
+    <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+		#{login}
+	</foreach>
+	</if>
+	<if test="loginList == null">
+		and login in ('')
+	</if>
+	</where>
+  </select>
+  <select id="findByEmail" resultMap="BaseResultMap" parameterType="com.fx.mt4TradeRecord.model.Mt4Users">
+    SELECT * FROM mt4_users
+    WHERE 1 = 1
+    <if test="email != null and email != ''" >
+      and email = #{email,jdbcType=CHAR}
+    </if>
+    <if test="group != null and group != ''" >
+      and `GROUP` = #{group,jdbcType=CHAR}
+    </if>
+    order by login asc
+    LIMIT 0,1
+  </select>
+</mapper>

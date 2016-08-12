@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.admin.dao.IRoleDao" >
+
+  <resultMap id="rolePowerResultMap" type="com.fx.admin.model.RolePower" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="power_id" property="powerId" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="PermissionResultMap" type="com.fx.crm.sys.permission.model.Permission" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="permission_exp" property="permissionExp" jdbcType="VARCHAR" />
+    <result column="menuid" property="menuid" jdbcType="VARCHAR" />
+    <result column="permission_type" property="permissionType" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap" type="com.fx.admin.model.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="CHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="commissions" property="commissions" jdbcType="CHAR" />
+    <result column="role_type" property="roletype" jdbcType="CHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="data_scope" property="dataScope" jdbcType="VARCHAR" />
+    <result column="superior_id" property="superiorId" jdbcType="INTEGER" />
+
+
+
+
+    <!-- 查询子模块 -->
+    <!-- <collection property="powerItemList" column="id" select="getPowerItemList" /> -->
+
+    <!-- 查询子模块 -->
+   <!--  <collection property="permission" column="id" select="getMenuPermissions" /> -->
+    <!-- 查询子模块 -->
+    <!-- <collection property="dataRules" column="id" select="getMenuDataRules" /> -->
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, status, create_user, create_time, create_ip, update_user, update_time, 
+    update_ip, is_del ,commissions,role_type,level,org_id,data_Scope,superior_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update tb_role set is_del=1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <update id="logicDeleteById" parameterType="java.lang.Integer" >
+    update tb_role set is_del=1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="deleteByUpdate" parameterType="com.fx.admin.model.Role" >
+    update tb_role
+    set 
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.fx.admin.model.Role" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_role (name, status, create_user, 
+      create_time, create_ip, update_user, 
+      update_time, update_ip, is_del ,commissions,role_type,level,org_id,data_Scope,superior_id
+      )
+    values (#{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
+      #{commissions,jdbcType=CHAR}, #{roletype,jdbcType=CHAR}, #{level,jdbcType=INTEGER},
+      #{orgId,jdbcType=INTEGER},#{dataScope,jdbcType=VARCHAR},#{superiorId,jdbcType=INTEGER}
+      )
+  </insert>
+
+
+  <insert id="insertList" parameterType="java.util.Map">
+    insert into tb_role_power(role_id, power_id, create_user, create_time, create_ip) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createUser,jdbcType=VARCHAR},
+      #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
+      #{commissions,jdbcType=CHAR}, #{roletype,jdbcType=CHAR}, #{level,jdbcType=INTEGER},
+      #{orgId,jdbcType=INTEGER},#{dataScope,jdbcType=VARCHAR},#{superiorId,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.fx.admin.model.Role" >
+    update tb_role
+    set name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT}, 
+      commissions=#{commissions,jdbcType=CHAR},
+      role_type= #{roletype,jdbcType=CHAR},
+      level=#{level,jdbcType=INTEGER},
+      org_id=#{orgId,jdbcType=INTEGER},
+      data_scope=#{dataScope,jdbcType=VARCHAR},
+      superior_id=#{superiorId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where name = #{name,jdbcType=VARCHAR}
+    and is_del = 0
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where is_del = 0
+  </select>
+  
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_role
+    where is_del = 0 and id!=5
+    <if test="id != null">
+        and id = #{id, jdbcType=INTEGER}
+    </if>
+    <if test="name != null">
+        and name like #{name, jdbcType=VARCHAR}
+    </if>
+     <if test="roletype != null">
+        and role_type = #{roletype, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+  </select>
+  
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_role
+    where is_del = 0 and id!=5
+    <if test="id != null">
+        and id = #{id, jdbcType=INTEGER}
+    </if>
+    <if test="name != null">
+        and name like #{name, jdbcType=VARCHAR}
+    </if>
+    <if test="roletype != null">
+        and role_type = #{roletype, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	id > (SELECT MAX(id) FROM (SELECT TOP ${offset} id	FROM tb_role 
+    	where is_del = 0 and id!=5
+	    <if test="id != null">
+	        and id = #{id, jdbcType=INTEGER}
+	    </if>
+	    <if test="name != null">
+	        and name like #{name, jdbcType=VARCHAR}
+	    </if>
+	    <if test="roletype != null">
+        	and role_type = #{roletype, jdbcType=VARCHAR}
+    	</if>
+	    <if test="status != null">
+	        and status = #{status, jdbcType=TINYINT}
+	    </if>
+    	 ORDER BY id) AS T)
+		)
+    </if>
+	order by id
+  </select>
+  <select id="findAllRoleNoIb" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where is_del = 0 and id!=5 and id!=6
+  </select>
+
+  <select id="getPowerItemList" resultMap="rolePowerResultMap">
+    select * from tb_role_power where role_id = #{id, jdbcType=INTEGER}
+  </select>
+
+  <select id="getMenuPermissions" resultMap="PermissionResultMap">
+     select p.* from tb_sys_permission p,tb_sys_role_permission r
+    where p.id = r.permission_id
+     and r.role_id = #{id, jdbcType=INTEGER}
+     and r.status = '0'
+     and r.permission_type = 'p'
+  </select>
+
+  <select id="getMenuDataRules" resultType="String">
+    select permission_id from tb_sys_role_permission r
+    where r.role_id = #{id, jdbcType=INTEGER}
+    and r.status = '0'
+    and r.permission_type = 'd'
+  </select>
+
+  <update id="stapar" parameterType="java.util.Map" >
+    update tb_role set status= #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAlltable" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where role_type = 1
+    and is_del = 0
+    order by level
+  </select>
+  <select id="findAlltable2" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_role
+    where role_type = 2
+    and is_del = 0
+    order by level
+  </select>
+  <select id="findmaxlevel" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    MAX(level)
+    from tb_role
+    where is_del = 0
+     and role_type = 2
+  </select>
+  <select id="findwbuser" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(id)
+    from tb_role
+    where is_del = 0
+    and role_type = 2
+  </select>
+  <select id="getRolesByInnerSales" resultMap="BaseResultMap" parameterType="map">
+  select
+  <include refid="Base_Column_List" />
+  from tb_role
+  where  level>0
+  <if test="commissions != null">
+    and commissions = #{isInnerSales, jdbcType=TINYINT}
+  </if>  ORDER BY commissions , level
+  </select>
+
+  <select id="getRoleByHier" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  select
+  <include refid="Base_Column_List" />
+  from tb_role
+  where is_del = 0 and role_type = #{role_type, jdbcType=TINYINT} and level = #{level,jdbcType=INTEGER}
+  </select>
+
+  <select id="getTopRoleId" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT r.id FROM tb_role r WHERE r.level = (SELECT MIN(t.level) as level FROM tb_role t WHERE t.role_type = 2 AND t.is_del = 0) AND r.role_type = 2 AND r.is_del = 0;
+  </select>
+
+  <select id="findminlevel" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT min(level) FROM tb_role WHERE role_type = 2 and is_del = 0
+  </select>
+
+  <select id="getRolesByRoleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+      SELECT *
+      from tb_role
+      where level &lt;= (SELECT r.[level] FROM tb_role r WHERE r.id = #{roleId, jdbcType=INTEGER}) and is_del = 0;
+  </select>
+  <select id="getNextRoleId" resultType="java.lang.Integer" parameterType="java.util.Map">
+      SELECT id FROM tb_role WHERE LEVEL = (
+          SELECT r.[level] + 1 FROM tb_role r WHERE
+            r.id =
+                (SELECT u.roleId FROM tb_user u WHERE u.user_id = #{userId, jdbcType=INTEGER} AND is_del = 0)
+           or r.id = (
+				SELECT
+					u.role_id
+				FROM
+					tb_admin u
+				WHERE
+					u.user_id =  #{userId, jdbcType=INTEGER}
+				AND is_del = 0
+			  )
+          AND is_del = 0
+        )
+          AND is_del = 0
+  </select>
+  <select id="getInnerRoles" resultMap="BaseResultMap" parameterType="java.util.Map">
+      select * from tb_role where is_del = 0 and role_type = 1 order by name asc
+  </select>
+
+  <select id="findByOrgId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT *
+    from tb_role
+    where is_del = 0
+    and org_id = #{orgId, jdbcType=INTEGER}
+    and role_type = 1
+  </select>
+    <select id="getCountByOrgId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from tb_role where is_del = 0 and role_type = 1 and org_id = #{orgId,jdbcType=INTEGER}
+    </select>
+    <select id="getSubRolesByRoleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_role
+        WHERE is_del = 0
+        AND superior_id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="findAllSubRoleIds" resultType="java.lang.Integer" parameterType="java.util.Map">
+        WITH tree AS (
+            SELECT
+                t.superior_id,
+                t.id,
+                t.is_del,
+                1 AS xLEVEL
+            FROM
+                tb_role t
+            WHERE
+                t.superior_id = #{id, jdbcType=INTEGER}
+            AND t.is_del = 0
+            AND t.role_type = 1
+            AND t.superior_id != t.id
+            UNION ALL
+                SELECT
+                    c.superior_id,
+                    c.id,
+                    c.is_del,
+                    tree.xLEVEL + 1
+                FROM
+                    tb_role c
+                INNER JOIN tree ON c.superior_id = tree.id
+        ) SELECT
+            A.id
+        FROM
+            tree A
+        WHERE
+            A.is_del = 0
+        OPTION(maxrecursion 0);
+    </select>
+    <delete id="deleteExtraPowerByIds" parameterType="java.util.Map">
+        DELETE tb_role_power WHERE role_id IN
+        <foreach collection="roleIds" item="id" separator="," open="(" close=")">#{id,jdbcType=INTEGER}</foreach>
+        AND power_id NOT IN (SELECT power_id FROM tb_role_power WHERE role_id = #{roleId,jdbcType=INTEGER});
+    </delete>
+    <update id="deleteExtraPermissionByIds" parameterType="java.util.Map">
+        UPDATE tb_sys_role_permission SET status = 1 WHERE role_id IN
+        <foreach collection="roleIds" item="id" separator="," open="(" close=")">#{id,jdbcType=INTEGER}</foreach>
+        AND permission_id NOT IN (SELECT permission_id FROM tb_sys_role_permission WHERE role_id = #{roleId,jdbcType=INTEGER} AND status = 0) AND status = 0;
+    </update>
+    <select id="getCountByNameAndRoleIdAndId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(1) FROM tb_role WHERE is_del = 0 AND name = #{roleName, jdbcType=VARCHAR} AND org_id = #{orgId, jdbcType=INTEGER} AND id != #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getCountByRoleId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(1) FROM tb_admin WHERE is_del = 0 AND role_id = #{roleId, jdbcType=INTEGER}
+    </select>
+    <select id="getAllSalesRoleId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT id FROM tb_role WHERE is_del = 0 AND name LIKE '%Sales%'
+    </select>
+</mapper>

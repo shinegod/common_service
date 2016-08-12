@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.tradeAdjust.dao.ITradeAdjustDao" >
+  <resultMap id="BaseResultMap" type="com.fx.tradeAdjust.model.TradeAdjust" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="tid" property="tid" jdbcType="INTEGER" />
+    <result column="mt4account" property="mt4account" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="target_uid" property="targetUid" jdbcType="INTEGER" />
+    <result column="target_tid" property="targetTid" jdbcType="INTEGER" />
+    <result column="target_mt4account" property="targetMt4account" jdbcType="INTEGER" />
+    <result column="gift_id" property="giftId" jdbcType="INTEGER" />
+    <result column="oper_money" property="operMoney" jdbcType="NUMERIC" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, tid, mt4account, type, remark, target_uid, target_tid, target_mt4account, 
+    gift_id,oper_money
+  </sql>
+  <insert id="insert" parameterType="com.fx.tradeAdjust.model.TradeAdjust" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_trade_adjust (uid, tid, mt4account, 
+      type, remark, target_uid, 
+      target_tid, target_mt4account, gift_id,oper_money
+      )
+    values (#{uid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{mt4account,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{targetUid,jdbcType=INTEGER}, 
+      #{targetTid,jdbcType=INTEGER}, #{targetMt4account,jdbcType=INTEGER}, #{giftId,jdbcType=INTEGER}, #{operMoney,jdbcType=NUMERIC}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.tradeAdjust.model.TradeAdjust" >
+    update tb_trade_adjust
+    set uid = #{uid,jdbcType=INTEGER},
+    tid = #{tid,jdbcType=INTEGER},
+    mt4account = #{mt4account,jdbcType=INTEGER},
+    type = #{type,jdbcType=INTEGER},
+    remark = #{remark,jdbcType=VARCHAR},
+    targetUid = #{targetUid,jdbcType=INTEGER},
+    targetTid = #{targetTid,jdbcType=INTEGER},
+    targetMt4account = #{targetMt4account,jdbcType=INTEGER},
+    giftId = #{giftId,jdbcType=INTEGER},
+    operMoney = #{operMoney,jdbcType=NUMERIC}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trade_adjust
+  </select>
+</mapper>

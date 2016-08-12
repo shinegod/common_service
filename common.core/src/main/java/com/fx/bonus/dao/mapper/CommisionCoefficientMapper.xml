@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.ICommisionCoefficientDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.CommisionCoefficient" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_id" property="ruleId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="coefficient" property="coefficient" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="agentAccount" property="agentAccount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_id, role_id, coefficient, update_user, update_date,uid,agentAccount
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_commision_coefficient
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.CommisionCoefficient" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_commision_coefficient (rule_id, role_id,status, coefficient, 
+      update_user, update_date,uid,agentAccount)
+    values (#{ruleId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{coefficient,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{uid,jdbcType=INTEGER}, #{agentAccount,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.CommisionCoefficient" >
+    update tb_commision_coefficient
+    set rule_id = #{ruleId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      coefficient = #{coefficient,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      uid = #{uid,jdbcType=INTEGER},
+      agentAccount = #{agentAccount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateCoefficientByUidAndRuleId" parameterType="com.fx.bonus.model.CommisionCoefficient" >
+        update tb_commision_coefficient
+        set
+        coefficient = #{coefficient,jdbcType=VARCHAR},
+        update_user = #{updateUser,jdbcType=VARCHAR},
+        update_date = #{updateDate,jdbcType=TIMESTAMP}
+        where rule_id = #{ruleId,jdbcType=INTEGER} and status = 0
+         and uid = #{uid,jdbcType=INTEGER}
+    </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commision_coefficient
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commision_coefficient
+    
+  </select>
+  
+  <delete id="deleteByRuleId"  parameterType="java.util.Map">
+    delete from tb_commision_coefficient
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="findByRuleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from tb_commision_coefficient
+    where rule_id = #{ruleId,jdbcType=INTEGER} and  status = 0
+  </select>
+  <update id="updateByRuleId" parameterType="java.util.Map" >
+    update tb_commision_coefficient
+    set status = 1
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </update>
+  <select id="getCommisionCoefficientByRuleId" resultMap="BaseResultMap" parameterType="map">
+	select
+	<include refid="Base_Column_List" />
+	from tb_commision_coefficient
+	where rule_id = #{ruleId,jdbcType=INTEGER} and  status = 0
+  </select>
+  <update id="updateByRoleId" parameterType="java.util.Map" >
+    update tb_commision_coefficient
+    set status = 1
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <select id="getCommisionCoefficientByRoleId" resultMap="BaseResultMap" parameterType="map">
+  select
+  <include refid="Base_Column_List" />
+  from tb_commision_coefficient
+  where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <select id="findByRoleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  select
+  <include refid="Base_Column_List" />
+  from tb_commision_coefficient
+  where role_id = #{roleId,jdbcType=INTEGER} and  status = 0
+  </select>
+    <select id="findByRoleIdAndRuleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_commision_coefficient
+        WHERE
+        rule_id = #{ruleId,jdbcType=INTEGER}
+        AND role_id IN (
+        SELECT
+        r.id
+        FROM
+        tb_role r
+        WHERE
+        r.[level] &lt;= (
+        SELECT
+        t.[level]
+        FROM
+        tb_role t
+        WHERE
+        t.id = #{roleId,jdbcType=INTEGER}
+        AND t.is_del = 0
+        )
+        AND r.is_del = 0
+        )
+        AND status = 0;
+    </select>
+    
+    <select id="findCommisionCoefficientByRoleIdAndRuleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_commision_coefficient t
+        where  t.status = 0 and rule_id = #{ruleId,jdbcType=INTEGER}
+        <if test="roleId != null">
+            and role_id = #{roleId,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and uid = #{userId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="findByRoleIdList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_commision_coefficient
+        where  status = 0 and coefficient = '0'
+        <if test="roleIdList != null">
+            and role_id in
+            <foreach item="roleId" index="index" collection="roleIdList" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

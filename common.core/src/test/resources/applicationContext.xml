@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
+
+	<context:property-placeholder location="configs.properties"/>
+	<!-- 获取bean工具注入 -->
+	<bean id="springUtil" class="com.fx.util.SpringUtils" lazy-init="false" />
+
+	<bean id="cacheManager" class="com.fx.cache.redis.RedisCacheManager">
+		<property name="redisManager" ref="redisManager"/>
+		<property name="keyPrefix" value="cache_test:"/>
+	</bean>
+
+	<bean id="redisManager" class="com.fx.cache.redis.JodisManager">
+		<property name="haconfig" value="${jodis.ha}"></property>
+		<property name="zkPath" value="${jodis.zk}"></property>
+		<property name="sessionTimeout" value="${jodis.sesssionTime}"/>
+		<!--<property name="expire" value="${redis.expire}"/>-->
+	</bean>
+</beans>

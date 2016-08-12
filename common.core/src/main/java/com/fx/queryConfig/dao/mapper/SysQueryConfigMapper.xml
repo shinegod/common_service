@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.queryConfig.dao.ISysQueryConfigDao" >
+  <resultMap id="BaseResultMap" type="com.fx.queryConfig.model.SysQueryConfig" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="menuId" property="menuid" jdbcType="INTEGER" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_code" property="fieldCode" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="contents" property="contents" jdbcType="VARCHAR" />
+    <result column="query_condition" property="queryCondition" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, menuId, field_name, field_code, type, is_del, contents, query_condition
+  </sql>
+  <insert id="insert" parameterType="com.fx.queryConfig.model.SysQueryConfig" >
+    insert into tb_sys_query_config (id, menuId, field_name, 
+      field_code, type, is_del, 
+      contents, query_condition)
+    values (#{id,jdbcType=INTEGER}, #{menuid,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR}, 
+      #{fieldCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, 
+      #{contents,jdbcType=VARCHAR}, #{queryCondition,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_query_config
+  </select>
+  <select id="selectByMenuid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_query_config
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </select>
+</mapper>

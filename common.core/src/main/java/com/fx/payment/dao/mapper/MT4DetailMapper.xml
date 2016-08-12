@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.payment.dao.IMT4DetailDao" >
+  <resultMap id="BaseResultMap" type="com.fx.payment.model.MT4Detail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tradeId" property="tradeid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="oper_money" property="operMoney" jdbcType="NUMERIC" />
+    <result column="balance" property="balance" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="CHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="mt4Account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="msg" property="msg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tradeId, uid, oper_money, balance, status, type, create_user, create_time, create_ip, 
+    update_user, update_time, update_ip, is_del, currency,mt4Account,msg
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_mt4_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.payment.model.MT4Detail" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_mt4_detail (tradeId, uid, oper_money, 
+      balance, status, type, 
+      create_user, create_time, create_ip, 
+      update_user, update_time, update_ip, 
+      is_del, currency,mt4Account,msg)
+    values (#{tradeid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{operMoney,jdbcType=NUMERIC}, 
+      #{balance,jdbcType=NUMERIC}, #{status,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=TINYINT}, #{currency,jdbcType=VARCHAR}, #{mt4Account,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.payment.model.MT4Detail" >
+    update tb_mt4_detail
+    set tradeId = #{tradeid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      oper_money = #{operMoney,jdbcType=NUMERIC},
+      balance = #{balance,jdbcType=NUMERIC},
+      status = #{status,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      currency = #{currency,jdbcType=VARCHAR},
+      mt4Account = #{mt4Account,jdbcType=INTEGER},
+      msg = #{msg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mt4_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mt4_detail
+  </select>
+  
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_mt4_detail
+    where is_del = 0 
+    <if test="mt4Account != null">
+        and mt4Account = #{mt4Account, jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}
+    <include refid="Base_Column_List" />
+    from tb_mt4_detail
+    where is_del = 0 
+    <if test="mt4Account != null">
+        and mt4Account = #{mt4Account, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+	and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_mt4_detail where is_del = 0 
+	    <if test="mt4Account != null">
+	        and mt4Account = #{mt4Account, jdbcType=INTEGER}
+	    </if>
+        ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  <select id="getDetailByTradeId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mt4_detail
+    where tradeId = #{tradeid,jdbcType=INTEGER}
+  </select>
+</mapper>

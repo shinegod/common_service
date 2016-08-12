@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.logs.dao.IAccessLogsDao" >
+  <resultMap id="BaseResultMap" type="com.fx.logs.model.AccessLogs" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="web_id" property="webId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="access_ip" property="accessIp" jdbcType="VARCHAR" />
+    <result column="access_referer" property="accessReferer" jdbcType="VARCHAR" />
+    <result column="access_operation" property="accessOperation" jdbcType="VARCHAR" />
+    <result column="tracker_id" property="trackerId" jdbcType="VARCHAR" />
+    <result column="access_time" property="accessTime" jdbcType="VARCHAR" />
+    <result column="access_browser" property="accessBrowser" jdbcType="VARCHAR" />
+    <result column="user_cookie" property="userCookie" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, web_id, user_name, domain, access_ip, access_referer, access_operation, 
+    tracker_id, access_time, access_browser, user_cookie
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_access_logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.logs.model.AccessLogs" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_access_logs (title, web_id, user_name, 
+      domain, access_ip, access_referer, 
+      access_operation, tracker_id, access_time, 
+      access_browser, user_cookie)
+    values (#{title,jdbcType=VARCHAR}, #{webId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{domain,jdbcType=VARCHAR}, #{accessIp,jdbcType=VARCHAR}, #{accessReferer,jdbcType=VARCHAR}, 
+      #{accessOperation,jdbcType=VARCHAR}, #{trackerId,jdbcType=VARCHAR}, #{accessTime,jdbcType=VARCHAR}, 
+      #{accessBrowser,jdbcType=VARCHAR}, #{userCookie,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.logs.model.AccessLogs" >
+    update tb_access_logs
+    set title = #{title,jdbcType=VARCHAR},
+      web_id = #{webId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      access_ip = #{accessIp,jdbcType=VARCHAR},
+      access_referer = #{accessReferer,jdbcType=VARCHAR},
+      access_operation = #{accessOperation,jdbcType=VARCHAR},
+      tracker_id = #{trackerId,jdbcType=VARCHAR},
+      access_time = #{accessTime,jdbcType=VARCHAR},
+      access_browser = #{accessBrowser,jdbcType=VARCHAR},
+      user_cookie = #{userCookie,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_access_logs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_access_logs
+  </select>
+</mapper>

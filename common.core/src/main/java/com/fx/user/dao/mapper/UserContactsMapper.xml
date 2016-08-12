@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.user.dao.IUserContactsDao" >
+  <resultMap id="BaseResultMap" type="com.fx.user.model.UserContacts" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="cn_name" property="cnName" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="occupation_code" property="occupationCode" jdbcType="VARCHAR" />
+    <result column="industries_code" property="industriesCode" jdbcType="INTEGER" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="updater_id" property="updaterId" jdbcType="INTEGER" />
+
+    <result column="workphone" property="workphone" jdbcType="VARCHAR" />
+    <result column="homephone" property="homephone" jdbcType="VARCHAR" />
+    <result column="faxnumber" property="faxnumber" jdbcType="VARCHAR" />
+    <result column="contact_type" property="contact_type" jdbcType="INTEGER" />
+
+    <!-- 查询子模块 -->
+    <association property="admin" column="sale_id" select="getSale" />
+
+    <!-- 查询子模块 -->
+    <association property="userRegister" column="user_id" select="getUserRegister" />
+
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, first_name, last_name, cn_name, birthday, sex, occupation_code, industries_code, 
+    phone_num, email, comment, user_id, sale_id, creator, create_date, updater, update_time, 
+    creator_id, updater_id ,workphone,homephone,faxnumber,contact_type
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_user_contacts
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.user.model.UserContacts" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_user_contacts (first_name, last_name, cn_name, 
+      birthday, sex, occupation_code, 
+      industries_code, phone_num, email, 
+      comment, user_id, sale_id, 
+      creator, create_date, updater, 
+      update_time, creator_id, updater_id,workphone,homephone,faxnumber,contact_type
+      )
+    values (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{cnName,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{sex,jdbcType=VARCHAR}, #{occupationCode,jdbcType=VARCHAR},
+      #{industriesCode,jdbcType=INTEGER}, #{phoneNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{saleId,jdbcType=INTEGER}, 
+      #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER},
+      #{workphone,jdbcType=VARCHAR}, #{homephone,jdbcType=VARCHAR}, #{faxnumber,jdbcType=VARCHAR},
+      #{contact_type,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.user.model.UserContacts" >
+    update tb_user_contacts
+    set first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      cn_name = #{cnName,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      sex = #{sex,jdbcType=VARCHAR},
+      occupation_code = #{occupationCode,jdbcType=VARCHAR},
+      industries_code = #{industriesCode,jdbcType=INTEGER},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      sale_id = #{saleId,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      workphone=#{workphone,jdbcType=VARCHAR},
+      homephone=#{homephone,jdbcType=VARCHAR},
+      faxnumber=#{faxnumber,jdbcType=VARCHAR},
+      contact_type= #{contact_type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_contacts
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_contacts
+  </select>
+  <select id="queryListByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_contacts
+    where user_id = #{userId, jdbcType=INTEGER}
+    order by id desc
+  </select>
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select
+    count(1)
+    from tb_user_contacts
+    <if test="cnName != null">
+      where cn_name like #{cnName, jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select top ${limit}
+    <include refid="Base_Column_List"/>
+    from tb_user_contacts
+    where 1=1
+    <if test="cnName != null">
+      and cn_name like #{cnName, jdbcType=VARCHAR}
+    </if>
+    <if test="offset gt 0">
+      and (select min(id) from (select top ${offset} id from tb_user_contacts order by id desc) as t) > id
+    </if>
+    order by id desc
+  </select>
+  <select id="getSale" resultType="com.fx.admin.model.Admin">
+    select * from tb_admin where id = #{saleId, jdbcType=INTEGER} order by id asc
+  </select>
+  <select id="getUserRegister" resultType="com.fx.user.model.UserRegister">
+    select * from tb_user_register where id = #{userId, jdbcType=INTEGER} order by id asc
+  </select>
+    <select id="findMainContactByUserId" resultType="com.fx.user.model.UserContacts" parameterType="java.util.Map">
+        SELECT * FROM tb_user_contacts t WHERE t.user_id = #{userId, jdbcType=INTEGER} AND t.contact_type = 0
+    </select>
+</mapper>

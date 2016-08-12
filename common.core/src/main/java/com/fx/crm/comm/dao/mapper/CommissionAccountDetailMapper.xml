@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.crm.comm.dao.ICommissionAccountDetailDao" >
+  <resultMap id="BaseResultMap" type="com.fx.crm.comm.model.CommissionAccountDetail" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="base_id" property="baseId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="ib_id" property="ibId" jdbcType="VARCHAR" />
+    <result column="ib_id_type" property="ibIdType" jdbcType="CHAR" />
+    <result column="commission" property="commission" jdbcType="DECIMAL" />
+    <result column="settleDate" property="settledate" jdbcType="TIMESTAMP" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="source" property="source" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="mt4Account" property="mt4account" jdbcType="INTEGER" />
+    <result column="SYMBOL" property="symbol" jdbcType="CHAR" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    
+    <result column="dataSourceId" property="dataSourceId" jdbcType="INTEGER" />
+    <result column="mt4DataSourceType" property="mt4DataSourceType" jdbcType="INTEGER" />
+    <result column="currencyCommission" property="currencyCommission" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, base_id, user_id, ib_id, ib_id_type, commission, settleDate, comment, volume, 
+    source, status, mt4Account, SYMBOL, createDate, updateDate,dataSourceId,mt4DataSourceType,currencyCommission
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_IB_commission_account_detail
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.crm.comm.model.CommissionAccountDetail" >
+    insert into tb_IB_commission_account_detail (guid, base_id, user_id, 
+      ib_id, ib_id_type, commission, 
+      settleDate, comment, volume, 
+      source, status, mt4Account, 
+      SYMBOL, createDate, updateDate,dataSourceId,mt4DataSourceType,currencyCommission
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{baseId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{ibId,jdbcType=VARCHAR}, #{ibIdType,jdbcType=CHAR}, #{commission,jdbcType=DECIMAL}, 
+      #{settledate,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, #{volume,jdbcType=DECIMAL}, 
+      #{source,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{mt4account,jdbcType=INTEGER}, 
+      #{symbol,jdbcType=CHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updatedate,jdbcType=TIMESTAMP}, #{dataSourceId,jdbcType=INTEGER}, #{mt4DataSourceType,jdbcType=INTEGER}
+      , #{currencyCommission,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.crm.comm.model.CommissionAccountDetail" >
+    update tb_IB_commission_account_detail
+    set base_id = #{baseId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      ib_id = #{ibId,jdbcType=VARCHAR},
+      ib_id_type = #{ibIdType,jdbcType=CHAR},
+      commission = #{commission,jdbcType=DECIMAL},
+      settleDate = #{settledate,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=VARCHAR},
+      volume = #{volume,jdbcType=DECIMAL},
+      source = #{source,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
+      mt4Account = #{mt4account,jdbcType=INTEGER},
+      SYMBOL = #{symbol,jdbcType=CHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      dataSourceId = #{dataSourceId,jdbcType=INTEGER},
+      mt4DataSourceType = #{mt4DataSourceType,jdbcType=INTEGER},
+      currencyCommission = #{currencyCommission,jdbcType=DECIMAL}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_IB_commission_account_detail
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_IB_commission_account_detail
+  </select>
+</mapper>

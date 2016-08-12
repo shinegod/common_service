@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.admin.dao.IAdminDao" >
+  <resultMap id="BaseResultMap" type="com.fx.admin.model.Admin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="CHAR" />
+    <result column="login_num" property="loginNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="CHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="ib_Id" property="ib_Id" jdbcType="INTEGER" />
+    <result column="parent_path" property="parentPath" jdbcType="CLOB" />
+	<result column="salt" property="salt" jdbcType="VARCHAR" />
+    <association property="role" column="role_id" select="getRoleName" />
+
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,user_id,name, password, role_id, last_login_time, login_num, status, create_user, create_time,
+    create_ip, update_user, update_time, update_ip, is_del,ib_Id, parent_path,salt
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <update id="deleteByUpdate" parameterType="com.fx.admin.model.Admin" >
+    update tb_admin
+    set update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.fx.admin.model.Admin" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_admin (user_id,name, password, role_id,
+      last_login_time, login_num, status, 
+      create_user, create_time, create_ip, 
+      update_user, update_time, update_ip, 
+      is_del,ib_Id, parent_path,salt)
+    values (#{userId,jdbcType=INTEGER},#{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER},
+      #{lastLoginTime,jdbcType=CHAR}, #{loginNum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=TINYINT},#{ib_Id,jdbcType=INTEGER}, #{parentPath,jdbcType=CLOB}, #{salt,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.admin.model.Admin" >
+    update tb_admin
+    set
+      user_id = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=CHAR},
+      login_num = #{loginNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      ib_Id = #{ib_Id,jdbcType=INTEGER},
+      parent_path = #{parentPath,jdbcType=CLOB},
+      salt = #{salt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where id = #{id,jdbcType=INTEGER} and is_del=0
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where name = #{name,jdbcType=VARCHAR} and is_del=0
+  </select>
+  <select id="selectByNameOrEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where (name = #{name,jdbcType=VARCHAR} or user_id = 
+    	(select id from tb_user_register
+    	where email = #{name,jdbcType=VARCHAR} and website_user_type=6
+    	and is_del = 0)
+    )and is_del=0
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where is_del = 0
+  </select>
+  <select id="getQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_admin
+    where is_del = 0
+   /* and role_id !=5 and role_id!=6*/
+    <if test="name != null">
+        and name = #{name, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status gt 0">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+    <if test="roleId != null">
+        and role_id = #{roleId, jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where is_del = 0 and role_id !=5 and role_id!=6
+    <if test="name != null">
+        and name = #{name, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status gt 0">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+    <if test="roleId != null">
+        and role_id = #{roleId, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	id > (SELECT MAX(id) FROM (SELECT TOP ${offset} id	FROM tb_admin 
+   		    where is_del = 0 and role_id!=5 and role_id!=6
+		    <if test="name != null">
+		        and name = #{name, jdbcType=VARCHAR}
+		    </if>
+		    <if test="status != null and status gt 0">
+		        and status = #{status, jdbcType=TINYINT}
+		    </if>
+		    <if test="roleId != null">
+		        and role_id = #{roleId, jdbcType=INTEGER}
+		    </if>
+    	 ORDER BY id) AS T)
+		)
+    </if>
+	order by id
+  </select>
+  
+  <select id="getQuerySaleCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_admin
+    where is_del = 0 and role_id =6
+    <if test="name != null">
+        and name = #{name, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status gt 0">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+  </select>
+  
+  <select id="querySaleByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_admin
+    where is_del = 0 and role_id =6
+    <if test="name != null">
+        and name = #{name, jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status gt 0">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	id > (SELECT MAX(id) FROM (SELECT TOP ${offset} id	FROM tb_admin 
+   		    where is_del = 0 and role_id=6
+		    <if test="name != null">
+		        and name = #{name, jdbcType=VARCHAR}
+		    </if>
+		    <if test="status != null and status gt 0">
+		        and status = #{status, jdbcType=TINYINT}
+		    </if>
+    	 ORDER BY id) AS T)
+		)
+    </if>
+	order by id
+  </select>
+  <select id="queryAllSales" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from tb_admin where role_id = #{roleId, jdbcType=INTEGER} and is_del = 0
+  </select>
+  <select id="oldpassById"  resultMap="BaseResultMap" parameterType="java.util.Map">
+   select password from tb_admin where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getRoleName" resultType="com.fx.admin.model.Role">
+   select * from tb_role where id = #{role_id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAdminListByRolesId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  select
+  <include refid="Base_Column_List" />
+  from tb_admin
+  where is_del = 0  and role_id in
+  <foreach collection="roleIdList" item="roleId" separator="," open="(" close=")">#{roleId,jdbcType=INTEGER}</foreach>
+
+  </select>
+
+  <select id="findAllUsers" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT * FROM tb_admin where is_del = 0;
+  </select>
+
+  <select id="findAdminByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tb_admin
+    where user_id = #{userId,jdbcType=INTEGER} AND is_del = 0 ;
+  </select>
+  
+  <select id="getAdminListByNameLike" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tb_admin
+    where name like #{name,jdbcType=VARCHAR} AND is_del = 0 ;
+  </select>
+</mapper>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.ITransactionDao">
+	<resultMap id="BaseResultMap" type="com.fx.bonus.model.Transaction">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="mt4_account" property="mt4Account" jdbcType="INTEGER" />
+		<result column="transaction_type" property="transactionType"
+			jdbcType="TINYINT" />
+		<result column="transaction_date" property="transactionDate"
+			jdbcType="VARCHAR" />
+		<result column="transaction_amount" property="transactionAmount"
+			jdbcType="NUMERIC" />
+		<result column="settle_date" property="settleDate" jdbcType="VARCHAR" />
+		<result column="isIbSettledDate" property="isIbSettledDate" jdbcType="VARCHAR" />
+		<result column="isCommonSettledDate" property="isCommonSettledDate" jdbcType="VARCHAR" />
+		<result column="settle_amount" property="settleAmount"
+			jdbcType="NUMERIC" />
+		<result column="isIBSettleAmount" property="isIBSettleAmount"
+			jdbcType="NUMERIC" />
+		<result column="isCommonSettledAmount" property="isCommonSettledAmount"
+			jdbcType="NUMERIC" />
+		<result column="is_settled" property="isSettled" jdbcType="INTEGER" />
+		<result column="isIbSettled" property="isIbSettled" jdbcType="INTEGER" />
+		<result column="isCommonSettled" property="isCommonSettled" jdbcType="INTEGER" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="trade_id" property="tradeId" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BonusMap" type="com.fx.bonus.model.Bonus">
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="NUMERIC" />
+	</resultMap>
+	<resultMap id="IBCommissionMap" type="com.fx.bonus.model.IBCommission">
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="NUMERIC" />
+	</resultMap>
+	<resultMap id="IBCommissionDetailMap" type="com.fx.bonus.model.IBCommissionDetail">
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="NUMERIC" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, uid, mt4_account, transaction_type, transaction_date,
+		transaction_amount, settle_date,
+		settle_amount, is_settled, comment, trade_id,isIbSettled,isCommonSettled,isIBSettleAmount,isCommonSettledAmount,isIbSettledDate,isCommonSettledDate
+	</sql>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tb_NZGFTB1_transaction
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.fx.bonus.model.Transaction"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tb_NZGFTB1_transaction (uid, mt4_account, transaction_type,
+		transaction_date, transaction_amount, settle_date,
+		settle_amount, is_settled, comment,
+		trade_id,isIbSettled,isCommonSettled,isIBSettleAmount,isCommonSettledAmount,isIbSettledDate,isCommonSettledDate)
+		values (#{uid,jdbcType=INTEGER}, #{mt4Account,jdbcType=INTEGER},
+		#{transactionType,jdbcType=TINYINT},
+		#{transactionDate,jdbcType=VARCHAR},
+		#{transactionAmount,jdbcType=NUMERIC}, #{settleDate,jdbcType=VARCHAR},
+		#{settleAmount,jdbcType=NUMERIC}, #{isSettled,jdbcType=INTEGER},
+		#{comment,jdbcType=VARCHAR},
+		#{tradeId,jdbcType=INTEGER}, #{isIbSettled,jdbcType=INTEGER}, #{isCommonSettled,jdbcType=INTEGER},#{isIBSettleAmount,jdbcType=NUMERIC},#{isCommonSettledAmount,jdbcType=NUMERIC}
+		, #{isIbSettledDate,jdbcType=VARCHAR}, #{isCommonSettledDate,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.Transaction">
+		update tb_NZGFTB1_transaction
+		set uid = #{uid,jdbcType=INTEGER},
+		mt4_account = #{mt4Account,jdbcType=INTEGER},
+		transaction_type = #{transactionType,jdbcType=TINYINT},
+		transaction_date = #{transactionDate,jdbcType=VARCHAR},
+		transaction_amount = #{transactionAmount,jdbcType=NUMERIC},
+		settle_date = #{settleDate,jdbcType=VARCHAR},
+		settle_amount = #{settleAmount,jdbcType=NUMERIC},
+		is_settled = #{isSettled,jdbcType=INTEGER},
+		comment = #{comment,jdbcType=VARCHAR},
+		trade_id = #{tradeId,jdbcType=INTEGER},
+		isIbSettled = #{isIbSettled,jdbcType=INTEGER},
+		isCommonSettled = #{isCommonSettled,jdbcType=INTEGER},
+		isIBSettleAmount = #{isIBSettleAmount,jdbcType=NUMERIC},
+		isCommonSettledAmount = #{isCommonSettledAmount,jdbcType=NUMERIC},
+		isIbSettledDate = #{isIbSettledDate,jdbcType=VARCHAR},
+		isCommonSettledDate = #{isCommonSettledDate,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+	</select>
+	<select id="findByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where uid = #{uid,jdbcType=INTEGER}
+		ORDER BY transaction_date
+	</select>
+	
+	<select id="findByStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where is_settled = #{status,jdbcType=INTEGER}
+		ORDER BY uid, transaction_date
+	</select>
+	<select id="findByUidandStatus" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where is_settled = #{querystatus,jdbcType=INTEGER} and uid=#{queryuid,jdbcType=INTEGER}
+		ORDER BY transaction_date
+	</select>
+	
+	<select id="findByIdList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		WHERE id IN (${tidList})
+	</select>
+
+	<select id="findUnsettledTransaction" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where (is_settled=0 and DATEDIFF(day,
+		#{today}, transaction_date)&lt;0)
+		ORDER BY uid,transaction_date DESC
+	</select>
+	<select id="findUnsettledIBCommission" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where (isIbSettled=0 and DATEDIFF(day,
+		#{today}, transaction_date)&lt;0)
+		ORDER BY uid,transaction_date DESC
+	</select>
+	<select id="findUnsettledCommomCommission" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where (isCommonSettled=0 and DATEDIFF(day,
+		#{today}, transaction_date)&lt;0)
+		ORDER BY uid,transaction_date DESC
+	</select>
+	<select id="calculateBonus" resultMap="BonusMap" parameterType="java.lang.String">
+		SELECT uid,sum(settle_amount) as amount from tb_NZGFTB1_transaction
+		WHERE DATEDIFF(day, #{date}, settle_date)&lt;0 and is_settled=1 and (settle_amount&gt;=10000 or settle_amount&lt;0)
+		GROUP BY uid
+	</select>
+	
+	<select id="calculateIbCommission" resultMap="IBCommissionMap" parameterType="java.lang.String">
+		SELECT uid,sum(isIBSettleAmount) as amount from tb_NZGFTB1_transaction
+		WHERE DATEDIFF(day, #{date}, isIbSettledDate)&lt;0 and isIbSettled=1 and (isIBSettleAmount&gt;=10000 or isIBSettleAmount&lt;0)
+		GROUP BY uid
+	</select>
+	
+	<select id="calculateIbCommissionDetail" resultMap="IBCommissionDetailMap" parameterType="java.lang.String">
+		SELECT uid,sum(isIBSettleAmount) as amount  from tb_NZGFTB1_transaction
+		WHERE DATEDIFF(day, #{date}, isIbSettledDate)&lt;0 and isIbSettled=1 and (isIBSettleAmount&gt;=10000 or isIBSettleAmount&lt;0)
+		GROUP BY uid
+	</select>
+	<select id="findRecentSettledTransaction" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where is_settled=1 and settle_date between #{start} and #{end}
+	</select>
+	<select id="findRecentSettledIBCommission" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where isIbSettled=1 and isIbSettledDate between #{start} and #{end}
+	</select>
+	<select id="findRecentSettledCommomCommission" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where isCommonSettled=1 and isCommonSettledDate between #{start} and #{end}
+	</select>
+	<select id="findRecentTransaction" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_transaction
+		where DATEPART(month,transaction_date)=DATEPART(month,getdate())
+		and   DATEPART(year,transaction_date)=DATEPART(year,getdate())
+	</select>
+
+</mapper>

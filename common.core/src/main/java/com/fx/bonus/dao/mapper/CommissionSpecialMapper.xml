@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.ICommissionSpecialDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.CommissionSpecial" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_id" property="ruleId" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="special_uid" property="specialUid" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="agent_account" property="agentAccount" jdbcType="INTEGER" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="uidAccount" property="uidAccount" jdbcType="INTEGER" />
+    <result column="rangeType" property="rangeType" jdbcType="INTEGER" />
+    <result column="commissionType" property="commissionType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_id, uid, special_uid, customer_id, agent_account, update_user, update_date, status,uidAccount,rangeType,commissionType
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_commission_special
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.CommissionSpecial" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_commission_special (rule_id, 
+      uid, special_uid, 
+      customer_id, agent_account, 
+      update_user, update_date, status,uidAccount,rangeType,commissionType)
+    values (#{ruleId,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=INTEGER}, #{specialUid,jdbcType=INTEGER}, 
+      #{customerId,jdbcType=INTEGER}, #{agentAccount,jdbcType=INTEGER}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{uidAccount,jdbcType=INTEGER}, #{rangeType,jdbcType=INTEGER}, #{commissionType,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.CommissionSpecial" >
+    update tb_commission_special
+    set 
+      rule_id = #{ruleId,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      special_uid = #{specialUid,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      agent_account = #{agentAccount,jdbcType=INTEGER},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      uidAccount = #{uidAccount,jdbcType=INTEGER},
+      rangeType = #{rangeType,jdbcType=INTEGER},
+      commissionType = #{commissionType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_special
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_special
+  </select>
+  
+  <select id="getCommissionSpecialByuid" resultMap="BaseResultMap"  parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_special where uid = #{uid,jdbcType=INTEGER} and status =0 and special_uid = #{specialUid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getCommissionSpecialByParams" resultMap="BaseResultMap"  parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_special where status =0 and  uid = #{uid,jdbcType=INTEGER} and rangeType = #{rangeType,jdbcType=INTEGER} and agent_account = #{agentAccount,jdbcType=INTEGER}
+    and commissionType = #{commissionType,jdbcType=INTEGER} and uidAccount = #{uidAccount,jdbcType=INTEGER} and customer_id = #{customerId,jdbcType=INTEGER} and special_uid = #{specialUid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getCommissionSpecialByuserid" resultMap="BaseResultMap"  parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_special where status =0 
+    <if test="commissionType!=null"> and commissionType = #{commissionType,jdbcType=INTEGER} </if>
+    <if test="specialUid!=null"> and special_uid = #{specialUid,jdbcType=INTEGER}</if>
+  </select>
+  <select id="getCommissionSpecialByRuleId" resultMap="BaseResultMap" parameterType="java.util.Map">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM tb_commission_special WHERE status = 0 AND rule_id LIKE #{ruleId, jdbcType=VARCHAR}
+  </select>
+</mapper>

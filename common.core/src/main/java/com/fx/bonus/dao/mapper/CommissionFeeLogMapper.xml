@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.ICommissionFeeLogDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.CommissionFeeLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="times_month" property="timesMonth" jdbcType="INTEGER" />
+    <result column="mt4_account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pid, uid, create_user_id, comment, times_month, mt4_account, create_time
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_commission_fee_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.CommissionFeeLog" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_commission_fee_log (pid, uid, create_user_id, 
+      comment, times_month, mt4_account, 
+      create_time)
+    values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{comment,jdbcType=VARCHAR}, #{timesMonth,jdbcType=INTEGER}, #{mt4Account,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.CommissionFeeLog" >
+    update tb_commission_fee_log
+    set pid = #{pid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      times_month = #{timesMonth,jdbcType=INTEGER},
+      mt4_account = #{mt4Account,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_fee_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_commission_fee_log
+  </select>
+
+  <select id="findByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM tb_commission_fee_log
+    <where>
+      <if test="date1!='' and date1!=null and date2!='' and date2!=null ">
+        AND create_time BETWEEN #{date1,jdbcType=TIMESTAMP} AND #{date2,jdbcType=TIMESTAMP}
+      </if>
+      <if test="loginList != null">
+        and mt4_account in
+        <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+          #{login}
+        </foreach>
+      </if>
+      <if test="loginList == null">
+        and mt4_account in ('')
+      </if>
+    </where>
+    order by create_time DESC
+  </select>
+</mapper>

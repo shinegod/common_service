@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.ip.dao.IIPDBDao">
+    <resultMap id="BaseResultMap" type="com.fx.ip.model.IPDB">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="create_ip" property="createIp" jdbcType="VARCHAR"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="update_ip" property="updateIp" jdbcType="VARCHAR"/>
+        <result column="ret" property="ret" jdbcType="VARCHAR"/>
+        <result column="isp" property="isp" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, ip, country, province, city, district, type, is_del, create_user, create_time,
+        create_ip, update_user, update_time, update_ip,ret, isp, description, status
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from tb_ip_db
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.fx.ip.model.IPDB">
+        insert into tb_ip_db (id, ip, country,
+          province, city, district,
+          type, is_del, create_user,
+          create_time, create_ip, update_user,
+          update_time, update_ip, ret, isp, description , status
+          )
+        values (#{id,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR},
+          #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR},
+          #{type,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
+          #{createTime,jdbcType=VARCHAR}, #{createIp,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR},
+          #{updateTime,jdbcType=VARCHAR}, #{updateIp,jdbcType=VARCHAR}, #{ret,jdbcType=VARCHAR},
+          #{isp,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+          )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.fx.ip.model.IPDB">
+        update tb_ip_db
+        set ip = #{ip,jdbcType=VARCHAR},
+          country = #{country,jdbcType=VARCHAR},
+          province = #{province,jdbcType=VARCHAR},
+          city = #{city,jdbcType=VARCHAR},
+          district = #{district,jdbcType=VARCHAR},
+          type = #{type,jdbcType=VARCHAR},
+          is_del = #{isDel,jdbcType=INTEGER},
+          create_user = #{createUser,jdbcType=VARCHAR},
+          create_time = #{createTime,jdbcType=VARCHAR},
+          create_ip = #{createIp,jdbcType=VARCHAR},
+          update_user = #{updateUser,jdbcType=VARCHAR},
+          update_time = #{updateTime,jdbcType=VARCHAR},
+          update_ip = #{updateIp,jdbcType=VARCHAR},
+          ret = #{ret,jdbcType=VARCHAR},
+          isp = #{isp,jdbcType=VARCHAR},
+          description = #{description,jdbcType=VARCHAR},
+          status = #{status,jdbcType=INTEGER}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_ip_db
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_ip_db
+    </select>
+    <select id="queryListByCondition" resultMap="BaseResultMap" parameterType="com.fx.ip.model.IPDB">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_ip_db
+        <where>
+            is_del = 0
+            <if test="country != null">
+                and country like #{country,jdbcType=VARCHAR}
+            </if>
+            <if test="status != -1">
+                and status = #{status,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="getNoLocationIpList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_ip_db
+        WHERE is_del = 0 AND status = 0 OR status = 2
+    </select>
+    <select id="getCountByIP" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(1) FROM tb_ip_db WHERE ip = #{ip, jdbcType=VARCHAR}
+    </select>
+    <select id="queryCountryList" resultType="java.lang.String" parameterType="java.util.Map">
+        SELECT
+        distinct country
+        FROM tb_ip_db
+        WHERE is_del = 0 AND status = 1 and country is not null
+    </select>
+</mapper>

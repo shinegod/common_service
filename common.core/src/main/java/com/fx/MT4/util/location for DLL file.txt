@@ -1,0 +1,3 @@
+Pleas copy com_vitas_MT4_util_DLL_Agent.dll to c:\DLL\ 
+
+or change the its path in DLLAgent.java

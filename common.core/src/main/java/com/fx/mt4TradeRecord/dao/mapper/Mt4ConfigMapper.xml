@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.mt4TradeRecord.dao.IMt4ConfigDao" >
+  <resultMap id="BaseResultMap" type="com.fx.mt4TradeRecord.model.Mt4Config" >
+    <id column="CONFIG" property="config" jdbcType="INTEGER" />
+    <result column="VALUE_INT" property="valueInt" jdbcType="INTEGER" />
+    <result column="VALUE_STR" property="valueStr" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CONFIG, VALUE_INT, VALUE_STR
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mt4_config
+    where CONFIG = #{config,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.mt4TradeRecord.model.Mt4Config" >
+    insert into mt4_config (CONFIG, VALUE_INT, VALUE_STR
+      )
+    values (#{config,jdbcType=INTEGER}, #{valueInt,jdbcType=INTEGER}, #{valueStr,jdbcType=CHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.mt4TradeRecord.model.Mt4Config" >
+    update mt4_config
+    set VALUE_INT = #{valueInt,jdbcType=INTEGER},
+      VALUE_STR = #{valueStr,jdbcType=CHAR}
+    where CONFIG = #{config,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from mt4_config
+    where CONFIG = #{config,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from mt4_config
+  </select>
+</mapper>

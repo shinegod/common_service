@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.common.dao.IDictionaryDao" >
+  <resultMap id="BaseResultMap" type="com.fx.common.model.Dictionary" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="data_key" property="dataKey" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="updater_id" property="updaterId" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+    <result column="edit_able" property="editAble" jdbcType="INTEGER" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+
+    <!-- 查询子模块 -->
+    <collection property="children" column="id" select="selectByParentId" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, data_code, data_key, description, parent_id, data_type, creator, create_date, 
+    updater, update_time, creator_id, updater_id,sort,edit_able,is_del,status
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.common.model.Dictionary" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_dictionary (id,data_code, data_key, description,
+      parent_id, data_type, creator, 
+      create_date, updater, update_time, 
+      creator_id, updater_id,sort,edit_able,is_del,status)
+    values (#{id,jdbcType=VARCHAR},#{dataCode,jdbcType=VARCHAR}, #{dataKey,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{parentId,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, #{sort,jdbcType=VARCHAR}, #{editAble,jdbcType=INTEGER}, #{isDel,jdbcType=INTEGER},#{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.common.model.Dictionary" >
+    update tb_dictionary
+    set data_code = #{dataCode,jdbcType=VARCHAR},
+      data_key = #{dataKey,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      edit_able = #{editAble,jdbcType=INTEGER},
+      is_del = #{isDel,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where parent_id = #{parentId,jdbcType=VARCHAR}
+    and status = 0
+    and is_del = 0
+    order by sort asc
+  </select>
+  <select id="queryByParentKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where parent_id = #{parentId,jdbcType=VARCHAR}
+    and status = 0
+    and is_del = 0
+    order by sort asc
+  </select>
+  <select id="selectByParentCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary a
+    where   EXISTS (
+    select id from tb_dictionary b
+    where a.parent_id = b.id and b.data_code = #{dataCode,jdbcType=VARCHAR}
+    )
+    and status = 0
+    and is_del = 0
+    order by sort asc
+  </select>
+  <select id="selectByParentCodeAndStatusNoZero" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary a
+    where   EXISTS (
+    select id from tb_dictionary b
+    where a.parent_id = b.id and b.data_code = #{dataCode,jdbcType=VARCHAR}
+    )
+    and is_del = 0
+    order by sort asc
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where is_del = 0
+  </select>
+  <select id="selectByCode"  resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where data_code = #{dataCode,jdbcType=VARCHAR}
+    and is_del = 0
+  </select>
+<!--  <select id="selectValueByDatatype" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary
+    where  data_type = #{dataType,jdbcType=VARCHAR}
+  </select>-->
+  <select id="selectByparentIdAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from tb_dictionary a
+    where   EXISTS (
+    select id from tb_dictionary b
+    where a.parent_id = b.id and b.data_code = #{dataCode,jdbcType=VARCHAR}
+    )
+    and a.status = #{status,jdbcType=INTEGER}
+    and is_del = 0
+    order by sort asc
+  </select>
+  <select id="selectCountCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select
+    count(1)
+    from tb_dictionary
+    where data_code = #{dataCode,jdbcType=VARCHAR}
+    and is_del = 0
+  </select>
+</mapper>

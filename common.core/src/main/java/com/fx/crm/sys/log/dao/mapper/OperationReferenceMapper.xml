@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.crm.sys.log.dao.IOperationReferenceDao" >
+  <resultMap id="BaseResultMap" type="com.fx.crm.sys.log.model.OperationReference" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="uri" property="uri" jdbcType="CLOB" />
+    <result column="menuid" property="menuid" jdbcType="CLOB" />
+    <result column="operation_type" property="operationType" jdbcType="CLOB" />
+    <result column="remarks" property="remarks" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, status, uri, menuid, operation_type, remarks
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_sys_operation_reference
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.crm.sys.log.model.OperationReference" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_sys_operation_reference (status, uri, menuid, operation_type, 
+      remarks)
+    values (#{status,jdbcType=CHAR}, #{uri,jdbcType=CLOB}, #{menuid,jdbcType=CLOB}, #{operationType,jdbcType=CLOB}, 
+      #{remarks,jdbcType=CLOB})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.crm.sys.log.model.OperationReference" >
+    update tb_sys_operation_reference
+    set status = #{status,jdbcType=CHAR},
+      uri = #{uri,jdbcType=CLOB},
+      menuid = #{menuid,jdbcType=CLOB},
+      operation_type = #{operationType,jdbcType=CLOB},
+      remarks = #{remarks,jdbcType=CLOB}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_operation_reference
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_operation_reference
+    where status = '0'
+  </select>
+</mapper>

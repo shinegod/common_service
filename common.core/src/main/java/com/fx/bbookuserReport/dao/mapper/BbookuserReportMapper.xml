@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bbookuserReport.dao.IBbookuserReportDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bbookuserReport.model.BbookuserReport" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="login" property="login" jdbcType="INTEGER" />
+    <result column="old_equity" property="oldEquity" jdbcType="NUMERIC" />
+    <result column="deposit" property="deposit" jdbcType="NUMERIC" />
+    <result column="withdraw" property="withdraw" jdbcType="NUMERIC" />
+    <result column="trades" property="trades" jdbcType="NUMERIC" />
+    <result column="exchange" property="exchange" jdbcType="NUMERIC" />
+    <result column="gold" property="gold" jdbcType="NUMERIC" />
+    <result column="silver" property="silver" jdbcType="NUMERIC" />
+    <result column="oil" property="oil" jdbcType="NUMERIC" />
+    <result column="new_equity" property="newEquity" jdbcType="NUMERIC" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="A50" property="a50" jdbcType="NUMERIC" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login, old_equity, deposit, withdraw, trades, exchange, gold, silver, oil, new_equity, 
+    create_date, A50
+  </sql>
+  <insert id="insert" parameterType="com.fx.bbookuserReport.model.BbookuserReport" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_bbookuser_report (login, old_equity, deposit, 
+      withdraw, trades, exchange, 
+      gold, silver, oil, 
+      new_equity, create_date, A50
+      )
+    values (#{login,jdbcType=INTEGER}, #{oldEquity,jdbcType=NUMERIC}, #{deposit,jdbcType=NUMERIC}, 
+      #{withdraw,jdbcType=NUMERIC}, #{trades,jdbcType=NUMERIC}, #{exchange,jdbcType=NUMERIC},
+      #{gold,jdbcType=NUMERIC}, #{silver,jdbcType=NUMERIC}, #{oil,jdbcType=NUMERIC},
+      #{newEquity,jdbcType=NUMERIC}, #{createDate,jdbcType=VARCHAR}, #{a50,jdbcType=NUMERIC}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_bbookuser_report
+  </select>
+  <select id="selectBycreateDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from tb_bbookuser_report
+    <where>
+      <if test="createDate!=null">
+       and create_date = #{createDate,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByLoginAndDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from tb_bbookuser_report
+    <where>
+      <if test="login!=null">
+        and login = #{login,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate!=null">
+        and create_date = #{createDate,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.IBonusDao">
+	<resultMap id="BaseResultMap" type="com.fx.bonus.model.Bonus">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="NUMERIC" />
+		<result column="payment_date" property="paymentDate" jdbcType="VARCHAR" />
+		<result column="from_transaction_id" property="fromTransactionId" jdbcType="INTEGER" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="is_paid" property="isPaid" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    id, uid, amount, payment_date, from_transaction_id, comment, is_paid
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_NZGFTB1_bonus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.Bonus" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_NZGFTB1_bonus (uid, amount, payment_date, 
+      from_transaction_id, comment, is_paid
+      )
+    values (#{uid,jdbcType=INTEGER}, #{amount,jdbcType=NUMERIC}, #{paymentDate,jdbcType=VARCHAR}, 
+      #{fromTransactionId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{isPaid,jdbcType=TINYINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.Bonus" >
+    update tb_NZGFTB1_bonus
+    set uid = #{uid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=NUMERIC},
+      payment_date = #{paymentDate,jdbcType=VARCHAR},
+      from_transaction_id = #{fromTransactionId,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      is_paid = #{isPaid,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_bonus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_bonus
+  </select>
+	<update id="bonusPaid" parameterType="java.lang.Integer">
+		update tb_NZGFTB1_bonus
+		set is_paid = 1 
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="findByUid" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_bonus
+		where uid = #{uid,jdbcType=INTEGER}
+	</select>
+	<select id="findByDate" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_bonus
+		where payment_date=#{paymentDate,jdbcType=VARCHAR}
+	</select>
+	<select id="selectUnpaidBonus" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_bonus
+		where is_paid=0
+	</select>
+	<select id="findByConditions" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_bonus
+		where amount>0 
+		<if test="queryuid !=0"> and uid=#{queryuid} </if>
+		<if test="querystatus!=-1"> and is_paid=#{querystatus} </if>
+	</select>
+		<select id="getThisMonthBonusByUid" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from tb_NZGFTB1_bonus
+		where uid=#{uid}
+		and DATEPART(month,payment_date)=DATEPART(month,getdate())
+		and   DATEPART(year,payment_date)=DATEPART(year,getdate())
+	</select>
+</mapper>

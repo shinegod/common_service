@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.IProfitCommissionDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.ProfitCommission" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="mt4Account" property="mt4account" jdbcType="INTEGER" />
+    <result column="ib_id" property="ibId" jdbcType="VARCHAR" />
+    <result column="ib_id_type" property="ibIdType" jdbcType="CHAR" />
+    <result column="payment_date" property="paymentDate" jdbcType="VARCHAR" />
+    <result column="profit_amount" property="profitAmount" jdbcType="DECIMAL" />
+    <result column="agentAccount" property="agentaccount" jdbcType="INTEGER" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="dataSourceId" property="dataSourceId" jdbcType="INTEGER" />
+    <result column="porgation" property="porgation" jdbcType="DECIMAL" />
+    <result column="specialId" property="specialId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+
+	  <result column="mt4AccountGroup" property="mt4AccountGroup" jdbcType="VARCHAR" />
+	  <result column="rules" property="rules" jdbcType="INTEGER" />
+	  <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
+	  <result column="ticket" property="ticket" jdbcType="VARCHAR" />
+	  <result column="comment" property="comment" jdbcType="VARCHAR" />
+	  <result column="SYMBOL" property="symbol" jdbcType="CHAR" />
+	  <result column="SWAPS" property="swaps" jdbcType="DECIMAL" />
+	  <result column="PROFIT" property="profit" jdbcType="DECIMAL" />
+	  <result column="rate" property="rate" jdbcType="DECIMAL" />
+	  <result column="parRate" property="parRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ProfitMap" type="com.fx.bonus.model.ProfitCommission">
+		<id column="ib_id" property="ibId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ProfitPriceMap" type="com.fx.bonus.model.ProfitCommission">
+	 <id column="ib_id" property="ibId" jdbcType="VARCHAR" />
+		<result column="unitPrice" property="unitPrice" jdbcType="DECIMAL" />
+		<result column="profit_amount" property="profitAmount" jdbcType="DECIMAL" />
+	</resultMap>
+  <sql id="Base_Column_List" >
+    guid, user_id, mt4Account, ib_id, ib_id_type, payment_date, profit_amount, agentAccount, 
+    createDate, updateDate, status,unitPrice,dataSourceId,porgation,specialId,order_id,mt4AccountGroup,rules,close_time,ticket,comment,SYMBOL, SWAPS, PROFIT,rate,parRate
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_profit_commission
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.ProfitCommission" >
+    insert into tb_profit_commission (guid, user_id, mt4Account, 
+      ib_id, ib_id_type, payment_date, 
+      profit_amount, agentAccount, createDate, 
+      updateDate, status,unitPrice,dataSourceId,porgation,specialId,mt4AccountGroup,rules,close_time,ticket,comment,SYMBOL, SWAPS, PROFIT,rate,parRate)
+    values (#{guid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{mt4account,jdbcType=INTEGER}, 
+      #{ibId,jdbcType=VARCHAR}, #{ibIdType,jdbcType=CHAR}, #{paymentDate,jdbcType=VARCHAR}, 
+      #{profitAmount,jdbcType=DECIMAL}, #{agentaccount,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},#{unitPrice,jdbcType=DECIMAL}, #{dataSourceId,jdbcType=INTEGER},#{porgation,jdbcType=DECIMAL}
+      , #{specialId,jdbcType=VARCHAR},#{mt4AccountGroup,jdbcType=VARCHAR}, #{rules,jdbcType=INTEGER}, #{closeTime,jdbcType=TIMESTAMP},
+      #{ticket,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR},#{symbol,jdbcType=CHAR}, #{swaps,jdbcType=DECIMAL}, #{profit,jdbcType=DECIMAL}, #{rate,jdbcType=DECIMAL}, #{parRate,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.ProfitCommission" >
+    update tb_profit_commission
+    set user_id = #{userId,jdbcType=VARCHAR},
+      mt4Account = #{mt4account,jdbcType=INTEGER},
+      ib_id = #{ibId,jdbcType=VARCHAR},
+      ib_id_type = #{ibIdType,jdbcType=CHAR},
+      payment_date = #{paymentDate,jdbcType=VARCHAR},
+      profit_amount = #{profitAmount,jdbcType=DECIMAL},
+      agentAccount = #{agentaccount,jdbcType=INTEGER},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      dataSourceId = #{dataSourceId,jdbcType=INTEGER},
+      porgation = #{porgation,jdbcType=DECIMAL},
+      specialId = #{specialId,jdbcType=VARCHAR},
+      mt4AccountGroup = #{mt4AccountGroup,jdbcType=VARCHAR},
+        rules = #{rules,jdbcType=INTEGER},
+        close_time = #{closeTime,jdbcType=TIMESTAMP},
+      ticket = #{ticket,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      SYMBOL = #{symbol,jdbcType=CHAR},
+      SWAPS = #{swaps,jdbcType=DECIMAL},
+      PROFIT = #{profit,jdbcType=DECIMAL},
+      rate = #{rate,jdbcType=DECIMAL},
+      parRate = #{parRate,jdbcType=DECIMAL}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_profit_commission
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_profit_commission
+  </select>
+  
+  <select id="getProfitCommissionByRole" resultMap="BaseResultMap" parameterType="map">
+	select
+	<include refid="Base_Column_List" />
+	from tb_profit_commission 
+	where  payment_date between #{interviewDate1,jdbcType=VARCHAR} and #{interviewDate2,jdbcType=VARCHAR} and dataSourceId =#{dataSourceId,jdbcType=INTEGER}
+	<if test="ibId !=null">
+		and ib_id = #{ibId,jdbcType=INTEGER}
+	</if>
+	  <if test="idList != null">
+		  and ib_id IN
+		  <foreach item="id" index="index" collection="idList"
+				   open="(" separator="," close=")">
+			  #{id}
+		  </foreach>
+	  </if>
+	  <if test="login !=null">
+		  and mt4account LIKE #{login,jdbcType=VARCHAR}
+	  </if>
+	  order by payment_date
+  </select>
+  
+  <select id="getProfitCommissionAmountByRole" resultMap="ProfitMap" parameterType="com.fx.bonus.model.ProfitCommission">
+	select top ${sqlMap.params.limit}
+	m.ib_id
+	from tb_profit_commission m,
+	  (
+	  SELECT
+	  A.*
+	  FROM
+	  tb_user_register A ,tb_user_register u, tb_sys_organization org
+	  WHERE A.level_path.IsDescendantOf(u.level_path)=1
+	  and A.is_del = 0
+	  and u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  and u.id not in (
+	  select a.id from
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as a
+	  ,
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as b
+	  where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+	  )
+	  ) as A
+    where m.user_id = A.id
+	and  payment_date between #{sqlMap.params.interviewDate1,jdbcType=VARCHAR} and #{sqlMap.params.interviewDate2,jdbcType=VARCHAR} and m.dataSourceId =#{sqlMap.params.dataSourceId,jdbcType=INTEGER}
+	<if test="sqlMap.params.login !=null">
+		and m.mt4Account LIKE #{sqlMap.params.login,jdbcType=VARCHAR}
+	</if> 
+	<if test="sqlMap.params.ibId !=null">
+		and m.ib_id = #{sqlMap.params.ibId,jdbcType=INTEGER}
+	</if>
+	  <if test="sqlMap.params.idList !=null">
+		  and m.ib_id IN
+		  <foreach item="id" index="index" collection="sqlMap.params.idList" open="(" separator="," close=")">
+			  #{id}
+		  </foreach>
+	  </if>
+	  <if test="sqlMap.params.agentUserList!=null">
+		  <if test="sqlMap.params.agentUserList.size()==0">
+			  and m.ib_id in ('')
+		  </if>
+		  <if test="sqlMap.params.agentUserList.size()&gt;0">
+			  and m.ib_id in
+			  <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+				  #{agentUser.id}
+			  </foreach>
+		  </if>
+	  </if>
+	<if test="sqlMap.params.offset gt 0">
+            and (
+            (SELECT MIN(ib_id) FROM (SELECT TOP ${sqlMap.params.offset} t.ib_id tb_profit_commission m,
+		(
+		SELECT
+		A.*
+		FROM
+		tb_user_register A ,tb_user_register u, tb_sys_organization org
+		WHERE A.level_path.IsDescendantOf(u.level_path)=1
+		and A.is_del = 0
+		and u.org_id = org.id
+		and u.website_user_type =6
+		and u.is_del = 0
+		${sqlMap.dsf}
+		and u.id not in (
+		select a.id from
+		(SELECT
+		u.*
+		FROM
+		tb_user_register u,
+		tb_sys_organization org
+		WHERE
+		u.org_id = org.id
+		and u.website_user_type =6
+		and u.is_del = 0
+		${sqlMap.dsf}
+		) as a
+		,
+		(SELECT
+		u.*
+		FROM
+		tb_user_register u,
+		tb_sys_organization org
+		WHERE
+		u.org_id = org.id
+		and u.website_user_type =6
+		and u.is_del = 0
+		${sqlMap.dsf}
+		) as b
+		where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+		)
+		) as A
+		where m.user_id = A.id
+		and  payment_date between #{sqlMap.params.interviewDate1,jdbcType=VARCHAR} and #{sqlMap.params.interviewDate2,jdbcType=VARCHAR} and m.dataSourceId =#{sqlMap.params.dataSourceId,jdbcType=INTEGER}
+		<if test="sqlMap.params.login !=null">
+			and m.mt4Account LIKE #{sqlMap.params.login,jdbcType=VARCHAR}
+		</if>
+		<if test="sqlMap.params.ibId !=null">
+			and m.ib_id = #{sqlMap.params.ibId,jdbcType=INTEGER}
+		</if>
+		<if test="sqlMap.params.idList !=null">
+			and m.ib_id IN
+			<foreach item="id" index="index" collection="sqlMap.params.idList" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="sqlMap.params.agentUserList!=null">
+			<if test="sqlMap.params.agentUserList.size()==0">
+				and m.ib_id in ('')
+			</if>
+			<if test="sqlMap.params.agentUserList.size()&gt;0">
+				and m.ib_id in
+				<foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+					#{agentUser.id}
+				</foreach>
+			</if>
+		</if>
+				group by m.ib_id   ORDER BY m.ib_id desc) AS T) > m.ib_id
+            )
+        </if>
+	group by m.ib_id   order by m.ib_id ;
+  </select>
+  
+  <select id="getProfitCommissionAmountByRolesall" resultMap="ProfitMap" parameterType="map">
+	
+	select 
+	ib_id
+	from tb_profit_commission m
+    where  payment_date between #{interviewDate1,jdbcType=VARCHAR} and #{interviewDate2,jdbcType=VARCHAR} and m.dataSourceId =#{dataSourceId,jdbcType=INTEGER}
+	<if test="login !=null">
+		and m.mt4Account = #{login,jdbcType=INTEGER}
+	</if>
+	  <if test="agentUserList!=null">
+		  <if test="agentUserList.size()==0">
+			  and m.ib_id in ('')
+		  </if>
+		  <if test="agentUserList.size()&gt;0">
+			  and m.ib_id in
+			  <foreach item="agentUser" index="index" collection="agentUserList" open="(" separator="," close=")">
+				  #{agentUser.id}
+			  </foreach>
+		  </if>
+	  </if>
+	group by ib_id   order by ib_id ;
+  </select>
+  
+  <select id="getCountProfitCommissionAmountByRole" resultType="java.lang.Integer" parameterType="com.fx.bonus.model.ProfitCommission">
+	  select count(*) from (select m.ib_id
+	from tb_profit_commission m
+	  ,
+	  (
+	  SELECT
+	  A.*
+	  FROM
+	  tb_user_register A ,tb_user_register u, tb_sys_organization org
+	  WHERE A.level_path.IsDescendantOf(u.level_path)=1
+	  and A.is_del = 0
+	  and u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  and u.id not in (
+	  select a.id from
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as a
+	  ,
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as b
+	  where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+	  )
+	  ) as A
+    where  m.user_id =A.id
+	and  payment_date between #{sqlMap.params.interviewDate1,jdbcType=VARCHAR} and #{sqlMap.params.interviewDate2,jdbcType=VARCHAR} and m.dataSourceId =#{sqlMap.params.dataSourceId,jdbcType=INTEGER}
+	<if test="sqlMap.params.login !=null">
+		and m.mt4Account LIKE #{sqlMap.params.login,jdbcType=VARCHAR}
+	</if> 
+	<if test="sqlMap.params.ibId !=null">
+		and m.ib_id = #{sqlMap.params.ibId,jdbcType=INTEGER}
+	</if>
+	  <if test="sqlMap.params.idList !=null">
+		  and m.ib_id IN
+		  <foreach item="id" index="index" collection="sqlMap.params.idList" open="(" separator="," close=")">
+			  #{id}
+		  </foreach>
+	  </if>
+	  <if test="sqlMap.params.agentUserList!=null">
+		  <if test="sqlMap.params.agentUserList.size()==0">
+			  and m.ib_id in ('')
+		  </if>
+		  <if test="sqlMap.params.agentUserList.size()&gt;0">
+			  and m.ib_id in
+			  <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+				  #{agentUser.id}
+			  </foreach>
+		  </if>
+
+	  </if>
+	group by m.ib_id) as a
+  </select>
+  <select id="getProfitCommissionByPrice" resultMap="ProfitPriceMap" parameterType="map">
+	select 
+	ib_id,unitPrice,porgation,sum(profit_amount/parRate) profit_amount
+	from tb_profit_commission
+	where  payment_date between #{interviewDate1,jdbcType=VARCHAR} and #{interviewDate2,jdbcType=VARCHAR} and dataSourceId =#{dataSourceId,jdbcType=INTEGER}
+	<if test="login !=null">
+		and mt4Account LIKE #{login,jdbcType=VARCHAR}
+	</if>
+	<if test="ibId !=null">
+		and ib_id = #{ibId,jdbcType=INTEGER}
+	</if>
+	  <if test="idList != null">
+		  and ib_id IN
+		  <foreach item="id" index="index" collection="idList"
+				   open="(" separator="," close=")">
+			  #{id}
+		  </foreach>
+	  </if>
+	 group by ib_id, unitPrice,porgation   order by ib_id ;
+  </select>
+  
+  <select id="getProfitCommissionByUserId" resultMap="BaseResultMap" parameterType="com.fx.bonus.model.ProfitCommission">
+	  select
+	m.*
+	from tb_profit_commission m,
+	  (
+	  SELECT
+	  A.*
+	  FROM
+	  tb_user_register A ,tb_user_register u, tb_sys_organization org
+	  WHERE A.level_path.IsDescendantOf(u.level_path)=1
+	  and A.is_del = 0
+	  and u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  and u.id not in (
+	  select a.id from
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as a
+	  ,
+	  (SELECT
+	  u.*
+	  FROM
+	  tb_user_register u,
+	  tb_sys_organization org
+	  WHERE
+	  u.org_id = org.id
+	  and u.website_user_type =6
+	  and u.is_del = 0
+	  ${sqlMap.dsf}
+	  ) as b
+	  where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+	  )
+	  ) as A
+	  where m.user_id = A.id
+	and  m.payment_date between #{sqlMap.params.interviewDate1,jdbcType=VARCHAR} and #{sqlMap.params.interviewDate2,jdbcType=VARCHAR} and m.dataSourceId =#{sqlMap.params.dataSourceId,jdbcType=INTEGER}
+	<if test="sqlMap.params.userId !=null">
+		and m.ib_id = #{sqlMap.params.userId,jdbcType=INTEGER}
+	</if>
+	<if test="sqlMap.params.login !=null">
+		and m.mt4Account = #{sqlMap.params.login,jdbcType=INTEGER}
+	</if>
+	 ORDER BY  m.order_id desc ;
+  </select>
+</mapper>

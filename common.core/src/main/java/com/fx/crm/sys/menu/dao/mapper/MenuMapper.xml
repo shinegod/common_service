@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.crm.sys.menu.dao.IMenuDao" >
+
+  <resultMap id="PermissionResultMap" type="com.fx.crm.sys.permission.model.Permission" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="permission_exp" property="permissionExp" jdbcType="VARCHAR" />
+    <result column="menuid" property="menuid" jdbcType="VARCHAR" />
+    <result column="permission_type" property="permissionType" jdbcType="VARCHAR" />
+    <result column="permission_desc" property="permissionDesc" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap" type="com.fx.crm.sys.menu.model.Menu" >
+    <id column="menuid" property="menuid" jdbcType="VARCHAR" />
+    <result column="menuname" property="menuname" jdbcType="VARCHAR" />
+    <result column="menucode" property="menucode" jdbcType="VARCHAR" />
+    <result column="menuUri" property="menuuri" jdbcType="VARCHAR" />
+    <result column="parentMenu" property="parentmenu" jdbcType="VARCHAR" />
+    <result column="menulevel" property="menulevel" jdbcType="INTEGER" />
+    <result column="menuorder" property="menuorder" jdbcType="VARCHAR" />
+
+    <!-- 查询父级菜单 -->
+    <!-- <association property="parentMenu" column="parentMenu" select="getMenusById" />  -->
+
+    <!-- 查询子模块 -->
+    <collection property="childMenu" column="menuid" select="getChildrenMenus" />
+
+    <!-- 查询子模块 -->
+    <!-- <collection property="permissions" column="menuid" select="getMenuPermissions" /> -->
+
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menuid, menuname, menucode, menuUri, parentMenu, menulevel, menuorder
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_sys_menu
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.crm.sys.menu.model.Menu" >
+    insert into tb_sys_menu (menuid, menuname, menucode, 
+      menuUri, parentMenu, menulevel, 
+      menuorder)
+    values (#{menuid,jdbcType=VARCHAR}, #{menuname,jdbcType=VARCHAR}, #{menucode,jdbcType=VARCHAR}, 
+      #{menuuri,jdbcType=VARCHAR}, #{parentmenu,jdbcType=VARCHAR}, #{menulevel,jdbcType=INTEGER}, 
+      #{menuorder,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.crm.sys.menu.model.Menu" >
+    update tb_sys_menu
+    set menuname = #{menuname,jdbcType=VARCHAR},
+      menucode = #{menucode,jdbcType=VARCHAR},
+      menuUri = #{menuuri,jdbcType=VARCHAR},
+      parentMenu = #{parentmenu,jdbcType=VARCHAR},
+      menulevel = #{menulevel,jdbcType=INTEGER},
+      menuorder = #{menuorder,jdbcType=VARCHAR}
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu
+    ORDER  BY menuorder ASC
+  </select>
+
+  <!-- 通过角色查询功能菜单，暂时使用tb_role_power表进行关联 -->
+  <select id="getMenusByRoleId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu m,tb_role_power r
+     where m.menuid = r.power_id
+     and m.status = '0'
+    <if test="roleId != null">
+      and r.role_id = #{roleId,jdbcType=INTEGER}
+    </if>
+    <if test="parentMenu != null">
+      and m.parentMenu = #{parentMenu,jdbcType=VARCHAR}
+    </if>
+    ORDER  BY menuorder ASC
+  </select>
+  <!-- 自关联查询 -->
+  <select id="getMenusById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from tb_sys_menu where status = '0' and menuid = #{menuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getChildrenMenus" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from tb_sys_menu where  status = '0' and parentMenu = #{parentMenu,jdbcType=VARCHAR}
+    ORDER  BY menuorder ASC
+  </select>
+
+  <select id="getMenuPermissions" parameterType="java.lang.String" resultMap="PermissionResultMap">
+    select * from tb_sys_permission where menuid = #{menuid,jdbcType=VARCHAR} ORDER  BY menuorder ASC
+  </select>
+  <select id="selectMenuByParentMenu" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu
+    where parentmenu = #{parentMenu,jdbcType=VARCHAR}
+    and status = '0'
+    ORDER  BY menuorder ASC
+  </select>
+  <select id="findAllByStatus" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu
+    where status = '0'
+    ORDER  BY menuorder ASC
+  </select>
+
+  <select id="findAllByStatusAndNoDispaly" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_menu
+    where status = '0' or (status = '1' and no_display = '1')
+    ORDER  BY menuorder ASC
+  </select>
+</mapper>

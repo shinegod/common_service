@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.common.dao.IDistrictDao" >
+  <resultMap id="BaseResultMap" type="com.fx.common.model.District" >
+    <id column="DistrictID" property="districtid" jdbcType="INTEGER" />
+    <result column="DistrictName" property="districtname" jdbcType="VARCHAR" />
+    <result column="CityID" property="cityid" jdbcType="INTEGER" />
+    <result column="DateCreated" property="datecreated" jdbcType="TIMESTAMP" />
+    <result column="DateUpdated" property="dateupdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DistrictID, DistrictName, CityID, DateCreated, DateUpdated
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_district
+    where DistrictID = #{districtid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.common.model.District" >
+    insert into tb_district (DistrictID, DistrictName, CityID, 
+      DateCreated, DateUpdated)
+    values (#{districtid,jdbcType=INTEGER}, #{districtname,jdbcType=VARCHAR}, #{cityid,jdbcType=INTEGER}, 
+      #{datecreated,jdbcType=TIMESTAMP}, #{dateupdated,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.common.model.District" >
+    update tb_district
+    set DistrictName = #{districtname,jdbcType=VARCHAR},
+      CityID = #{cityid,jdbcType=INTEGER},
+      DateCreated = #{datecreated,jdbcType=TIMESTAMP},
+      DateUpdated = #{dateupdated,jdbcType=TIMESTAMP}
+    where DistrictID = #{districtid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_district
+    where DistrictID = #{districtid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_district
+  </select>
+</mapper>
