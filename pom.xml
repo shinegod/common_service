@@ -19,8 +19,8 @@
         <logback.version>1.0.13</logback.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <svn.host>https://192.168.1.210</svn.host>
-        <!-- kcm core version -->
-        <kcm.core.version>2.0.0-SNAPSHOT</kcm.core.version>
+        <!-- common core version -->
+        <common.core.version>2.0.0-SNAPSHOT</common.core.version>
         <!-- spring version -->
         <spring.version>4.1.7.RELEASE</spring.version>
         <!-- bpm version -->
