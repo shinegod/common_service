@@ -120,7 +120,7 @@ public class HttpClientUtil {
 		
 	}
 
-	public static InputStream downlaod(String url) throws Exception {
+	public static InputStream download(String url) throws Exception {
 		HttpClient httpClient =  new  HttpClient();
 		// 设置 Http 连接超时为5秒
 		httpClient.getHttpConnectionManager().getParams().setConnectionTimeout( 50000 );

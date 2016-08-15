@@ -209,7 +209,7 @@
         <profile>
             <id>dev</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <deploy.env>dev</deploy.env>
@@ -224,7 +224,7 @@
         <profile>
             <id>test</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <deploy.env>local_test</deploy.env>
