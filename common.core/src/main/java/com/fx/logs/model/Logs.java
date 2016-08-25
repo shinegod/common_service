@@ -37,11 +37,11 @@ public class Logs extends BaseValueObject {
         this.app_id = app_id;
     }
 
-    public String getUrl() {
+    public String getReq_url() {
         return req_url;
     }
 
-    public void setUrl(String req_url) {
+    public void setReq_url(String req_url) {
         this.req_url = req_url;
     }
 
@@ -53,11 +53,11 @@ public class Logs extends BaseValueObject {
         this.get_params = get_params;
     }
 
-    public String getIp() {
+    public String getReq_ip() {
         return req_ip;
     }
 
-    public void setIp(String req_ip) {
+    public void setReq_ip(String req_ip) {
         this.req_ip = req_ip;
     }
 

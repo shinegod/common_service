@@ -6,7 +6,8 @@ package com.fx.enums;
 public enum ExceptionEnum {
 
     LACK_PARAM("app_id is required","E00001"),
-    PERMISSION_DENIED("permission denied", "E00002");
+    PERMISSION_DENIED("permission denied", "E00002"),
+    QUERY_FAILURE("query fails", "E00003");
 
     String code;
     String msg;

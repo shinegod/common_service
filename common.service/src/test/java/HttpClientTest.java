@@ -82,9 +82,9 @@ public class HttpClientTest {
         }*/
 
 
-        String uriAPI = "http://127.0.0.1:8080/login/test";//Post方式没有参数在这里
+        String uriAPI = "http://127.0.0.1:8080/login/test";
         String result = "";
-        HttpPost httpRequst = new HttpPost(uriAPI);//创建HttpPost对象
+        HttpPost httpRequst = new HttpPost(uriAPI);
 
         String data = "{limit: 10, offset: 0, search: '', agentuserQuery: '', order: 'asc', ibId: '-1', ibId_all: '-1'}";
         StringEntity entity = new StringEntity(data, "UTF-8");
@@ -95,7 +95,7 @@ public class HttpClientTest {
             if(httpResponse.getStatusLine().getStatusCode() == 200)
             {
                 HttpEntity httpEntity = httpResponse.getEntity();
-                result = EntityUtils.toString(httpEntity);//取出应答字符串
+                result = EntityUtils.toString(httpEntity);
             }
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
@@ -112,8 +112,7 @@ public class HttpClientTest {
             e.printStackTrace();
             result = e.getMessage().toString();
         }
-
-
+        System.out.println(result);
     }
 
     private static CloseableHttpClient getHttpClient(){

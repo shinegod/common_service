@@ -6,6 +6,7 @@ import com.fx.ip.model.Authorization;
 import com.fx.ip.model.IPWhiteList;
 import com.fx.ip.service.IAuthorizationService;
 import com.fx.ip.service.IIPWhiteListService;
+import com.fx.pojo.JsonResult;
 import com.fx.util.DecryptUtils;
 import com.fx.util.Hmac_sha256Util;
 import com.fx.util.StringUtil;
@@ -75,7 +76,8 @@ public class IPWhiteListController extends BaseController {
     @ResponseBody
     public String check() throws Base64DecodingException {
         String queryString = request.getQueryString();
-        String flag = "false";
+        String msg = "failure";
+        String code = "E00003";
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
         String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
@@ -89,10 +91,12 @@ public class IPWhiteListController extends BaseController {
         if (ipWhiteList != null) {
             String currentIp = getUserIP();
             if (ipWhiteList.getIp_list().contains(currentIp)) {
-                flag = "true";
+                msg = "success";
+                code = "S00001";
             }
         }
-        return DecryptUtils.encode(flag, authorization.getApp_secret());
+        JsonResult jsonResult = new JsonResult(msg, code);
+        return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
 
     public static Map<String, Object> getUrlParams(String param) {
