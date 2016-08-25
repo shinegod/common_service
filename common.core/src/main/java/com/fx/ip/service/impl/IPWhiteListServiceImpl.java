@@ -1,52 +1,25 @@
 package com.fx.ip.service.impl;
 
+import com.fx.ip.dao.IIPWhiteListDao;
 import com.fx.ip.model.IPWhiteList;
 import com.fx.ip.service.IIPWhiteListService;
-import mybatis.framework.core.support.Page;
+import mybatis.framework.core.service.BaseVOService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Michael on 8/15/2016.
  */
 @Service
-public class IPWhiteListServiceImpl implements IIPWhiteListService {
+public class IPWhiteListServiceImpl extends BaseVOService<IPWhiteList> implements IIPWhiteListService {
+
+    @Autowired
+    private IIPWhiteListDao ipWhiteListDao;
 
     @Override
-    public IPWhiteList findById(Serializable id) {
-        return null;
-    }
-
-    @Override
-    public List<IPWhiteList> findAll() {
-        return null;
-    }
-
-    @Override
-    public int doDeleteById(Serializable id) {
-        return 0;
-    }
-
-    @Override
-    public int doInsert(IPWhiteList vo) {
-        return 0;
-    }
-
-    @Override
-    public int doUpdateById(IPWhiteList vo) {
-        return 0;
-    }
-
-    @Override
-    public Page pagedQuery(int pageNo, int pageSize, Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
-    public int doInsertList(List<IPWhiteList> list) {
-        return 0;
+    public IPWhiteList findBySysTypeAndUserId(Map<String, Object> params) {
+        return ipWhiteListDao.findBySysTypeAndUserId(params);
     }
 }

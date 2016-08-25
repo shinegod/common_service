@@ -84,7 +84,7 @@ public class Config {
     public static final String LOG_USER_CHANGEUPPER1 = "log.user.changeUpper1";
     public static final String LOG_USER_CHANGEUPPER2 = "log.user.changeUpper2";
     public static final String LOG_USER_CHANGEUPPER3 = "log.user.changeUpper3";
-    public static String SHIRO_DEFAULT_SUCCESS_URL ;
+    public static final String SHIRO_DEFAULT_SUCCESS_URL ;
 
     /**
      * 配置内部属性，默认缓存，支持重置

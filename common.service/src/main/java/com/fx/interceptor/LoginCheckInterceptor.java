@@ -1,6 +1,7 @@
 /**
- * 
- */
+ *
+ *//*
+
 package com.fx.interceptor;
 
 import java.io.IOException;
@@ -22,9 +23,11 @@ import com.fx.user.model.UserRegister;
 import com.fx.user.service.IUserRegisterService;
 import com.fx.user.service.IUserService;
 
+*/
 /**
- * 
- */
+ *
+ *//*
+
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 
 	protected static final int DEFAULT_PORT = 80;
@@ -33,7 +36,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 	private IUserRegisterService userRegisterService;
 	@Autowired
 	private IUserService userService;
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
@@ -44,7 +47,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 			this.sendRedirect(request,response);
 			return false;
 		}
-		
+
 		//根据uid获取注册信息
 		UserRegister userRegister = userRegisterService.findById(loginUserVo.getUserId());
 		if(userRegister == null || userRegister.getId() == null || userRegister.getId().intValue() == 0) {
@@ -69,15 +72,17 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		response.sendRedirect("http://"+ConfigProperties.getProperty("domain.myaccount")+"/login?redir="
                         + UrlEncoderUtil.encodeByUtf8(currentUrl, defaultRedirectValue)
         );
-		
+
 	}
 
-	/**
+	*/
+/**
      * 获取用户的请求URL，主要用于URL调整
      *
      * @param request
      * @return
-     */
+     *//*
+
     protected String getForwardUrl(HttpServletRequest request) {
         int port = request.getServerPort();
         String servletPath = request.getServletPath();
@@ -92,7 +97,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         }
         return stringBuilder.toString();
     }
-    
+
     public static String filterHeaderValue(String value) {
         if (value == null || value.length() == 0) {
             return null;
@@ -107,3 +112,4 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         return sb.toString();
     }
 }
+*/

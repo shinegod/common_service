@@ -15,11 +15,11 @@ public enum MT4CmdEnum {
 	MT4CmdEnum(int value){
 		this.value = value;
 	}
-	
+
 	public int getValue(){
 		return this.value;
 	}
-	
+
 	public static MT4CmdEnum valueOf(int value){
 		for(MT4CmdEnum eValue : MT4CmdEnum.values()){
 			if(eValue.getValue()==value){
