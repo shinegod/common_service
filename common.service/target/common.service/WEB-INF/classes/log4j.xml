@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">	
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] {%p} %c %L - %m%n" />
+		</layout> 
+	</appender>
+	<!-- 
+	<appender name="stdout_file" class="org.apache.log4j.DailyRollingFileAppender">     
+        <param name="File" value="log/fx_stdout.log" />
+        <param name="Threshold" value="DEBUG" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">     
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] {%p} %c %L - %m%n" />     
+        </layout>     
+    </appender>
+     -->
+	<appender name="filelog_daily" class="org.apache.log4j.DailyRollingFileAppender">     
+        <param name="File" value="C:/logs/mynzgft/deposit.log" />
+        <param name="Threshold" value="DEBUG" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">     
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] {%p} %c %L - %m%n" />     
+        </layout>     
+    </appender>
+    <appender name="myAccountController_log" class="org.apache.log4j.FileAppender">     
+        <param name="File" value="C:/logs/mynzgft/mt4transfer.log" />
+        <param name="Threshold" value="ERROR" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">     
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] {%p} %c %L - %m%n" />     
+        </layout>     
+    </appender>
+    <logger name="com.fx.*">  
+       <level value="DEBUG" />  
+    </logger> 
+    <logger name="com.fx.controller.myAccount.myAccountController">
+		<level value="error" />
+		<appender-ref ref="stdout" /> 
+		<appender-ref ref="myAccountController_log" />
+	</logger>
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="myAccountController_log" /> 
+		<appender-ref ref="filelog_daily" /> 
+	</root>
+</log4j:configuration>

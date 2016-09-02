@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.global.dao.IGroupDao">
+	<resultMap id="BaseResultMap" type="com.fx.global.model.Group">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="group_name_MT4" property="groupNameMT4" jdbcType="VARCHAR" />
+		<result column="company_id" property="companyId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, group_name, group_name_MT4,company_id
+	</sql>
+	<select id="findGroupById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="findGroupByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		where group_name = #{groupName,jdbcType=VARCHAR}
+	</select>
+	<select id="selectDemoGroup" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		where group_name_MT4 like '%demo%' and company_id = #{companyId,jdbcType=INTEGER}
+	</select>
+	<select id="selectLiveGroup" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		where group_name_MT4 not like '%demo%' and company_id = #{companyId,jdbcType=INTEGER}
+	</select>
+	<select id="selectGroup" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		where  company_id = #{companyId,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+	</select>
+</mapper>

@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.user.dao.IUserDao" >
+  <resultMap id="UserResultMap" type="com.fx.user.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="cn_name" property="cnName" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="CHAR" />
+    <result column="id_type" property="idType" jdbcType="CHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="nationality_code" property="nationalityCode" jdbcType="INTEGER" />
+    <result column="residency_country_code" property="residencyCountryCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="VARCHAR" />
+    <result column="occupation_code" property="occupationCode" jdbcType="VARCHAR" />
+    <result column="industries_code" property="industriesCode" jdbcType="INTEGER" />
+    <result column="annual_income_code" property="annualIncomeCode" jdbcType="INTEGER" />
+    <result column="net_assets_value_code" property="netAssetsValueCode" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="CHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="is_ib" property="is_ib" jdbcType="TINYINT" />
+    <result column="ib_Id" property="ib_Id" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="livingConditions" property="livingConditions" jdbcType="INTEGER" />
+    <result column="interest" property="interest" jdbcType="VARCHAR" />
+    <result column="information" property="information" jdbcType="VARCHAR" />
+    <result column="investObjecty" property="investObjecty" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="companyAdddress" property="companyAdddress" jdbcType="VARCHAR" />
+    <result column="companyNature" property="companyNature" jdbcType="VARCHAR" />
+    <result column="curentAssets" property="curentAssets" jdbcType="INTEGER" />
+    <result column="is_employed" property="is_employed" jdbcType="INTEGER" />
+    <result column="employed_reason" property="employed_reason" jdbcType="VARCHAR" />
+    <result column="is_employer" property="is_employer" jdbcType="INTEGER" />
+    
+    <result column="is_dispute" property="is_dispute" jdbcType="INTEGER" />
+    <result column="dispute_reason" property="dispute_reason" jdbcType="VARCHAR" />
+    <result column="is_bankruptcy" property="is_bankruptcy" jdbcType="INTEGER" />
+    <result column="bankruptcy_reason" property="bankruptcy_reason" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+    <result column="companyNameCn" property="companyNameCn" jdbcType="VARCHAR" />
+    <result column="personNationality" property="personNationality" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="companyPhone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_nzgft" property="is_nzgft" jdbcType="INTEGER" />
+    <result column="mt4Account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="isComplete" property="isComplete" jdbcType="INTEGER" />
+    <result column="maritalStatus" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="sell_Id" property="sell_Id" jdbcType="INTEGER" />
+    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
+    <result column="user_source" property="user_source" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="customer_Id" property="customer_Id" jdbcType="VARCHAR" />
+    <result column="province_code" property="province_code" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="parent_Id" property="parent_Id" jdbcType="INTEGER" />
+    <result column="parent_name" property="parent_name" jdbcType="VARCHAR" />
+
+    <!-- IB用户审核状态  默认为0  未审核 -->
+    <result column="ib_user_type" property="ibUserType" jdbcType="INTEGER" />
+
+    <result column="property_name" property="property_name" jdbcType="VARCHAR" />
+    <result column="unit_number" property="unit_number" jdbcType="VARCHAR" />
+    <result column="street_number" property="street_number" jdbcType="VARCHAR" />
+    <result column="street_name " property="street_name" jdbcType="VARCHAR" />
+    <result column="street_type" property="street_type" jdbcType="VARCHAR" />
+    <result column="suburb" property="suburb" jdbcType="VARCHAR" />
+
+    <!--&lt;!&ndash; 查询子模块 &ndash;&gt;-->
+    <!--<association property="userContacts" column="id" select="getContacts" />-->
+
+    <!-- 查询子模块 -->
+    <association property="salesInfo" column="id" select="getSalesInfo" />
+
+    <!-- 查询子模块 -->
+    <association property="admin" column="sell_Id" select="getSale" />
+
+  </resultMap>
+
+  <resultMap id="UserContactsMap" type="com.fx.user.model.UserContacts" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="cn_name" property="cnName" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="occupation_code" property="occupationCode" jdbcType="VARCHAR" />
+    <result column="industries_code" property="industriesCode" jdbcType="INTEGER" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="updater_id" property="updaterId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="SalesInfoMap" type="com.fx.user.model.SalesInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
+    <result column="is_emergency" property="isEmergency" jdbcType="VARCHAR" />
+    <result column="sales_record" property="salesRecord" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="updater_id" property="updaterId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, first_name, last_name, cn_name, birthday, id_type, id_num, nationality_code,
+    residency_country_code, city_code, address, postcode, occupation_code, industries_code, 
+    annual_income_code, net_assets_value_code, status, create_user, create_time, create_ip, update_user, 
+    update_time, update_ip, is_del,is_ib,ib_Id,sex,livingConditions,interest,information,investObjecty,companyName,companyAdddress,companyNature,curentAssets,is_employed,employed_reason,is_employer,
+    is_dispute,dispute_reason,is_bankruptcy,bankruptcy_reason,bank,bankCode,companyNameCn,personNationality,fax,companyPhone,email,is_nzgft,mt4Account,isComplete,maritalStatus,nationality,sell_Id,user_type,
+    user_source,agent,customer_Id,province_code,comment,roleId,parent_Id,parent_name,property_name,unit_number,street_number,street_name,street_type,suburb,ib_user_type
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.user.model.User" useGeneratedKeys="true" keyProperty="id" >
+  
+    insert into tb_user (user_id, first_name, last_name,
+      cn_name, birthday, id_type, 
+      id_num, nationality_code, residency_country_code, 
+      city_code, address, postcode, 
+      occupation_code, industries_code, annual_income_code, 
+      net_assets_value_code, status, create_user, create_time, 
+      create_ip, update_user, update_time, 
+      update_ip, is_del,is_ib,ib_Id,sex,livingConditions,interest,information,investObjecty,companyName,companyAdddress,companyNature,curentAssets,is_employed,employed_reason,is_employer,
+      is_dispute,dispute_reason,is_bankruptcy,bankruptcy_reason,bank,bankCode,companyNameCn,personNationality,fax,companyPhone,email,is_nzgft,mt4Account,isComplete,maritalStatus,nationality,sell_Id,
+      user_type,user_source,agent,customer_Id,province_code,comment,roleId,parent_Id,parent_name,property_name,unit_number,street_number,street_name,street_type,suburb,ib_user_type)
+    values (#{userId,jdbcType=INTEGER}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR},
+      #{cnName,jdbcType=VARCHAR}, #{birthday,jdbcType=CHAR}, #{idType,jdbcType=CHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{nationalityCode,jdbcType=INTEGER}, #{residencyCountryCode,jdbcType=VARCHAR},
+      #{cityCode,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, 
+      #{occupationCode,jdbcType=VARCHAR}, #{industriesCode,jdbcType=INTEGER}, #{annualIncomeCode,jdbcType=INTEGER}, 
+      #{netAssetsValueCode,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, 
+      #{createIp,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=CHAR}, 
+      #{updateIp,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{is_ib,jdbcType=TINYINT}, #{ib_Id,jdbcType=INTEGER},#{sex,jdbcType=VARCHAR},#{livingConditions,jdbcType=INTEGER},#{interest,jdbcType=VARCHAR},#{information,jdbcType=VARCHAR},#{investObjecty,jdbcType=VARCHAR},
+      #{companyName,jdbcType=VARCHAR},#{companyAdddress,jdbcType=VARCHAR},#{companyNature,jdbcType=VARCHAR},#{curentAssets,jdbcType=INTEGER},#{is_employed,jdbcType=INTEGER},#{employed_reason,jdbcType=VARCHAR},#{is_employer,jdbcType=INTEGER},
+      #{is_dispute,jdbcType=VARCHAR},#{dispute_reason,jdbcType=VARCHAR},#{is_bankruptcy,jdbcType=VARCHAR},#{bankruptcy_reason,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankCode,jdbcType=VARCHAR},
+      #{companyNameCn,jdbcType=VARCHAR},#{personNationality,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},#{companyPhone,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR},#{is_nzgft,jdbcType=INTEGER},#{mt4Account,jdbcType=INTEGER},#{isComplete,jdbcType=INTEGER},#{maritalStatus,jdbcType=VARCHAR},#{nationality,jdbcType=VARCHAR},#{sell_Id,jdbcType=INTEGER},
+      #{user_type,jdbcType=VARCHAR},#{user_source,jdbcType=VARCHAR},#{agent,jdbcType=VARCHAR},#{customer_Id,jdbcType=VARCHAR},#{province_code,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},#{roleId,jdbcType=INTEGER},#{parent_Id,jdbcType=INTEGER},#{parent_name,jdbcType=VARCHAR},
+      #{property_name,jdbcType=VARCHAR},#{unit_number,jdbcType=VARCHAR},#{street_number,jdbcType=VARCHAR},#{street_name,jdbcType=VARCHAR},#{street_type,jdbcType=VARCHAR},#{suburb,jdbcType=VARCHAR},#{ibUserType,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.user.model.User" >
+    update tb_user
+    set user_id = #{userId,jdbcType=INTEGER},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      cn_name = #{cnName,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=CHAR},
+      id_type = #{idType,jdbcType=CHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      nationality_code = #{nationalityCode,jdbcType=INTEGER},
+      residency_country_code = #{residencyCountryCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      occupation_code = #{occupationCode,jdbcType=VARCHAR},
+      industries_code = #{industriesCode,jdbcType=INTEGER},
+      annual_income_code = #{annualIncomeCode,jdbcType=INTEGER},
+      net_assets_value_code = #{netAssetsValueCode,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      is_ib = #{is_ib,jdbcType=TINYINT},
+      ib_Id = #{ib_Id,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=VARCHAR},
+      livingConditions = #{livingConditions,jdbcType=INTEGER},
+      interest = #{interest,jdbcType=VARCHAR},
+      information = #{information,jdbcType=VARCHAR},
+      investObjecty = #{investObjecty,jdbcType=VARCHAR},
+      companyName = #{companyName,jdbcType=VARCHAR},
+      companyAdddress = #{companyAdddress,jdbcType=VARCHAR},
+      companyNature = #{companyNature,jdbcType=VARCHAR},
+      curentAssets = #{curentAssets,jdbcType=INTEGER},
+      is_employed = #{is_employed,jdbcType=INTEGER},
+      employed_reason = #{employed_reason,jdbcType=VARCHAR},
+      is_employer = #{is_employer,jdbcType=INTEGER},
+      is_dispute = #{is_dispute,jdbcType=INTEGER},
+      dispute_reason = #{dispute_reason,jdbcType=VARCHAR},
+      is_bankruptcy = #{is_bankruptcy,jdbcType=INTEGER},
+      bankruptcy_reason = #{bankruptcy_reason,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      bankCode = #{bankCode,jdbcType=VARCHAR},
+      companyNameCn = #{companyNameCn,jdbcType=VARCHAR},
+      personNationality = #{personNationality,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      companyPhone = #{companyPhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_nzgft = #{is_nzgft,jdbcType=INTEGER},
+      mt4Account = #{mt4Account,jdbcType=INTEGER},
+      isComplete = #{isComplete,jdbcType=INTEGER},
+      maritalStatus = #{maritalStatus,jdbcType=VARCHAR},
+      nationality = #{nationality,jdbcType=VARCHAR},
+      sell_Id = #{sell_Id,jdbcType=INTEGER},
+      user_type = #{user_type,jdbcType=VARCHAR},
+      user_source = #{user_source,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      province_code = #{province_code,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      roleId = #{roleId,jdbcType=INTEGER},
+      parent_Id = #{parent_Id,jdbcType=INTEGER},
+      parent_name = #{parent_name,jdbcType=VARCHAR},
+      customer_Id = #{customer_Id,jdbcType=VARCHAR},
+      property_name=#{property_name,jdbcType=VARCHAR},
+      unit_number= #{unit_number,jdbcType=VARCHAR},
+      street_number= #{street_number,jdbcType=VARCHAR},
+      street_name=#{street_name,jdbcType=VARCHAR},
+      street_type=#{street_type,jdbcType=VARCHAR},
+      suburb= #{suburb,jdbcType=VARCHAR},
+      ib_user_type=#{ibUserType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="UserResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByUid" resultMap="UserResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="UserResultMap" >
+    select
+    *
+    from tb_user
+  </select>
+
+    <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select
+        count(1)
+        from tb_user
+        where is_del = 0
+        <if test="countryCode != null">
+            and nationality_code = #{countryCode, jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            and status = #{status, jdbcType=TINYINT}
+        </if>
+        <if test="is_ib != null">
+            and is_ib = #{is_ib, jdbcType=TINYINT}
+        </if>
+        <if test="ibId != null and ibId >= 0">
+            and ib_Id = #{ibId, jdbcType=INTEGER}
+        </if>
+        <if test="dataSouce != null and dataSouce > 0">
+            and user_id in (select id from tb_user_register where mt4_datasource_id = #{dataSouce, jdbcType=INTEGER} and is_del = 0)
+        </if>
+        <if test="email != null">
+            and (email like #{email, jdbcType=VARCHAR}
+            or user_id in (select id from tb_user_register where cnName like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+            or user_id in (select id from tb_user_register where phone_num like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+            or user_id in (select uid from tb_user_mt4_account where mt4_account like #{email, jdbcType=VARCHAR} and is_del = 0))
+        </if>
+    </select>
+  
+  <select id="pageQueryCountByIsIb" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_user
+    where is_del = 0 and is_ib = #{is_ib,jdbcType=TINYINT} 
+    <if test="countryCode != null">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+  </select>
+  
+  <select id="pageQueryCountByIsIbIbId" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_user
+    where is_del = 0 and is_ib = #{is_ib,jdbcType=TINYINT} and ib_Id = #{ib_Id,jdbcType=INTEGER}
+    <if test="countryCode != null">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+  </select>
+  
+  <select id="pageQueryCountByIbId" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_user
+    where is_del = 0 and ib_Id = #{ib_Id,jdbcType=INTEGER}
+    <if test="countryCode != null">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+  </select>
+
+    <select id="pageQueryList" resultMap="UserResultMap" parameterType="java.util.Map" >
+        select top ${limit}
+        <include refid="Base_Column_List" />
+        from tb_user
+        where is_del = 0
+        <if test="countryCode != null">
+            <if test="countryCode != -1">
+                and nationality_code = #{countryCode, jdbcType=INTEGER}
+            </if>
+        </if>
+        <if test="status != null">
+            <if test="status != -1">
+                and status = #{status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="is_ib != null">
+            and is_ib = #{is_ib, jdbcType=TINYINT}
+        </if>
+        <if test="ibId != null and ibId >= 0">
+            and ib_Id = #{ibId, jdbcType=INTEGER}
+        </if>
+        <if test="dataSouce != null and dataSouce > 0">
+            and user_id in (select id from tb_user_register where mt4_datasource_id = #{dataSouce, jdbcType=INTEGER} and is_del = 0)
+        </if>
+        <if test="email != null">
+            and (email like #{email, jdbcType=VARCHAR}
+            or user_id in (select id from tb_user_register where cnName like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+            or user_id in (select id from tb_user_register where phone_num like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+            or user_id in (select uid from tb_user_mt4_account where mt4_account like #{email, jdbcType=VARCHAR} and is_del = 0))
+        </if>
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_user where is_del = 0
+            <if test="countryCode != null">
+                <if test="countryCode != -1">
+                    and nationality_code = #{countryCode, jdbcType=INTEGER}
+                </if>
+            </if>
+            <if test="status != null">
+                <if test="status != -1">
+                    and status = #{status, jdbcType=TINYINT}
+                </if>
+            </if>
+            <if test="is_ib != null">
+                and is_ib = #{is_ib, jdbcType=TINYINT}
+            </if>
+            <if test="ibId != null and ibId >= 0">
+                and ib_Id = #{ibId, jdbcType=INTEGER}
+            </if>
+            <if test="dataSouce != null and dataSouce > 0">
+                and user_id in (select id from tb_user_register where mt4_datasource_id = #{dataSouce, jdbcType=INTEGER} and is_del = 0)
+            </if>
+            <if test="email != null">
+                and (email like #{email, jdbcType=VARCHAR}
+                or user_id in (select id from tb_user_register where cnName like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+                or user_id in (select id from tb_user_register where phone_num like #{cnName, jdbcType=VARCHAR} and is_del = 0)
+                or user_id in (select uid from tb_user_mt4_account where mt4_account like #{email, jdbcType=VARCHAR} and is_del = 0))
+            </if>
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+  
+  <select id="pageQueryListByIsIb" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_user
+    where is_del = 0 and is_ib = #{is_ib,jdbcType=TINYINT}
+    <if test="countryCode != null">
+    	<if test="countryCode != -1">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+        </if>
+    </if>
+    <if test="status != null">
+    	<if test="status != -1">
+        and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_user 
+    	    where is_del = 0 and is_ib = #{is_ib,jdbcType=TINYINT}
+		    <if test="countryCode != null">
+		    	<if test="countryCode != -1">
+		        and nationality_code = #{countryCode, jdbcType=INTEGER}
+		        </if>
+		    </if>
+		    <if test="status != null">
+		    	<if test="status != -1">
+		        and status = #{status, jdbcType=TINYINT}
+		        </if>
+		    </if> 
+    	  ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  
+  <select id="pageQueryListByIsIbIbId" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_user
+    where is_del = 0 and is_ib = #{is_ib,jdbcType=TINYINT} and ib_Id = #{ib_Id,jdbcType=INTEGER}
+    <if test="countryCode != null">
+    	<if test="countryCode != -1">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+        </if>
+    </if>
+    <if test="status != null">
+    	<if test="status != -1">
+        and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_user ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  
+  <select id="pageQueryListByIbId" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_user
+    where is_del = 0 and ib_Id = #{ib_Id,jdbcType=INTEGER}
+    <if test="countryCode != null">
+    	<if test="countryCode != -1">
+        and nationality_code = #{countryCode, jdbcType=INTEGER}
+        </if>
+    </if>
+    <if test="status != null">
+    	<if test="status != -1">
+        and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_user 
+    	  where is_del = 0 and ib_Id = #{ib_Id,jdbcType=INTEGER}
+	    <if test="countryCode != null">
+	    	<if test="countryCode != -1">
+	        and nationality_code = #{countryCode, jdbcType=INTEGER}
+	        </if>
+	    </if>
+	    <if test="status != null">
+	    	<if test="status != -1">
+	        and status = #{status, jdbcType=TINYINT}
+	        </if>
+	    </if>
+    	  ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  
+  <select id="queryListByIB" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select   
+    <include refid="Base_Column_List" />
+    from tb_user
+	where is_ib = #{is_ib,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryListByIBId" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select   
+    <include refid="Base_Column_List" />
+    from tb_user
+	where ib_Id = #{ib_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryListByIBIdIsIB" resultMap="UserResultMap" parameterType="java.util.Map" >
+    select   
+    <include refid="Base_Column_List" /> 
+    from tb_user
+	where is_ib = #{is_ib,jdbcType=TINYINT} 
+	<if test="ib_id != 0">
+		and ib_Id = #{ib_id,jdbcType=INTEGER}
+	</if>
+  </select>
+
+  <select id="getContacts" resultType="com.fx.user.model.UserContacts">
+    select top 1 * from tb_user_contacts where user_id = #{id, jdbcType=INTEGER} order by id asc
+  </select>
+
+  <select id="getSalesInfo" resultType="com.fx.user.model.SalesInfo">
+    select top 1 * from tb_sales_info where user_id = #{id, jdbcType=INTEGER} order by id asc
+  </select>
+
+  <select id="getSale" resultType="com.fx.admin.model.Admin">
+    select top 1 * from tb_admin where id = #{sell_Id, jdbcType=INTEGER} order by id asc
+  </select>
+
+  <select id="queryParentUsersByRoleId" resultMap="UserResultMap" parameterType="java.util.Map">
+    select * from tb_user u where u.roleid in
+      (select r.id from tb_role r where r.level =
+        (select t.level-1 from tb_role t where t.id = #{roleId, jdbcType=TINYINT} and t.status = '1' and t.is_del = 0 and t.role_type = 2)
+            and r.status = '1' and r.is_del = 0 and r.role_type = 2) and u.is_del = 0 and u.is_ib = 1 and u.ib_user_type = 1;
+  </select>
+  <select id="getIBIdUser" resultMap="UserResultMap" parameterType="java.util.Map" >
+  select
+  <include refid="Base_Column_List" />
+  from tb_user
+  where roleId = #{roleId,jdbcType=INTEGER}
+  </select>
+  <select id="queryEmailRepeat" parameterType="java.util.Map" resultType="Integer">
+  SELECT
+  COUNT(1)
+  FROM tb_user
+  WHERE email = #{email,jdbcType=VARCHAR}
+  AND is_del = 0 and ib_user_type != 2
+  </select>
+  <update id="modifyIbUserTypeById" parameterType="java.util.Map">
+    update tb_user
+    set ib_user_type = #{ibUserType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="deleteById" parameterType="com.fx.user.model.UserRegister">
+        update tb_user
+        set update_user = #{updateUser,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=CHAR},
+        update_ip = #{updateIp,jdbcType=VARCHAR},
+        is_del = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+     <select id="pageQueryCount1" resultType="java.lang.Integer" parameterType="com.fx.user.model.User" >
+        select
+        count(1)
+        from tb_user t,tb_user_register u, tb_sys_organization org
+      WHERE u.is_del = 0  and t.is_del = 0
+       and u.org_id = org.id and t.ib_id=u.id
+       ${sqlMap.dsf}
+        <if test="is_ib != null">
+            and t.is_ib = #{is_ib, jdbcType=TINYINT}
+        </if>
+        <if test="ib_Id != null and ib_Id >= 0">
+            and t.ib_Id = #{ib_Id, jdbcType=INTEGER}
+        </if>
+         <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+             and t.user_id in (select id from tb_user_register where mt4_datasource_id =  #{sqlMap.dataSouce, jdbcType=INTEGER} and is_del = 0)
+         </if>
+        <if test="sqlMap.username != null">
+            and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+            or t.user_id in (select id from tb_user_register where phone_num like #{sqlMap.username, jdbcType=VARCHAR})
+            or t.user_id in (select id from tb_user_register where cnName like #{sqlMap.username, jdbcType=VARCHAR})
+            or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+        </if>
+    </select>
+    <select id="pageQueryList1" resultMap="UserResultMap" parameterType="com.fx.user.model.User" >
+    	<!--WITH ib_list AS (
+				SELECT
+                    t.superior_id,
+					t.is_ibId,
+					t.id,
+					1 AS xLEVEL,
+					t.is_del,
+					t.cnName,
+					t.mt4_datasource_type,
+					t.phone_num,
+					t.mt4_datasource_id,
+                    t.ib_user_type
+				FROM
+					tb_user_register t
+				WHERE
+				 t.is_del = 0
+                <if test="ib_Id != null and ib_Id > 0">
+                    and t.is_ibId = #{ib_Id, jdbcType=INTEGER}
+                </if>
+                <if test="ib_Id == null or ib_Id &lt;= 0">
+                   AND t.id IN (
+                    SELECT
+                    u.id
+                    FROM
+                    tb_user_register u,
+                    tb_sys_organization org
+                    WHERE
+                    u.is_del = 0
+                    and u.org_id = org.id and u.website_user_type =6
+                    ${sqlMap.dsf}
+                    )
+                </if>
+				UNION ALL
+					SELECT
+                        c.superior_id,
+						c.is_ibId,
+						c.id,
+						ib_list.xLEVEL + 1,
+						c.is_del,
+						c.cnName,
+						c.mt4_datasource_type,
+						c.phone_num,
+						c.mt4_datasource_id,
+                        c.ib_user_type
+					FROM
+						tb_user_register c
+					INNER JOIN ib_list ON (c.superior_id = ib_list.id and c.website_user_type =6 )or(c.is_ibId = ib_list.id and c.website_user_type = 5)
+			)-->
+        select  top ${sqlMap.limit}
+          t.*
+        from tb_user t,
+        (
+            SELECT
+            A.*
+            FROM
+            tb_user_register A ,tb_user_register u1, tb_sys_organization org
+            WHERE A.level_path.IsDescendantOf(u1.level_path)=1
+            and A.is_del = 0
+            and u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+        and u1.id not in (
+        select a.id from
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+            <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+            </if>
+            <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+            </if>
+            <if test="is_ib != null">
+                and A.is_ib = #{is_ib, jdbcType=TINYINT}
+            </if>
+            <if test="sqlMap.support!=null">
+              <if test="sqlMap.username != null">
+                    <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                        and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                    </if>
+                    <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                        and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                    </if>
+              </if>
+            </if>
+            <if test="sqlMap.support==null">
+              <if test="sqlMap.username != null">
+                <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                    and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                </if>
+                <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                    and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                </if>
+              </if>
+            </if>
+        ) as b
+        WHERE  t.is_del = 0
+        and t.user_id = b.id
+        <if test="ib_Id != null and sqlMap.flagIbid !=null ">
+            and t.ib_Id = #{ib_Id, jdbcType=INTEGER}
+        </if>
+        <if test="ib_Id != null and ib_Id > 0">
+            and b.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{ib_Id, jdbcType=INTEGER})) = 1
+        </if>
+        <if test="sqlMap.support!=null">
+            <if test="sqlMap.username != null">
+                and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+            </if>
+            <if test="sqlMap.commissionType != null">
+                <if test="sqlMap.commissionType == 1">
+                    and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+                <if test="sqlMap.commissionType == 0">
+                    and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+            </if>
+        </if>
+        <if test="sqlMap.support==null">
+            <if test="sqlMap.username != null">
+                and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+            </if>
+            <if test="sqlMap.commissionType != null">
+                <if test="sqlMap.commissionType == 1">
+                    and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+                <if test="sqlMap.commissionType == 0">
+                    and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+            </if>
+        </if>
+        <if test="sqlMap.offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT DISTINCT TOP ${sqlMap.offset}  t.id	 from tb_user t,
+            (
+            SELECT
+            A.*
+            FROM
+            tb_user_register A ,tb_user_register u1, tb_sys_organization org
+            WHERE A.level_path.IsDescendantOf(u1.level_path)=1
+            and A.is_del = 0
+            and u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            and u1.id not in (
+            select a.id from
+            (SELECT
+            u1.*
+            FROM
+            tb_user_register u1,
+            tb_sys_organization org
+            WHERE
+            u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            ) as a
+            ,
+            (SELECT
+            u1.*
+            FROM
+            tb_user_register u1,
+            tb_sys_organization org
+            WHERE
+            u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            ) as b
+            where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+            )
+            <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+            </if>
+            <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+            </if>
+            <if test="is_ib != null">
+                and A.is_ib = #{is_ib, jdbcType=TINYINT}
+            </if>
+            <if test="sqlMap.support!=null">
+                <if test="sqlMap.username != null">
+                    <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                        and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                    </if>
+                    <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                        and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                    </if>
+                </if>
+            </if>
+            <if test="sqlMap.support==null">
+                <if test="sqlMap.username != null">
+                    <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                        and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                    </if>
+                    <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                        and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                    </if>
+                </if>
+            </if>
+            ) as b
+            WHERE  t.is_del = 0
+            and t.user_id = b.id
+            <if test="ib_Id != null and sqlMap.flagIbid !=null ">
+                and t.ib_Id = #{ib_Id, jdbcType=INTEGER}
+            </if>
+            <if test="ib_Id != null and ib_Id > 0">
+                and b.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{ib_Id, jdbcType=INTEGER})) = 1
+            </if>
+            <if test="sqlMap.support!=null">
+                <if test="sqlMap.username != null">
+                    and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                    or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                    or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                    or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+                </if>
+                <if test="sqlMap.commissionType != null">
+                    <if test="sqlMap.commissionType == 1">
+                        and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                    </if>
+                    <if test="sqlMap.commissionType == 0">
+                        and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                    </if>
+                </if>
+            </if>
+            <if test="sqlMap.support==null">
+                <if test="sqlMap.username != null">
+                    and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                    or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                    or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                    or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+                </if>
+                <if test="sqlMap.commissionType != null">
+                    <if test="sqlMap.commissionType == 1">
+                        and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                    </if>
+                    <if test="sqlMap.commissionType == 0">
+                        and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                    </if>
+                </if>
+            </if>
+            ORDER BY t.id desc) AS T) > t.id
+            )
+        </if>
+        order by t.id desc
+    </select>
+    <select id="pageCountList1" resultType="java.lang.Integer" parameterType="com.fx.user.model.User" >
+    	<!--WITH ib_list AS (
+				SELECT
+                    t.superior_id,
+					t.is_ibId,
+					t.id,
+					1 AS xLEVEL,
+					t.is_del,
+					t.cnName,
+					t.mt4_datasource_type,
+					t.phone_num,
+					t.mt4_datasource_id,
+        t.ib_user_type
+				FROM
+					tb_user_register t
+				WHERE
+					 t.is_del = 0
+                <if test="ib_Id != null and ib_Id > 0">
+                    and t.is_ibId = #{ib_Id, jdbcType=INTEGER}
+                </if>
+                <if test="ib_Id == null or ib_Id &lt;= 0">
+                    AND t.id IN (
+                    SELECT
+                    u.id
+                    FROM
+                    tb_user_register u,
+                    tb_sys_organization org
+                    WHERE
+                    u.is_del = 0
+                    and u.org_id = org.id and u.website_user_type =6
+                    ${sqlMap.dsf}
+                    )
+                </if>
+				UNION ALL
+					SELECT
+                        c.superior_id,
+						c.is_ibId,
+						c.id,
+						ib_list.xLEVEL + 1,
+						c.is_del,
+						c.cnName,
+						c.mt4_datasource_type,
+						c.phone_num,
+						c.mt4_datasource_id,
+        c.ib_user_type
+					FROM
+						tb_user_register c
+					INNER JOIN ib_list ON (c.superior_id = ib_list.id and c.website_user_type =6 )or(c.is_ibId = ib_list.id and c.website_user_type = 5)
+			) -->
+        select count(t.id)
+        from tb_user t,
+        (
+        SELECT
+        A.*
+        FROM
+        tb_user_register A ,tb_user_register u1, tb_sys_organization org
+        WHERE A.level_path.IsDescendantOf(u1.level_path)=1
+        and A.is_del = 0
+        and u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        and u1.id not in (
+        select a.id from
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+        <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+            and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+            and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+        </if>
+        <if test="is_ib != null">
+            and A.is_ib = #{is_ib, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.support!=null">
+            <if test="sqlMap.username != null">
+                <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                    and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                </if>
+                <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                    and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                </if>
+            </if>
+        </if>
+        <if test="sqlMap.support==null">
+            <if test="sqlMap.username != null">
+                <if test="sqlMap.dataSouce != null and sqlMap.dataSouce > 0">
+                    and A.mt4_datasource_id = #{sqlMap.dataSouce, jdbcType=INTEGER}
+                </if>
+                <if test="sqlMap.ibUserType != null and sqlMap.ibUserType >= 0">
+                    and A.ib_user_type = #{sqlMap.ibUserType, jdbcType=INTEGER}
+                </if>
+            </if>
+        </if>
+        ) as b
+        WHERE  t.is_del = 0
+        and t.user_id = b.id
+        <if test="ib_Id != null and sqlMap.flagIbid !=null ">
+            and t.ib_Id = #{ib_Id, jdbcType=INTEGER}
+        </if>
+        <if test="ib_Id != null and ib_Id > 0">
+            and b.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{ib_Id, jdbcType=INTEGER})) = 1
+        </if>
+        <if test="sqlMap.support!=null">
+            <if test="sqlMap.username != null">
+                and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+            </if>
+            <if test="sqlMap.commissionType != null">
+                <if test="sqlMap.commissionType == 1">
+                    and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+                <if test="sqlMap.commissionType == 0">
+                    and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+            </if>
+        </if>
+        <if test="sqlMap.support==null">
+            <if test="sqlMap.username != null">
+                and (t.email like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.cnName like #{sqlMap.username, jdbcType=VARCHAR}
+                or b.phone_num like #{sqlMap.username, jdbcType=VARCHAR}
+                or t.user_id in (select uid from tb_user_mt4_account where mt4_account like #{sqlMap.username, jdbcType=VARCHAR} and is_del = 0))
+            </if>
+            <if test="sqlMap.commissionType != null">
+                <if test="sqlMap.commissionType == 1">
+                    and t.user_id in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+                <if test="sqlMap.commissionType == 0">
+                    and t.user_id NOT in (SELECT DISTINCT  user_id from tb_user_commission_conf )
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <update id="updateIbidByUserIdList" parameterType="com.fx.user.model.User">
+        UPDATE tb_user set ib_id = #{ib_Id}, update_user=#{updateUser}, update_Time = #{updateTime}
+        where user_id in
+        <foreach collection="sqlMap.ids" item="sid" separator="," open="(" close=")">#{sid}</foreach>
+    </update>
+</mapper>

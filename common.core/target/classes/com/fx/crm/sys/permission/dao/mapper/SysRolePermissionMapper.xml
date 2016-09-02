@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.crm.sys.permission.dao.ISysRolePermissionDao" >
+  <resultMap id="BaseResultMap" type="com.fx.crm.sys.permission.model.SysRolePermission" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="permission_type" property="permissionType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_id, permission_id, create_user, create_time, create_ip, update_user, update_time, 
+    update_ip, status, permission_type
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_sys_role_permission
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.crm.sys.permission.model.SysRolePermission" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_sys_role_permission (role_id, permission_id, create_user, 
+      create_time, create_ip, update_user, 
+      update_time, update_ip, status, permission_type
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createIp,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateIp,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+      #{permissionType,jdbcType=CHAR}
+      )
+  </insert>
+
+  <insert id="insertList" parameterType="java.util.Map">
+    insert into tb_sys_role_permission (id,role_id, permission_id, create_user,
+    create_time, create_ip, update_user,
+    update_time, update_ip, status, permission_type
+    )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR}, #{item.permissionId,jdbcType=VARCHAR}, #{item.createUser,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.createIp,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateIp,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR},
+      #{item.permissionType,jdbcType=CHAR}
+      )
+    </foreach>
+  </insert>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.fx.crm.sys.permission.model.SysRolePermission" >
+    update tb_sys_role_permission
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      permission_id = #{permissionId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      permission_type = #{permissionType,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="logicDeleteByRole" parameterType="com.fx.admin.model.Role">
+    update tb_sys_role_permission
+    set
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      status = '1'
+    where role_id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_role_permission
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_role_permission
+  </select>
+  <select id="selectDataRuleByMenuId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    permission_id
+    from tb_sys_role_permission
+    WHERE permission_id LIKE #{menuId,jdbcType=VARCHAR}
+    and role_id= #{roleId,jdbcType=VARCHAR} and status = 0 and permission_id NOT LIKE '%DATA_RULE'
+    ORDER BY permission_id DESC
+  </select>
+
+</mapper>

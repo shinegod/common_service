@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.user.dao.ITradeQueryDao" >
+  <resultMap id="BaseResultMap" type="com.fx.user.model.TradeQuery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="documentNumber" property="documentnumber" jdbcType="VARCHAR" />
+    <result column="disputeAmount" property="disputeamount" jdbcType="NUMERIC" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="mt4Account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="isDel" property="isDel" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, documentNumber, disputeAmount, title, status,mt4Account,content,isDel
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_trade_query
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.user.model.TradeQuery" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_trade_query (uid, documentNumber, disputeAmount, 
+      title, status,mt4Account,content,isDel)
+    values (#{uid,jdbcType=INTEGER}, #{documentnumber,jdbcType=VARCHAR}, #{disputeamount,jdbcType=NUMERIC}, 
+      #{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{mt4Account,jdbcType=INTEGER},#{content,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.user.model.TradeQuery" >
+    update tb_trade_query
+    set uid = #{uid,jdbcType=INTEGER},
+      documentNumber = #{documentnumber,jdbcType=VARCHAR},
+      disputeAmount = #{disputeamount,jdbcType=NUMERIC},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      mt4Account = #{mt4Account,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      isDel = #{isDel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trade_query
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trade_query
+  </select>
+  
+  <select id="getByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trade_query
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_trade_query
+    where isDel = 0 
+    <if test="uid != null">
+        and uid = #{uid, jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_trade_query
+    where isDel = 0 
+    <if test="uid != null">
+        and uid = #{uid, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	(SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_trade_query where isDel = 0 
+    	<if test="uid != null">
+       		 and uid = #{uid, jdbcType=INTEGER}
+        </if>
+    	 ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+</mapper>

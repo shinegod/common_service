@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.leverageBalance.dao.ILeverageBalanceDao" >
+  <resultMap id="BaseResultMap" type="com.fx.leverageBalance.model.LeverageBalance" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="leverage" property="leverage" jdbcType="INTEGER" />
+    <result column="min_balance" property="minBalance" jdbcType="INTEGER" />
+    <result column="max_balance" property="maxBalance" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, leverage, min_balance, max_balance, status
+  </sql>
+  <insert id="insert" parameterType="com.fx.leverageBalance.model.LeverageBalance" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_leverage_balance (leverage, min_balance, max_balance, 
+      status)
+    values (#{leverage,jdbcType=INTEGER}, #{minBalance,jdbcType=INTEGER}, #{maxBalance,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_leverage_balance
+  </select>
+  <select id="selectByLeverage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from tb_leverage_balance
+    where leverage = #{leverage,jdbcType=INTEGER}
+  </select>
+</mapper>

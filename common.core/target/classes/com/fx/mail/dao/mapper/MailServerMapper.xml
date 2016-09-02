@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.mail.dao.IMailServerDao" >
+  <resultMap id="BaseResultMap" type="com.fx.mail.model.MailServer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mail_server_name" property="mailServerName" jdbcType="VARCHAR" />
+    <result column="mail_server_type" property="mailServerType" jdbcType="INTEGER" />
+    <result column="text_url" property="textUrl" jdbcType="VARCHAR" />
+    <result column="template_url" property="templateUrl" jdbcType="VARCHAR" />
+    <result column="host" property="host" jdbcType="VARCHAR" />
+    <result column="port" property="port" jdbcType="INTEGER" />
+    <result column="api_key" property="apiKey" jdbcType="VARCHAR" />
+    <result column="protocol" property="protocol" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mail_server_name, mail_server_type, text_url, template_url, host, port, protocol, api_key,
+    is_del
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_mail_server
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.mail.model.MailServer" >
+    insert into tb_mail_server ( mail_server_name, mail_server_type, 
+      text_url, template_url, host, 
+      port, protocol, api_key,is_del
+      )
+    values (#{mailServerName,jdbcType=VARCHAR}, #{mailServerType,jdbcType=INTEGER}, 
+      #{textUrl,jdbcType=VARCHAR}, #{templateUrl,jdbcType=VARCHAR}, #{host,jdbcType=VARCHAR}, 
+      #{port,jdbcType=INTEGER}, #{protocol,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR},#{isDel,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.mail.model.MailServer" >
+    update tb_mail_server
+    set mail_server_name = #{mailServerName,jdbcType=VARCHAR},
+      mail_server_type = #{mailServerType,jdbcType=INTEGER},
+      text_url = #{textUrl,jdbcType=VARCHAR},
+      template_url = #{templateUrl,jdbcType=VARCHAR},
+      host = #{host,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      protocol = #{protocol,jdbcType=VARCHAR},
+      api_key = #{apiKey,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_server
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_server where is_del = 0
+  </select>
+  <select id="findByServerType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mail_server
+    where mail_server_type = #{serverType,jdbcType=INTEGER}
+  </select>
+</mapper>

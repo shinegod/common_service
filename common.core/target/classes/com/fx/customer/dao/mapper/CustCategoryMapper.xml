@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.customer.dao.ICustCategoryDao" >
+  <resultMap id="BaseResultMap" type="com.fx.customer.model.CustCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cate_name" property="cateName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cate_name, status
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_cust_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.customer.model.CustCategory" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_cust_category (cate_name, status)
+    values (#{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertCustomerSetCust" parameterType="com.fx.customer.model.CustCategory">
+    insert into tb_cust_category (id,cate_name, status)
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.customer.model.CustCategory" >
+    update tb_cust_category
+    set cate_name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateCustomerSetById" parameterType="com.fx.customer.model.CustCategory" >
+    update tb_cust_category
+    set  status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_cust_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_cust_category
+    where status = 1
+  </select>
+  <select id="selectcustcategorymaxid" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  	select Max(id)
+  	from tb_cust_category
+  </select>
+</mapper>

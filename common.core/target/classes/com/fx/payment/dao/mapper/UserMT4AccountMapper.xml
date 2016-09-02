@@ -1,0 +1,2614 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.payment.dao.IUserMT4AccountDao">
+    <resultMap id="BaseResultMap" type="com.fx.payment.model.UserMT4Account">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+        <result column="mt4_account" property="mt4Account" jdbcType="INTEGER"/>
+        <result column="userMT4AccountType" property="userMT4AccountType" jdbcType="TINYINT"/>
+        <!--<result column="mt4_group_id" property="mt4GroupId" jdbcType="VARCHAR"/>-->
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="CHAR"/>
+        <result column="create_ip" property="createIp" jdbcType="VARCHAR"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="CHAR"/>
+        <result column="update_ip" property="updateIp" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
+        <result column="userStaus" property="userStaus" jdbcType="INTEGER"/>
+        <result column="refuseReason" property="refuseReason" jdbcType="VARCHAR"/>
+        <result column="ib_id" property="ibId" jdbcType="INTEGER"/>
+        <result column="data_source_id" property="dataSourceId" jdbcType="INTEGER"/>
+        <result column="mt4_datasource_type" property="mt4DatasourceType" jdbcType="INTEGER"/>
+        <result column="automated_review" property="automatedReview" jdbcType="INTEGER"/>
+        <result column="agent_mt4Account" property="agentMt4Account" jdbcType="INTEGER"/>
+        <result column="namesake" property="namesake" jdbcType="INTEGER"/>
+        <result column="accountType" property="accountType" jdbcType="INTEGER"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="auditSort" property="auditSort" jdbcType="VARCHAR"/>
+        <result column="openaccounttype" property="openaccounttype" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List_AllTable">
+        m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,
+        m.create_ip, m.update_user, m.update_time, m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,
+        m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType,m.reason,m.comment,auditSort,openaccounttype
+    </sql>
+    <sql id="Base_Column_List">
+    id, uid, mt4_account,userMT4AccountType,  status, create_user, create_time,
+    create_ip, update_user, update_time, update_ip, is_del,userStaus,refuseReason,ib_id,data_source_id,mt4_datasource_type,
+    automated_review,agent_mt4Account,namesake,accountType,reason,comment,auditSort,openaccounttype
+  </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user_mt4_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.fx.payment.model.UserMT4Account" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_user_mt4_account (uid, mt4_account,userMT4AccountType,
+      status, create_user, create_time,
+      create_ip, update_user, update_time,
+      update_ip, is_del,userStaus,refuseReason,ib_id,data_source_id,mt4_datasource_type,automated_review,agent_mt4Account,
+      namesake,accountType,reason,comment,auditSort,openaccounttype)
+    values (#{uid,jdbcType=INTEGER}, #{mt4Account,jdbcType=INTEGER}, #{userMT4AccountType,jdbcType=TINYINT},
+      #{status,jdbcType=TINYINT}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR},
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{userStaus,jdbcType=INTEGER},
+      #{refuseReason,jdbcType=VARCHAR},#{ibId,jdbcType=INTEGER},#{dataSourceId,jdbcType=INTEGER},#{mt4DatasourceType,jdbcType=INTEGER},#{automatedReview,jdbcType=INTEGER},
+      #{agentMt4Account,jdbcType=INTEGER},#{namesake,jdbcType=INTEGER},#{accountType,jdbcType=INTEGER},#{reason,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},
+      #{auditSort,jdbcType=VARCHAR},#{openaccounttype,jdbcType=VARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.fx.payment.model.UserMT4Account">
+    update tb_user_mt4_account
+    set uid = #{uid,jdbcType=INTEGER},
+      mt4_account = #{mt4Account,jdbcType=INTEGER},
+      userMT4AccountType = #{userMT4AccountType,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      userStaus = #{userStaus,jdbcType=INTEGER},
+      refuseReason = #{refuseReason,jdbcType=VARCHAR},
+      ib_id = #{ibId,jdbcType=INTEGER},
+      data_source_id=#{dataSourceId,jdbcType=INTEGER},
+      mt4_datasource_type = #{mt4DatasourceType,jdbcType=INTEGER},
+      automated_review = #{automatedReview,jdbcType=INTEGER},
+      agent_mt4Account = #{agentMt4Account,jdbcType=INTEGER},
+      namesake = #{namesake,jdbcType=INTEGER},
+      accountType = #{accountType,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      auditSort = #{auditSort,jdbcType=VARCHAR},
+      openaccounttype = #{openaccounttype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="getByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and mt4_account > 0 and is_del = 0
+    </select>
+    <select id="getByUidAndUserStaus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and mt4_account>0 and is_del = 0 AND  userStaus = #{userStaus,jdbcType=INTEGER}
+    </select>
+
+    <select id="getuserMt4AccountByUserStatus" resultMap="BaseResultMap" parameterType="com.fx.payment.model.UserMT4Account" >
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType,  m.status, m.create_user, m.create_time,     m.create_ip, m.update_user, m.update_time,
+        m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m,
+        (
+        SELECT
+        A.*
+        FROM
+        tb_user_register A ,tb_user_register u, tb_sys_organization org
+        WHERE A.level_path.IsDescendantOf(u.level_path)=1
+        and A.is_del = 0
+        and u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        and u.id not in (
+        select a.id from
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+        <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+            and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+        </if>
+        ) as A
+        where m.is_del = 0
+        and ( (m.uid=A.id and m.ib_id = A.id) or  (m.uid!=A.id and m.ib_id = A.id) )
+        and m.mt4_account>0 and m.is_del = 0 <if test="sqlMap.params.userStaus!=null"> and m.userStaus = #{sqlMap.params.userStaus,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.ibIds!=null"> and m.uid =#{sqlMap.params.ibIds,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.ibId!=null and sqlMap.params.flagIbid != null"> and m.ib_id =#{sqlMap.params.ibId,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.ibIdw != null and sqlMap.params.ibIdw > 0">
+            and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibIdw, jdbcType=INTEGER})) = 1
+        </if>
+        <if test="sqlMap.params.idList != null">
+            and m.uid IN
+            <foreach item="id" index="index" collection="sqlMap.params.idList"
+                     open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.loginList != null">
+            and m.mt4_account in
+            <foreach item="mt4Account" index="index" collection="sqlMap.params.loginList" open="(" separator="," close=")">
+                #{mt4Account}
+            </foreach>
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and  m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and  m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+        </if>
+        <if test="sqlMap.params.login != null">
+            and  m.mt4_account = #{sqlMap.params.login, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.mt4Account2 != null">
+            and  m.mt4_account like #{sqlMap.params.mt4Account2, jdbcType=INTEGER}
+        </if>
+        order by mt4_account
+    </select>
+    <select id="getuserMt4AccountByUserStatusTrader" resultMap="BaseResultMap" parameterType="com.fx.payment.model.UserMT4Account" >
+        WITH ib_list AS (
+        SELECT
+        t.superior_id,
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.cnName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.email,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.id IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.superior_id,
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.cnName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.email,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON (c.superior_id = ib_list.id and c.website_user_type =6 )or(c.is_ibId = ib_list.id)
+        )
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,     m.create_ip, m.update_user, m.update_time,
+        m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        and m.uid IN (select DISTINCT  id from ib_list A)
+        and m.mt4_account>0 and m.is_del = 0 <if test="sqlMap.params.userStaus!=null"> and m.userStaus = #{sqlMap.params.userStaus,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.ibIds!=null"> and m.ib_id =#{sqlMap.params.ibIds,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.userMT4Accounts != null">
+            and m.mt4_account in
+            <foreach item="uid" index="index" collection="sqlMap.params.userMT4Accounts" open="(" separator="," close=")">
+                #{uid.mt4Account}
+            </foreach>
+            <if test="sqlMap.params.loginList != null">
+                and m.mt4_account in
+                <foreach item="mt4Account" index="index" collection="sqlMap.params.loginList" open="(" separator="," close=")">
+                    #{mt4Account}
+                </foreach>
+            </if>
+            <if test="sqlMap.params.loginList == null">
+                or m.mt4_account in ('')
+            </if>
+        </if>
+        <if test="sqlMap.params.login != null">
+            and  m.mt4_account like #{sqlMap.params.login, jdbcType=VARCHAR}
+            <if test="sqlMap.params.loginList != null">
+                and m.mt4_account in
+                <foreach item="mt4Account" index="index" collection="sqlMap.params.loginList" open="(" separator="," close=")">
+                    #{mt4Account}
+                </foreach>
+            </if>
+            <if test="sqlMap.params.loginList == null">
+                or m.mt4_account in ('')
+            </if>
+        </if>
+        <if test="sqlMap.params.login == null">
+            <if test="sqlMap.params.userMT4Accounts == null">
+                <if test="sqlMap.params.loginList != null">
+                    and m.mt4_account in
+                    <foreach item="mt4Account" index="index" collection="sqlMap.params.loginList" open="(" separator="," close=")">
+                        #{mt4Account}
+                    </foreach>
+                </if>
+                <if test="sqlMap.params.loginList == null">
+                    and m.mt4_account in ('')
+                </if>
+            </if>
+        </if>
+        order by mt4_account
+    </select>
+    <select id="getuserMt4AccountByUserStatusTraderSymbol" resultMap="BaseResultMap" parameterType="com.fx.payment.model.UserMT4Account" >
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,     m.create_ip, m.update_user, m.update_time,
+        m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        and m.mt4_account>0 and m.is_del = 0 <if test="sqlMap.params.userStaus!=null"> and m.userStaus = #{sqlMap.params.userStaus,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.ibIds!=null"> and m.ib_id =#{sqlMap.params.ibIds,jdbcType=INTEGER} </if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.uidList != null">
+            and m.uid in
+            <foreach item="uid" index="index" collection="sqlMap.params.uidList" open="(" separator="," close=")">
+                #{uid.id}
+            </foreach>
+        </if>
+
+        <if test="sqlMap.params.login != null">
+            and  m.mt4_account like #{sqlMap.params.login, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.login == null">
+            <if test="sqlMap.params.uidList == null">
+                and m.mt4_account in ('')
+            </if>
+        </if>
+        order by mt4_account
+    </select>
+    <!--<select id="getByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and mt4_account>0
+    </select>-->
+    <!--<select id="getByUidAndUserStaus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and mt4_account>0 and is_del = 0 AND userStaus =
+        #{userStaus,jdbcType=INTEGER}
+    </select>-->
+
+    <!--<select id="getuserMt4AccountByUserStatus" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        WITH ib_list AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.enName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.enName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON c.is_ibId = ib_list.id
+        )
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.mt4_group_id, m.status, m.create_user, m.create_time,
+        m.create_ip, m.update_user, m.update_time,
+        m.update_ip,
+        m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m,ib_list A
+        where m.is_del = 0
+        and m.uid = A.id
+        and m.mt4_account>0 and m.is_del = 0
+        <if test="sqlMap.params.userStaus!=null">and m.userStaus = #{sqlMap.params.userStaus,jdbcType=INTEGER}</if>
+        <if test="sqlMap.params.ibIds!=null">and m.ib_id =#{sqlMap.params.ibIds,jdbcType=INTEGER}</if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.login != null">
+            and m.mt4_account = #{sqlMap.params.login, jdbcType=INTEGER}
+        </if>
+        order by mt4_account
+    </select>-->
+    <!--<select id="getuserMt4AccountByUserStatusTrader" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        WITH ib_list AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.enName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.enName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON c.is_ibId = ib_list.id
+        )
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.mt4_group_id, m.status, m.create_user, m.create_time,
+        m.create_ip, m.update_user, m.update_time,
+        m.update_ip,
+        m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m,ib_list A
+        where m.is_del = 0
+        and m.uid = A.id
+        and m.mt4_account>0 and m.is_del = 0
+        <if test="sqlMap.params.userStaus!=null">and m.userStaus = #{sqlMap.params.userStaus,jdbcType=INTEGER}</if>
+        <if test="sqlMap.params.ibIds!=null">and m.ib_id =#{sqlMap.params.ibIds,jdbcType=INTEGER}</if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.loginList != null">
+            and m.mt4_account in
+            <foreach item="mt4Account" index="index" collection="sqlMap.params.loginList" open="(" separator=","
+                     close=")">
+                #{mt4Account}
+            </foreach>
+        </if>
+        <if test="sqlMap.params.loginList == null">
+            and m.mt4_account in ('')
+        </if>
+        <if test="sqlMap.params.login != null">
+            and m.mt4_account = #{sqlMap.params.login, jdbcType=INTEGER}
+        </if>
+        order by mt4_account
+    </select>-->
+
+    <select id="getUserMT4AccountByAgentAccount" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        select m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,
+        m.create_ip, m.update_user, m.update_time,
+        m.update_ip,
+        m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        and m.mt4_account>0 and m.is_del = 0 and m.agent_mt4Account = #{sqlMap.params.agentAccount,jdbcType=INTEGER}
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id = #{sqlMap.params.dataSourceId, jdbcType=INTEGER}
+        </if>
+        order by m.mt4_account
+    </select>
+
+    <select id="getByUidCount" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER}
+    </select>
+    <select id="getByUidStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER}
+    </select>
+    <select id="getUserMT4AccountByUidAndStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where
+        is_del = 0
+        <if test="userId != null">
+            and uid = #{userId, jdbcType=TINYINT}
+        </if>
+        <if test="status != null and status != -1">
+            and status = #{status, jdbcType=TINYINT}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getUserMT4AccountByMt4Account" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where mt4_account = #{mt4Account,jdbcType=INTEGER}
+    </select>
+    <select id="getUserMT4AccountByDataSourceId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        tb_user_mt4_account
+        where is_del = 0
+        and data_source_id = #{dataSourceId, jdbcType=INTEGER}
+    </select>
+    <select id="pageQueryCountByStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(1)
+        from tb_user_mt4_account
+        where is_del = 0
+        <if test="status != null and status != -1">
+            and status = #{status, jdbcType=TINYINT}
+        </if>
+        <if test="userMT4AccountType != null">
+            and userMT4AccountType = #{userMT4AccountType, jdbcType=TINYINT}
+        </if>
+    </select>
+
+    <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0
+        <if test="status != null">
+            <if test="status != -1">
+                and status = #{status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="userMT4AccountType != null">
+            and userMT4AccountType = #{userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account where is_del = 0
+            <if test="status != null">
+                <if test="status != -1">
+                    and status = #{status, jdbcType=TINYINT}
+                </if>
+            </if>
+            <if test="userMT4AccountType != null">
+                and userMT4AccountType = #{userMT4AccountType, jdbcType=TINYINT}
+            </if>
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+
+    <select id="queryByCondition2" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from tb_user_mt4_account where is_del = 0
+    </select>
+
+    <select id="getUserCommissionAccountByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and userStaus=2
+    </select>
+
+    <select id="pageQueryCountByUidUserStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and userStaus=#{userStatus,jdbcType=INTEGER}
+    </select>
+    <select id="getUserMT4AccountByUserUserStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{uid,jdbcType=INTEGER} and userStaus=#{userStatus,jdbcType=INTEGER}
+    </select>
+
+    <select id="getMT4AccountByUidAccount" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where mt4_datasource_type = #{mt4DatasourceType,jdbcType=INTEGER} and
+        mt4_account=#{mt4_account,jdbcType=INTEGER}
+    </select>
+
+    <select id="findCommonByIb" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+   	select tb_user_mt4_account.mt4_account
+   	from tb_user_mt4_account,tb_user_account
+	where tb_user_mt4_account.uid=tb_user_account.uid
+		and tb_user_mt4_account.userMT4AccountType=1
+	and tb_user_account.ib_id=#{queryIBid,jdbcType=INTEGER}
+  </select>
+    <select id="findVIPByIb" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+   	select tb_user_mt4_account.mt4_account
+   	from tb_user_mt4_account,tb_user_account
+	where tb_user_mt4_account.uid=tb_user_account.uid
+		and tb_user_mt4_account.userMT4AccountType=3
+		and tb_user_account.ib_id=#{queryIBid,jdbcType=INTEGER}
+  </select>
+    <select id="findVVIPByIb" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+   	select tb_user_mt4_account.mt4_account
+   	from tb_user_mt4_account,tb_user_account
+	where tb_user_mt4_account.uid=tb_user_account.uid
+		and tb_user_mt4_account.userMT4AccountType=4
+		and tb_user_account.ib_id=#{queryIBid,jdbcType=INTEGER}
+  </select>
+    <select id="findCashByIb" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+   	select tb_user_mt4_account.mt4_account
+   	from tb_user_mt4_account,tb_user_account
+	where tb_user_mt4_account.uid=tb_user_account.uid
+		and tb_user_mt4_account.userMT4AccountType=2
+		and tb_user_account.ib_id=#{queryIBid,jdbcType=INTEGER}
+  </select>
+    <!--<select id="getUserMT4AccountByGroup" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List"/>-->
+    <!--from tb_user_mt4_account-->
+    <!--where mt4_group_id = #{groupId,jdbcType=VARCHAR}-->
+    <!--</select>-->
+
+    <select id="getUserMT4AccountByGroupUidList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0
+        <!--<if test="groupId != -1">-->
+        <!--and mt4_group_id = #{groupId,jdbcType=VARCHAR}-->
+        <!--</if>-->
+        and uid in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+    </select>
+    <select id="selectCountByStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT count(*) FROM tb_user_mt4_account where uid = #{uid,jdbcType=INTEGER} and userStaus = #{userStaus,jdbcType=INTEGER}
+  </select>
+    <select id="selectMt4AccountByStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_user_mt4_account
+        where is_del = 0 and uid = #{uid,jdbcType=INTEGER} and userStaus = #{userStaus,jdbcType=INTEGER} and
+        data_source_id = #{dataSource, jdbcType=INTEGER} and status = 1
+        <if test="mt4Account2 != null">
+            and mt4_account like #{mt4Account2,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <update id="deleteByUid" parameterType="java.lang.Integer">
+      update tb_user_mt4_account set is_del = 1 where uid = #{uid, jdbcType=INTEGER}
+  </update>
+    <select id="selectCountByIsIbId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*) from tb_user_mt4_account where ib_id = #{ib_id,jdbcType=INTEGER}  and is_del = 0
+    </select>
+    <select id="selectAllAndSuccDeposit" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List_AllTable"/>
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        and m.mt4_account!=0
+        <if test="mt4Accounts!=null and mt4Accounts!='' ">
+            and m.mt4_account LIKE #{mt4Accounts,jdbcType=VARCHAR}
+        </if>
+        and m.mt4_account in (
+        select t.mt4Account
+        from tb_trade_detail t
+        where t.status = 130
+        group by t.mt4Account
+        )
+        order by m.id DESC
+    </select>
+    <select id="selectAllAndNoDel" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0
+        AND mt4_account!=0
+    </select>
+    <update id="updautomatedReview" parameterType="java.util.Map">
+        update tb_user_mt4_account set automated_review = #{auto, jdbcType=INTEGER} where id = #{id, jdbcType=INTEGER}
+    </update>
+    <select id="getUserMT4AccountByIbidListAndUid" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where (is_del = 0 and status = 1
+        <if test="ibidList != null">
+            and ib_id in
+            <foreach item="ib_id" index="index" collection="ibidList" open="(" separator="," close=")">
+                #{ib_id}
+            </foreach>
+        </if>
+        <if test="mt4DatasourceType != null">
+            and mt4_datasource_type = #{mt4DatasourceType, jdbcType=INTEGER}
+        </if>)
+        or (uid = #{userId} and is_del = 0 and status = 1
+        <if test="mt4DatasourceType != null">
+            and mt4_datasource_type = #{mt4DatasourceType, jdbcType=INTEGER}
+        </if>
+        )
+    </select>
+    <select id="getUserMT4AccountByMt4AccountAndDataSource" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        select
+        m.*
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        <if test="sqlMap.params.mt4Account != null">
+            and m.mt4_account = #{sqlMap.params.mt4Account,jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.mt4Account2 != null">
+            and m.mt4_account like #{sqlMap.params.mt4Account2,jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.dataSourceId != null">
+            and m.data_source_id=#{sqlMap.params.dataSourceId,jdbcType=INTEGER}
+        </if>
+    </select>
+    <!--<select id="getUserMT4AccountByIbId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where ib_id = #{ibId, jdbcType=INTEGER} or uid= #{ibId, jdbcType=INTEGER}
+    </select>-->
+    <select id="queryCountByConditionByUid" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(1)
+        from tb_user_mt4_account
+        where is_del = 0 and (ib_id in
+        <foreach item="ib_id" index="index" collection="uidList" open="(" separator="," close=")">
+            #{ib_id}
+        </foreach>
+        and mt4_account>0 and agent_mt4Account = #{agentMt4Account, jdbcType=INTEGER} and userStaus != 3
+    </select>
+    <select id="queryByConditionByUid" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0 and (ib_id in
+        <foreach item="ib_id" index="index" collection="uidList" open="(" separator="," close=")">
+            #{ib_id}
+        </foreach>
+        and agent_mt4Account = #{agentMt4Account, jdbcType=INTEGER} and mt4_account>0
+        and userStaus != 3
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account where is_del = 0 and
+            (ib_id in
+            <foreach item="ib_id" index="index" collection="uidList" open="(" separator="," close=")">
+                #{ib_id}
+            </foreach>
+            and agent_mt4Account = #{agentMt4Account, jdbcType=INTEGER}
+            and mt4_account>0 and userStaus != 3
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+    <select id="pageCountUserMT4AccountByUidCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select
+    count(1)
+    from tb_user_mt4_account
+    where uid = #{userId,jdbcType=INTEGER} and data_source_id=#{dataSourceId,jdbcType=INTEGER}
+  </select>
+    <select id="pageQueryUserMT4AccountByUidCount" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{userId,jdbcType=INTEGER} and data_source_id=#{dataSourceId,jdbcType=INTEGER}
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account where
+            uid = #{userId,jdbcType=INTEGER} and data_source_id=#{dataSourceId,jdbcType=INTEGER}
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        ORDER BY id desc
+    </select>
+    <select id="getUserCommissionAccountsByUidAndDataSourceId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        tb_user_mt4_account
+        where is_del = 0
+        and uid = #{uid, jdbcType=INTEGER}
+        and data_source_id = #{mt4DataSourceId, jdbcType=INTEGER}
+        and userStaus = 3
+    </select>
+    <select id="queryCountCommissionByUid" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select
+    count(1)
+    from tb_user_mt4_account
+    where is_del = 0 and  uid = #{userid, jdbcType=INTEGER}
+      and mt4_account>0 and userStaus = 3 and status = 1
+  </select>
+
+    <select id="pageQueryCommissionByUid" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0 and uid = #{userid, jdbcType=INTEGER}
+        and mt4_account>0 and userStaus = 3 and status = 1
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account
+            where is_del = 0 and uid = #{userid, jdbcType=INTEGER}
+            and mt4_account>0 and userStaus = 3 and status = 1
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+
+    <select id="queryCountByConditiontByIbidAndAgentAccount" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+		WITH tree AS (
+			SELECT
+				t.id,
+				t.mt4_account,
+				t.uid,
+				t.ib_id,
+				1 AS xLEVEL,
+				t.is_del,
+				t.status,
+				t.userStaus,
+				t.agent_mt4Account
+			FROM
+				tb_user_mt4_account t
+			WHERE
+				t.uid = #{ibId, jdbcType=INTEGER}
+			AND t.mt4_account = #{agentAccount, jdbcType=INTEGER}
+			 and is_del=0 and t.status =1 and t.userStaus =3
+			UNION ALL
+				SELECT
+					c.id,
+					c.mt4_account,
+					c.uid,
+					c.ib_id,
+					tree.xLEVEL + 1,
+					c.is_del,
+					c.status,
+					c.userStaus,
+					c.agent_mt4Account
+				FROM
+					tb_user_mt4_account c
+				INNER JOIN tree ON c.ib_id = tree.uid
+				AND c.agent_mt4Account = tree.mt4_account
+				AND c.userStaus = 3
+		) SELECT
+			COUNT (r.id)
+		FROM
+			tree A,
+			tb_user_mt4_account r
+		WHERE
+			A.is_del = 0
+		AND  (( r.ib_id = A.uid
+		AND r.agent_mt4Account = A.mt4_account ) or (r.uid = #{ibId, jdbcType=INTEGER} and A.uid=#{ibId, jdbcType=INTEGER}))
+		AND r.userStaus = 1
+		AND r.is_del = 0
+		AND r.mt4_account > 0
+  </select>
+
+    <select id="pageQueryByConditiontByIbidAndAgentAccount" resultMap="BaseResultMap" parameterType="java.util.Map">
+        WITH tree AS (
+        SELECT
+        t.id,
+        t.mt4_account,
+        t.uid,
+        t.ib_id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.status,
+        t.userStaus,
+        t.agent_mt4Account
+        FROM
+        tb_user_mt4_account t
+        WHERE
+        t.uid = #{ibId, jdbcType=INTEGER}
+        AND t.mt4_account = #{agentAccount, jdbcType=INTEGER}
+        and is_del=0 and t.status =1 and t.userStaus =3
+        UNION ALL
+        SELECT
+        c.id,
+        c.mt4_account,
+        c.uid,
+        c.ib_id,
+        tree.xLEVEL + 1,
+        c.is_del,
+        c.status,
+        c.userStaus,
+        c.agent_mt4Account
+        FROM
+        tb_user_mt4_account c
+        INNER JOIN tree ON c.ib_id = tree.uid and c.agent_mt4Account = tree.mt4_account and c.userStaus =3
+        ) SELECT top ${limit}
+        r.*
+        FROM
+        tree A,
+        tb_user_mt4_account r
+        WHERE
+        A.is_del = 0
+        AND (( r.ib_id = A.uid
+        AND r.agent_mt4Account = A.mt4_account ) or (r.uid = #{ibId, jdbcType=INTEGER} and
+        A.uid=#{ibId, jdbcType=INTEGER}))
+        AND r.userStaus = 1
+        AND r.is_del = 0
+        AND r.mt4_account > 0
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} b.id FROM tb_user_mt4_account b,tree e
+            WHERE
+            e.is_del = 0
+            AND(( b.ib_id = e.uid
+            AND b.agent_mt4Account = e.mt4_account ) or (b.uid = #{ibId, jdbcType=INTEGER} and
+            e.uid=#{ibId, jdbcType=INTEGER}))
+            AND b.userStaus = 1
+            AND b.is_del = 0
+            AND b.mt4_account > 0
+            ORDER BY b.id desc) AS T) > r.id
+            )
+        </if>
+        order by r.id desc
+    </select>
+    <select id="pageQueryCountByStatusMoreTable" resultType="java.lang.Integer" parameterType="java.util.Map">
+        WITH ib_list AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.cnName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.email,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.cnName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.email,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON c.is_ibId = ib_list.id
+        )
+        select COUNT(1)
+        from tb_user_mt4_account m, ib_list A
+        where m.is_del = 0
+        and m.status = 1
+        and m.uid=A.id
+        and (m.ib_id in ( SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        AND u.org_id = org.id
+        AND u.website_user_type = 6
+        ${sqlMap.dsf})
+        or m.ib_id in (select id from ib_list))
+        <if test="sqlMap.status != null">
+            <if test="sqlMap.status != -1">
+                and m.status = #{sqlMap.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.userMT4AccountType != null">
+            and m.userMT4AccountType = #{sqlMap.userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.ibId != null and sqlMap.ibId >= 0">
+            and m.ib_id = #{sqlMap.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.enName != null ">
+            and (
+            A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            )
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+        </if>
+        <if test="sqlMap.params.depositStatus == 0">
+            and m.mt4_account in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <if test="sqlMap.params.depositStatus == 1">
+            and m.mt4_account not in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <!--<if test="sqlMap.mt4groupId != null ">-->
+        <!--and m.mt4_group_id = #{sqlMap.mt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <!--<if test="sqlMap.nomt4groupId != null ">-->
+        <!--and m.mt4_group_id != #{sqlMap.nomt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <if test="sqlMap.accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{sqlMap.startTimeEquals, jdbcType=VARCHAR} AND
+            #{sqlMap.endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{sqlMap.startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{sqlMap.startTimeLess, jdbcType=VARCHAR}
+        </if>
+        and m.data_source_id = #{sqlMap.dataSource, jdbcType=INTEGER}
+        <!--select
+        count(1)
+        from tb_user_mt4_account m,tb_user_register u
+        where m.is_del = 0
+        and m.ib_id = u.id
+        and m.status = 1
+        <if test="status != null and status != -1">
+            and m.status = #{status, jdbcType=TINYINT}
+        </if>
+        <if test="userMT4AccountType != null">
+            and m.userMT4AccountType = #{userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="ibId != null and ibId >= 0">
+            and m.ib_id = #{ibId, jdbcType=INTEGER}
+        </if>
+        <if test="enName != null ">
+            and (u.enName LIKE #{enName, jdbcType=VARCHAR} or m.mt4_account LIKE #{enName, jdbcType=VARCHAR})
+        </if>
+        <if test="mt4groupId != null ">
+            and m.mt4_group_id = #{mt4groupId, jdbcType=VARCHAR}
+        </if>
+        <if test="nomt4groupId != null ">
+            and m.mt4_group_id != #{nomt4groupId, jdbcType=VARCHAR}
+        </if>
+        <if test="accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{startTimeEquals, jdbcType=VARCHAR} AND #{endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{startTimeLess, jdbcType=VARCHAR}
+        </if>
+&lt;!&ndash;        <if test="leverage != null ">
+            and m.create_time = #{leverage, jdbcType=VARCHAR}
+        </if>
+        <if test="noleverage != null ">
+            and m.create_time != #{noleverage, jdbcType=VARCHAR}
+        </if>&ndash;&gt;
+        and m.data_source_id = #{dataSource, jdbcType=INTEGER}-->
+    </select>
+    <select id="queryByConditionMoreTable" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        WITH ib_list AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.cnName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.email,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.cnName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.email,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON c.is_ibId = ib_list.id
+        )
+        select top ${sqlMap.limit}
+        <include refid="Base_Column_List_AllTable"/>
+        from tb_user_mt4_account m, ib_list A
+        where m.is_del = 0
+        and m.status = 1
+        and m.uid=A.id
+        and (m.ib_id in ( SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        AND u.org_id = org.id
+        AND u.website_user_type = 6
+        ${sqlMap.dsf})
+        or m.ib_id in (select id from ib_list))
+        <if test="sqlMap.status != null">
+            <if test="sqlMap.status != -1">
+                and m.status = #{sqlMap.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.userMT4AccountType != null">
+            and m.userMT4AccountType = #{sqlMap.userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.ibId != null and sqlMap.ibId >= 0">
+            and m.ib_id = #{sqlMap.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.enName != null ">
+            and (
+            A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            )
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+        </if>
+        <if test="sqlMap.params.depositStatus == 0">
+            and m.mt4_account in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <if test="sqlMap.params.depositStatus == 1">
+            and m.mt4_account not in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <if test="sqlMap.params.openaccounttype != '-1'">
+            and m.openaccounttype = #{sqlMap.params.openaccounttype, jdbcType=VARCHAR}
+        </if>
+        <!--<if test="sqlMap.mt4groupId != null ">-->
+        <!--and m.mt4_group_id = #{sqlMap.mt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <!--<if test="sqlMap.nomt4groupId != null ">-->
+        <!--and m.mt4_group_id != #{sqlMap.nomt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <if test="sqlMap.accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{sqlMap.startTimeEquals, jdbcType=VARCHAR} AND
+            #{sqlMap.endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{sqlMap.startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{sqlMap.startTimeLess, jdbcType=VARCHAR}
+        </if>
+        and m.data_source_id = #{sqlMap.dataSource, jdbcType=INTEGER}
+        <if test="sqlMap.offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${sqlMap.offset} m.id from tb_user_mt4_account m, ib_list A
+            where m.is_del = 0
+            and m.status = 1
+            and m.uid=A.id
+            and (m.ib_id in ( SELECT
+            u.id
+            FROM
+            tb_user_register u,
+            tb_sys_organization org
+            WHERE
+            u.is_del = 0
+            AND u.org_id = org.id
+            AND u.website_user_type = 6
+            ${sqlMap.dsf})
+            or m.ib_id in (select id from ib_list))
+            <if test="sqlMap.status != null">
+                <if test="sqlMap.status != -1">
+                    and m.status = #{sqlMap.status, jdbcType=TINYINT}
+                </if>
+            </if>
+            <if test="sqlMap.userMT4AccountType != null">
+                and m.userMT4AccountType = #{sqlMap.userMT4AccountType, jdbcType=TINYINT}
+            </if>
+            <if test="sqlMap.ibId != null and sqlMap.ibId >= 0">
+                and m.ib_id = #{sqlMap.ibId, jdbcType=INTEGER}
+            </if>
+            <if test="sqlMap.params.enName != null ">
+                and (
+                A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+            </if>
+            <if test="sqlMap.params.agentUserList!=null">
+                <if test="sqlMap.params.agentUserList.size()==0">
+                    and m.ib_id in ('')
+                </if>
+                <if test="sqlMap.params.agentUserList.size()&gt;0">
+                    and m.ib_id in
+                    <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                        #{agentUser.id}
+                    </foreach>
+                </if>
+            </if>
+            <if test="sqlMap.params.depositStatus == 0">
+                and m.mt4_account in (
+                select
+                t.mt4Account
+                from
+                tb_trade_detail t
+                where
+                t.status = 130
+                and t.payer_type in (1, 2, 3)
+                group by t.mt4Account
+                )
+            </if>
+            <if test="sqlMap.params.depositStatus == 1">
+                and m.mt4_account not in (
+                select
+                t.mt4Account
+                from
+                tb_trade_detail t
+                where
+                t.status = 130
+                and t.payer_type in (1, 2, 3)
+                group by t.mt4Account
+                )
+            </if>
+            <if test="sqlMap.params.openaccounttype != '-1'">
+                and m.openaccounttype = #{sqlMap.params.openaccounttype, jdbcType=VARCHAR}
+            </if>
+            <!--<if test="sqlMap.mt4groupId != null ">-->
+            <!--and m.mt4_group_id = #{sqlMap.mt4groupId, jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="sqlMap.nomt4groupId != null ">-->
+            <!--and m.mt4_group_id != #{sqlMap.nomt4groupId, jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <if test="sqlMap.accounttime_QUERY_EQUALS != null ">
+                and m.create_time BETWEEN #{sqlMap.startTimeEquals, jdbcType=VARCHAR} AND
+                #{sqlMap.endTimeEquals, jdbcType=VARCHAR}
+            </if>
+            <if test="sqlMap.accounttime_QUERY_MORE != null ">
+                and m.create_time &gt; #{sqlMap.startTimeMore, jdbcType=VARCHAR}
+            </if>
+            <if test="sqlMap.accounttime_QUERY_LESS != null ">
+                and m.create_time &lt; #{sqlMap.startTimeLess, jdbcType=VARCHAR}
+            </if>
+            and m.data_source_id = #{sqlMap.dataSource, jdbcType=INTEGER}
+            ORDER BY m.id desc) AS T) > m.id
+            )
+        </if>
+        order by m.id desc
+    </select>
+    <select id="queryLoginList" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        <!--WITH ib_list AS (
+        SELECT
+        t.superior_id,
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.cnName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.email,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+         t.is_del = 0
+        <if test="sqlMap.ibId != null and sqlMap.ibId > 0 and sqlMap.flagIbid == null">
+            and t.id = #{sqlMap.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.ibId == null or sqlMap.ibId &lt;= 0 or sqlMap.flagIbid != null">
+            AND t.id IN (
+            SELECT
+            u.id
+            FROM
+            tb_user_register u,
+            tb_sys_organization org
+            WHERE
+            u.is_del = 0
+            and u.org_id = org.id and u.website_user_type =6
+            ${sqlMap.dsf}
+            )
+        </if>
+        UNION ALL
+        SELECT
+        c.superior_id,
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.cnName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.email,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON (c.superior_id = ib_list.id and c.website_user_type =6 )or(c.is_ibId = ib_list.id)
+        )-->
+        SELECT DISTINCT
+        <include refid="Base_Column_List_AllTable"/>
+        FROM
+        tb_user_mt4_account m,
+        (
+        SELECT
+        A.*
+        FROM
+        tb_user_register A ,tb_user_register u1, tb_sys_organization org
+        WHERE A.level_path.IsDescendantOf(u1.level_path)=1
+        and A.is_del = 0
+        and u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        and u1.id not in (
+        select a.id from
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u1.*
+        FROM
+        tb_user_register u1,
+        tb_sys_organization org
+        WHERE
+        u1.org_id = org.id
+        and u1.website_user_type =6
+        and u1.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+        <if test="sqlMap.ibId != null and sqlMap.ibId > 0 and sqlMap.flagIbid == null">
+            and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.ibId, jdbcType=INTEGER})) = 1
+        </if>
+        ) as A
+        WHERE
+        m.is_del = 0
+        AND m.status = 1
+        AND (
+        (
+        m.uid =A.id
+        AND m.ib_id =A.id
+        )
+        OR (m.uid !=A.id  AND m.ib_id =A.id)
+        )
+        <if test="sqlMap.status != null">
+            <if test="sqlMap.status != -1">
+                and m.status = #{sqlMap.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.userMT4AccountType != null">
+            and m.userMT4AccountType = #{sqlMap.userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.ibId != null and sqlMap.flagIbid != null">
+            and m.ib_id = #{sqlMap.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.agentId != null and sqlMap.agentId >= 0">
+            and m.ib_id = #{sqlMap.agentId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.enName != null ">
+            and ( uid in (
+            SELECT id from (
+            SELECT
+            A.*
+            FROM
+            tb_user_register A ,tb_user_register u1, tb_sys_organization org
+            WHERE A.level_path.IsDescendantOf(u1.level_path)=1
+            and A.is_del = 0
+            and u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            and u1.id not in (
+            select a.id from
+            (SELECT
+            u1.*
+            FROM
+            tb_user_register u1,
+            tb_sys_organization org
+            WHERE
+            u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            ) as a
+            ,
+            (SELECT
+            u1.*
+            FROM
+            tb_user_register u1,
+            tb_sys_organization org
+            WHERE
+            u1.org_id = org.id
+            and u1.website_user_type =6
+            and u1.is_del = 0
+            ${sqlMap.dsf}
+            ) as b
+            where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+            )
+            <if test="sqlMap.ibId != null and sqlMap.ibId > 0 and sqlMap.flagIbid == null">
+                and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.ibId, jdbcType=INTEGER})) = 1
+            </if>
+            ) as A
+            where
+            A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            )
+            or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            )
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+        </if>
+        <if test="sqlMap.params.depositStatus == 0">
+            and m.mt4_account in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <if test="sqlMap.params.depositStatus == 1">
+            and m.mt4_account not in (
+            select
+            t.mt4Account
+            from
+            tb_trade_detail t
+            where
+            t.status = 130
+            and t.payer_type in (1, 2, 3)
+            group by t.mt4Account
+            )
+        </if>
+        <if test="sqlMap.params.openaccounttype != '-1'">
+            and m.openaccounttype = #{sqlMap.params.openaccounttype, jdbcType=VARCHAR}
+        </if>
+        <!--<if test="sqlMap.mt4groupId != null ">-->
+        <!--and m.mt4_group_id = #{sqlMap.mt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <!--<if test="sqlMap.nomt4groupId != null ">-->
+        <!--and m.mt4_group_id != #{sqlMap.nomt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <if test="sqlMap.accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{sqlMap.startTimeEquals, jdbcType=VARCHAR} AND
+            #{sqlMap.endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{sqlMap.startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{sqlMap.startTimeLess, jdbcType=VARCHAR}
+        </if>
+        and m.data_source_id = #{sqlMap.dataSource, jdbcType=INTEGER}
+        order by m.id desc
+    </select>
+    <select id="getByMt4Account" resultMap="BaseResultMap" parameterType="com.fx.payment.model.UserMT4Account">
+    select
+      m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,     m.create_ip, m.update_user, m.update_time,
+      m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+     from tb_user_mt4_account m,tb_user_register u,tb_sys_organization org
+      where m.is_del = 0 and u.is_del = 0
+      and m.ib_id = u.id and u.org_id = org.id
+      ${sqlMap.dsf}
+     and m.mt4_account = #{sqlMap.login,jdbcType=INTEGER}
+      order by m.id
+  </select>
+    <select id="getByMt4Account2" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where mt4_account = #{login,jdbcType=INTEGER}
+        <if test="dataSourceId != null ">
+            and data_source_id = #{dataSourceId, jdbcType=INTEGER}
+        </if>
+        order by id
+    </select>
+    <select id="findLoginsByCondition" resultType="java.lang.Integer"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        SELECT DISTINCT
+        m.mt4_account
+        FROM
+        tb_user_mt4_account m,
+        (
+        SELECT
+        A.*
+        FROM
+        tb_user_register A ,tb_user_register u, tb_sys_organization org
+        WHERE A.level_path.IsDescendantOf(u.level_path)=1
+        and A.is_del = 0
+        and u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        and u.id not in (
+        select a.id from
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+        <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+            and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+        </if>
+        ) as A
+        WHERE
+        m.is_del = 0
+        AND m.status = 1
+        AND (
+        ( m.uid = A.id AND m.ib_id = A.id )
+        OR
+        ( m.uid != A.id  AND m.ib_id = A.id)
+        )
+        <if test="sqlMap.params.status != null">
+            <if test="sqlMap.params.status != -1">
+                and m.status = #{sqlMap.params.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.params.userMT4AccountType != null">
+            and m.userMT4AccountType = #{sqlMap.params.userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.params.userStatus != null">
+            and m.userStaus = #{sqlMap.params.userStatus, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.params.ibId != null and sqlMap.params.flagIbid != null">
+            and m.ib_id = #{sqlMap.params.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.support!=null">
+            <if test="sqlMap.params.enName != null ">
+                and ( uid in (
+                SELECT id from (
+                SELECT
+                A.*
+                FROM
+                tb_user_register A ,tb_user_register u, tb_sys_organization org
+                WHERE A.level_path.IsDescendantOf(u.level_path)=1
+                and A.is_del = 0
+                and u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                and u.id not in (
+                select a.id from
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as a
+                ,
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as b
+                where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+                )
+                <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+                    and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+                </if>
+                ) as A
+                where
+                A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+                or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+            </if>
+        </if>
+        <if test="sqlMap.params.support==null">
+            <if test="sqlMap.params.enName != null ">
+                and ( uid in (
+                SELECT id from (
+                SELECT
+                A.*
+                FROM
+                tb_user_register A ,tb_user_register u, tb_sys_organization org
+                WHERE A.level_path.IsDescendantOf(u.level_path)=1
+                and A.is_del = 0
+                and u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                and u.id not in (
+                select a.id from
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as a
+                ,
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as b
+                where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+                )
+                <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+                    and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+                </if>
+                ) as A
+                where
+                A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.email LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                or A.phone_num LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+                or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+            </if>
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+
+        </if>
+        <!--<if test="sqlMap.params.mt4groupId != null ">-->
+        <!--and m.mt4_group_id = #{sqlMap.params.mt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <!--<if test="sqlMap.params.nomt4groupId != null ">-->
+        <!--and m.mt4_group_id != #{sqlMap.params.nomt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <if test="sqlMap.params.accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{sqlMap.params.startTimeEquals, jdbcType=VARCHAR} AND
+            #{sqlMap.params.endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{sqlMap.params.startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{sqlMap.params.startTimeLess, jdbcType=VARCHAR}
+        </if>
+        and m.data_source_id = #{sqlMap.params.dataSource, jdbcType=INTEGER}
+    </select>
+    <select id="findLoginsByNewNameAccountCondition" resultType="java.lang.Integer"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        SELECT DISTINCT
+        m.mt4_account
+        FROM
+        tb_user_mt4_account m,
+        (
+        SELECT
+        A.*
+        FROM
+        tb_user_register A ,tb_user_register u, tb_sys_organization org
+        WHERE A.level_path.IsDescendantOf(u.level_path)=1
+        and A.is_del = 0
+        and u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        and u.id not in (
+        select a.id from
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as a
+        ,
+        (SELECT
+        u.*
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.org_id = org.id
+        and u.website_user_type =6
+        and u.is_del = 0
+        ${sqlMap.dsf}
+        ) as b
+        where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+        )
+        <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+            and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+        </if>
+        ) as A
+        WHERE
+        m.is_del = 0
+        AND m.status = 1
+        AND (
+        ( m.uid = A.id AND m.ib_id = A.id )
+        OR
+        ( m.uid != A.id  AND m.ib_id = A.id)
+        )
+        <if test="sqlMap.params.status != null">
+            <if test="sqlMap.params.status != -1">
+                and m.status = #{sqlMap.params.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.params.userMT4AccountType != null">
+            and m.userMT4AccountType = #{sqlMap.params.userMT4AccountType, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.params.userStatus != null">
+            and m.userStaus = #{sqlMap.params.userStatus, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.params.ibId != null and sqlMap.params.flagIbid != null">
+            and m.ib_id = #{sqlMap.params.ibId, jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.params.support!=null">
+            <if test="sqlMap.params.enName != null ">
+                and ( uid in (
+                SELECT id from (
+                SELECT
+                A.*
+                FROM
+                tb_user_register A ,tb_user_register u, tb_sys_organization org
+                WHERE A.level_path.IsDescendantOf(u.level_path)=1
+                and A.is_del = 0
+                and u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                and u.id not in (
+                select a.id from
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as a
+                ,
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as b
+                where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+                )
+                <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+                    and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+                </if>
+                ) as A
+                where
+                A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+                or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+            </if>
+        </if>
+        <if test="sqlMap.params.support==null">
+            <if test="sqlMap.params.enName != null ">
+                and ( uid in (
+                SELECT id from (
+                SELECT
+                A.*
+                FROM
+                tb_user_register A ,tb_user_register u, tb_sys_organization org
+                WHERE A.level_path.IsDescendantOf(u.level_path)=1
+                and A.is_del = 0
+                and u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                and u.id not in (
+                select a.id from
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as a
+                ,
+                (SELECT
+                u.*
+                FROM
+                tb_user_register u,
+                tb_sys_organization org
+                WHERE
+                u.org_id = org.id
+                and u.website_user_type =6
+                and u.is_del = 0
+                ${sqlMap.dsf}
+                ) as b
+                where a.level_path.IsDescendantOf(b.level_path)=1 and a.id != b.id
+                )
+                <if test="sqlMap.params.ibId != null and sqlMap.params.ibId > 0 and sqlMap.params.flagIbid == null">
+                    and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.ibId, jdbcType=INTEGER})) = 1
+                </if>
+                ) as A
+                where
+                A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+                or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+                )
+            </if>
+        </if>
+        <if test="sqlMap.params.agentUserList!=null">
+            <if test="sqlMap.params.agentUserList.size()==0">
+                and m.ib_id in ('')
+            </if>
+            <if test="sqlMap.params.agentUserList.size()&gt;0">
+                and m.ib_id in
+                <foreach item="agentUser" index="index" collection="sqlMap.params.agentUserList" open="(" separator="," close=")">
+                    #{agentUser.id}
+                </foreach>
+            </if>
+
+        </if>
+        <!--<if test="sqlMap.params.mt4groupId != null ">-->
+        <!--and m.mt4_group_id = #{sqlMap.params.mt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <!--<if test="sqlMap.params.nomt4groupId != null ">-->
+        <!--and m.mt4_group_id != #{sqlMap.params.nomt4groupId, jdbcType=VARCHAR}-->
+        <!--</if>-->
+        <if test="sqlMap.params.accounttime_QUERY_EQUALS != null ">
+            and m.create_time BETWEEN #{sqlMap.params.startTimeEquals, jdbcType=VARCHAR} AND
+            #{sqlMap.params.endTimeEquals, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.accounttime_QUERY_MORE != null ">
+            and m.create_time &gt; #{sqlMap.params.startTimeMore, jdbcType=VARCHAR}
+        </if>
+        <if test="sqlMap.params.accounttime_QUERY_LESS != null ">
+            and m.create_time &lt; #{sqlMap.params.startTimeLess, jdbcType=VARCHAR}
+        </if>
+        and m.data_source_id = #{sqlMap.params.dataSource, jdbcType=INTEGER}
+    </select>
+    <!--&lt;!&ndash;<select id="findLoginsByConditionTrader" resultType="java.lang.Integer"-->
+    <!--parameterType="com.fx.payment.model.UserMT4Account">-->
+
+    <!--WITH ib_list AS (-->
+    <!--SELECT-->
+    <!--t.is_ibId,-->
+    <!--t.id,-->
+    <!--1 AS xLEVEL,-->
+    <!--t.is_del,-->
+    <!--t.cnName,-->
+    <!--t.mt4_datasource_type,-->
+    <!--t.phone_num,-->
+    <!--t.mt4_datasource_id-->
+    <!--FROM-->
+    <!--tb_user_register t-->
+    <!--WHERE-->
+    <!--t.id = #{sqlMap.params.loginId, jdbcType=TINYINT}-->
+    <!--AND t.is_del = 0-->
+    <!--UNION ALL-->
+    <!--SELECT-->
+    <!--c.is_ibId,-->
+    <!--c.id,-->
+    <!--ib_list.xLEVEL + 1,-->
+    <!--c.is_del,-->
+    <!--c.cnName,-->
+    <!--c.mt4_datasource_type,-->
+    <!--c.phone_num,-->
+    <!--c.mt4_datasource_id-->
+    <!--FROM-->
+    <!--tb_user_register c-->
+    <!--INNER JOIN ib_list ON c.is_ibId = ib_list.id-->
+    <!--)-->
+    <!--SELECT-->
+    <!--DISTINCT m.mt4_account-->
+    <!--FROM-->
+    <!--tb_user_mt4_account m,-->
+    <!--ib_list A-->
+    <!--WHERE-->
+    <!--m.is_del = 0-->
+    <!--AND m.status = 1-->
+    <!--AND (-->
+    <!--(-->
+    <!--m.uid = A.id-->
+    <!--AND m.ib_id IN (SELECT id FROM ib_list)-->
+    <!--)-->
+    <!--OR (m.uid not IN (SELECT id FROM ib_list) and m.ib_id IN (SELECT id FROM ib_list))-->
+
+    <!--)-->
+    <!--<if test="sqlMap.params.status != null">-->
+    <!--<if test="sqlMap.params.status != -1">-->
+    <!--and m.status = #{sqlMap.params.status, jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--</if>-->
+    <!--<if test="sqlMap.params.userStatus != null">-->
+    <!--and m.userStaus = #{sqlMap.params.userStatus, jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="sqlMap.params.enName != null ">-->
+    <!--and (A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR} or m.mt4_account LIKE-->
+    <!--#{sqlMap.params.enName, jdbcType=VARCHAR})-->
+    <!--</if>-->
+    <!--and m.data_source_id = #{sqlMap.params.dataSource, jdbcType=INTEGER}-->
+    <!--</select>&ndash;&gt;-->
+    <select id="findLoginsByConditionTrader" resultType="java.lang.Integer"
+            parameterType="com.fx.payment.model.UserMT4Account">
+        SELECT DISTINCT
+        m.mt4_account
+        FROM
+        tb_user_mt4_account m,
+        tb_user_register A
+        WHERE
+        m.is_del = 0
+        AND m.status = 1
+        and A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.loginId, jdbcType=TINYINT})) = 1
+        AND (
+        (
+        m.uid = A.id
+        AND m.ib_id IN (SELECT id FROM tb_user_register A where A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.loginId, jdbcType=TINYINT})) = 1)
+        )
+        OR (
+        m.uid NOT IN (SELECT id FROM tb_user_register A where A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.loginId, jdbcType=TINYINT})) = 1)
+        AND m.ib_id IN (SELECT id FROM tb_user_register A where A.level_path.IsDescendantOf ((SELECT level_path from tb_user_register where id = #{sqlMap.params.loginId, jdbcType=TINYINT})) = 1)
+        )
+        )
+        <if test="sqlMap.params.status != null">
+            <if test="sqlMap.params.status != -1">
+                and m.status = #{sqlMap.params.status, jdbcType=TINYINT}
+            </if>
+        </if>
+        <if test="sqlMap.params.userStatus != null">
+            and m.userStaus = #{sqlMap.params.userStatus, jdbcType=TINYINT}
+        </if>
+        <if test="sqlMap.params.enName != null ">
+            and (
+
+            m.uid IN (
+            SELECT
+            id
+            FROM
+            (
+            SELECT
+            A.*
+            FROM
+            tb_user_register A,
+            tb_user_register u,
+            tb_sys_organization org
+            WHERE
+            A.level_path.IsDescendantOf (u.level_path) = 1
+            AND A.is_del = 0
+            AND u.org_id = org.id
+            AND u.website_user_type = 6
+            AND u.id NOT IN (
+            SELECT
+            a.id
+            FROM
+            (
+            SELECT
+            u.*
+            FROM
+            tb_user_register u,
+            tb_sys_organization org
+            WHERE
+            u.org_id = org.id
+            AND u.website_user_type = 6
+            AND u.is_del = 0
+            ) AS a,
+            (
+            SELECT
+            u.*
+            FROM
+            tb_user_register u,
+            tb_sys_organization org
+            WHERE
+            u.org_id = org.id
+            AND u.website_user_type = 6
+            AND u.is_del = 0
+            ) AS b
+            WHERE
+            a.level_path.IsDescendantOf (b.level_path) = 1
+            AND a.id != b.id
+            )
+            ) AS A
+            WHERE
+            A.cnName LIKE #{sqlMap.params.enName, jdbcType=VARCHAR}
+            )
+            or m.mt4_account LIKE #{sqlMap.params.enName, jdbcType=VARCHAR})
+        </if>
+        and m.data_source_id = #{sqlMap.params.dataSource, jdbcType=INTEGER}
+    </select>
+    <select id="getCountByEmailAndDataSourceType" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from tb_user_mt4_account where is_del = 0 and status = 1 and uid = ${userId, jdbcType=INTEGER}
+    </select>
+    <select id="getByMt4AccountComp" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where mt4_account = #{login,jdbcType=INTEGER}
+        order by id
+    </select>
+
+    <select id="getUserMT4AccountByMt4Accountss" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List_AllTable"/>
+        from tb_user_mt4_account m
+        where m.is_del = 0
+        <if test="mt4Account != null">
+            and m.mt4_account = #{mt4Account,jdbcType=INTEGER}
+        </if>
+        <if test="dataSourceId != null">
+            and m.data_source_id=#{dataSourceId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <select id="getUserMT4AccountByBingStatus" resultMap="BaseResultMap"
+            parameterType="com.fx.payment.model.UserMT4Account">
+
+        WITH tree AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.cnName,
+        t.email,
+        t.phone_num,
+        t.create_time,
+        t.is_del,
+        t.mt4_datasource_type,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId in (select u.id from tb_user_register u, tb_sys_organization org
+        where
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}) and t.is_del=0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        tree.xLEVEL + 1,
+        c.cnName,
+        c.email,
+        c.phone_num,
+        c.create_time,
+        c.is_del,
+        c.mt4_datasource_type,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN tree ON c.is_ibId = tree.id
+        ) select top ${sqlMap.limit}
+        <include refid="Base_Column_List_AllTable"/>
+        from tb_user_mt4_account m , tree A
+        where m.is_del = 0 and m.uid=A.id and m.accountType = 1
+        <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+            and m.mt4_account = #{sqlMap.userq,jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.statusq != -1 and sqlMap.statusq != null">
+            and m.status = #{sqlMap.statusq,jdbcType=INTEGER}
+        </if>
+        <if test="sqlMap.mt4DataSourceId != null">
+            and m.data_source_id=#{sqlMap.mt4DataSourceId,jdbcType=INTEGER}
+        </if>
+
+        <if test="sqlMap.offset gt 0">
+            and (
+            (SELECT MIN(t.id) FROM (SELECT TOP ${sqlMap.offset} t.id from tb_user_mt4_account t,tree A
+            where
+            t.is_del = 0 and t.uid=A.id and t.accountType = 1
+            <if test="sqlMap.statusq != -1 and sqlMap.statusq != null">
+                and t.status = #{sqlMap.statusq, jdbcType=TINYINT}
+            </if>
+            <if test="sqlMap.statusq != -1 and sqlMap.statusq != null">
+                and m.status = #{sqlMap.statusq,jdbcType=INTEGER}
+            </if>
+            <if test="sqlMap.mt4DataSourceId != null">
+                and m.data_source_id=#{sqlMap.mt4DataSourceId,jdbcType=INTEGER}
+            </if>
+            ORDER BY t.id desc) AS T) > m.id
+            )
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getUserMT4AccountByIbId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where uid = #{user_id, jdbcType=INTEGER} and ib_id = #{ibId, jdbcType=INTEGER} and is_del = 0 and status = 1
+    </select>
+
+    <select id="queryCountByConditionBingStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+        WITH tree AS (
+        SELECT
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.cnName,
+        t.email,
+        t.phone_num,
+        t.create_time,
+        t.is_del,
+        t.mt4_datasource_type,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.is_ibId in (select u.id from tb_user_register u, tb_sys_organization org
+        where
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}) and t.is_del=0
+        UNION ALL
+        SELECT
+        c.is_ibId,
+        c.id,
+        tree.xLEVEL + 1,
+        c.cnName,
+        c.email,
+        c.phone_num,
+        c.create_time,
+        c.is_del,
+        c.mt4_datasource_type,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN tree ON c.is_ibId = tree.id
+        )
+        SELECT count(*) from tb_user_mt4_account t,tree A
+        <where>
+            t.uid = A.id
+            <if test="sqlMap.statusq != -1 and sqlMap.statusq != null">
+                and t.status = #{sqlMap.statusq, jdbcType=TINYINT}
+            </if>
+
+            <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+                AND ( t.mt4_account LIKE #{sqlMap.userq, jdbcType=INTEGER} OR duty_officer LIKE
+                #{sqlMap.userq, jdbcType=VARCHAR}
+                or A.cnName LIKE #{sqlMap.userq, jdbcType=VARCHAR} or A.cnName LIKE #{sqlMap.userq, jdbcType=VARCHAR} )
+            </if>
+        </where>
+    </select>
+    <select id="getMT4AccountPassCountByUid" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT
+        COUNT(1)
+        FROM tb_user_mt4_account
+        WHERE is_del = 0
+        AND (status = 1 or status = 0)
+        AND uid = #{uid, jdbcType=TINYINT}
+        AND userStaus = 1
+    </select>
+    <select id="getMT4AccountCountByUid" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT
+        COUNT(1)
+        FROM tb_user_mt4_account
+        WHERE is_del = 0
+        AND (status = 1 or status = 0)
+        AND uid = #{uid, jdbcType=TINYINT}
+        AND userStaus = 1
+    </select>
+    <select id="getUserMT4AccountByUidOrderByAudit" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where uid = #{userId,jdbcType=INTEGER} and mt4_account > 0 and userStaus = 1 and is_del = 0
+        ORDER BY SUBSTRING(auditSort, 0, LEN(auditSort) - 2) ASC, update_time ASC
+    </select>
+    <select id="getUserMt4AccountByNOAgent" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where is_del = 0 and status = 1  and agent_mt4Account = 0
+    </select>
+    <select id="queryCountByConditionByAgentAccount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(1)
+        FROM tb_user_mt4_account t
+        WHERE t.is_del = 0 AND t.agent_mt4Account = #{agentAccount, jdbcType=INTEGER} AND status =1
+    </select>
+    <select id="pageQueryByConditionByAgentAccount" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        WHERE is_del = 0 AND agent_mt4Account = #{agentAccount, jdbcType=INTEGER} AND status = 1
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account
+            WHERE is_del = 0 AND agent_mt4Account = #{agentAccount, jdbcType=INTEGER} AND status = 1
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+    <select id="getUserMT4AccountByUIdAndUserStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where is_del = 0 and uid = #{uid,jdbcType=INTEGER} and userStaus = #{userStatus,jdbcType=INTEGER} and status = 1
+    </select>
+    <select id="getUserMT4AccountByUIdAndUserStatusAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where is_del = 0 and uid = #{uid,jdbcType=INTEGER} and userStaus = #{userStatus,jdbcType=INTEGER}
+    </select>
+    <select id="getAllCommissionMT4" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where is_del = 0 and  userStaus =3 and status = 1
+    </select>
+    <select id="getAllCommissionMT4ByUid" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where is_del = 0 and  userStaus =3 and status = 1
+        <if test="uid != null">
+            and ( uid in
+            (
+            select id from tb_user_register where is_del = 0 and website_user_type = 5 and
+            level_path.IsDescendantOf((select level_path from tb_user_register where id = #{uid,jdbcType=INTEGER} ))=1
+            ) or
+            ( uid not in (
+            select id from tb_user_register where is_del = 0 and website_user_type = 5 and
+            level_path.IsDescendantOf((select level_path from tb_user_register where id = #{uid,jdbcType=INTEGER} ))=1
+            ) and tb_user_mt4_account.ib_id in (
+            select id from tb_user_register where is_del = 0 and website_user_type = 5 and
+            level_path.IsDescendantOf((select level_path from tb_user_register where id = #{uid,jdbcType=INTEGER} ))=1
+            ) )
+            )
+        </if>
+    </select>
+    <select id="getUserMT4AccountByIbIdLoop" resultMap="BaseResultMap" parameterType="java.util.Map">
+        WITH tree AS (
+        SELECT
+        t.mt4_account,
+        t.id,
+        t.uid,
+        t.ib_id,
+        t.userStaus,
+        1 AS xLEVEL
+        FROM
+        tb_user_mt4_account t
+        WHERE
+        t.uid = #{uid, jdbcType=INTEGER}
+        and t.is_del = 0
+        and t.status = 1
+        UNION ALL
+        SELECT
+        c.mt4_account,
+        c.id,
+        c.uid,
+        c.ib_id,
+        c.userStaus,
+        tree.xLEVEL + 1
+        FROM
+        tb_user_mt4_account c
+        INNER JOIN tree ON c.ib_id = tree.uid
+        AND c.uid != tree.uid AND c.status = 1 and c.is_del = 0
+        ) SELECT * from tb_user_mt4_account where id in (SELECT id from tree) or uid in (select uid from tree) and status = 1 AND is_del = 0
+    </select>
+    <select id="getUserMT4AccountByMt4AccountLoop" resultMap="BaseResultMap" parameterType="java.util.Map">
+        WITH tree AS (
+        SELECT
+        t.mt4_account,
+        t.id,
+        t.uid,
+        t.ib_id,
+        t.userStaus,
+        1 AS xLEVEL
+        FROM
+        tb_user_mt4_account t
+        WHERE
+        <if test="userStatusFlag != null">
+            t.mt4_account = #{mt4Account, jdbcType=INTEGER}
+        </if>
+        <if test="userStatusFlag == null">
+            t.agent_mt4Account = #{mt4Account, jdbcType=INTEGER}
+        </if>
+        and t.is_del = 0
+        and t.status = 1
+        UNION ALL
+        SELECT
+        c.mt4_account,
+        c.id,
+        c.uid,
+        c.ib_id,
+        c.userStaus,
+        tree.xLEVEL + 1
+        FROM
+        tb_user_mt4_account c
+        INNER JOIN tree ON c.ib_id = tree.uid
+        AND c.uid != tree.uid AND c.status = 1 and c.is_del = 0
+        ) SELECT * from tb_user_mt4_account where id in (SELECT id from tree) or uid in (select uid from tree) and status = 1 AND is_del = 0
+    </select>
+
+    <select id="queryCountByConditiontByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(1) FROM tb_user_mt4_account WHERE is_del = 0 AND uid = #{userId, jdbcType=INTEGER} AND userStaus = 3
+    </select>
+
+    <select id="pageQueryByConditiontByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where uid = #{userId,jdbcType=INTEGER}
+        AND is_del = 0
+        AND userStaus = 3
+        AND mt4_account > 0
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account
+            where uid = #{userId,jdbcType=INTEGER}
+            AND is_del = 0
+            AND userStaus = 3
+            AND mt4_account > 0
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+    <select id="queryCountByConditionByMt4Account" resultType="java.lang.Integer" parameterType="java.util.Map">
+            SELECT COUNT(1) FROM tb_user_mt4_account WHERE is_del = 0 AND agent_mt4Account = #{mt4account, jdbcType=INTEGER} AND mt4_account > 0
+    </select>
+    <select id="pageQueryByConditionByMt4Account" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select top ${limit}
+        <include refid="Base_Column_List" />
+        from tb_user_mt4_account
+        where agent_mt4Account = #{mt4account,jdbcType=INTEGER}
+        AND is_del = 0
+        AND mt4_account > 0
+        <if test="offset gt 0">
+            and (
+            (SELECT MIN(id) FROM (SELECT TOP ${offset} id FROM tb_user_mt4_account
+            where agent_mt4Account = #{mt4account,jdbcType=INTEGER}
+            AND is_del = 0
+            AND mt4_account > 0
+            ORDER BY id desc) AS T) > id
+            )
+        </if>
+        order by id desc
+    </select>
+
+    <select id="getUserMT4AccountByUidList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0
+        <if test="uidList != null">
+            and uid in
+            <foreach item="uid" index="index" collection="uidList" open="(" separator="," close=")">
+                #{uid.id}
+            </foreach>
+        </if>
+        <if test="uidList == null">
+            and 1=2
+        </if>
+        and mt4_account > 0 and is_del = 0
+    </select>
+
+    <select id="findUidListByCondition" resultType="com.fx.payment.model.UserMT4Account" parameterType="java.util.Map">
+        WITH ib_list AS (
+        SELECT
+        t.superior_id,
+        t.is_ibId,
+        t.id,
+        1 AS xLEVEL,
+        t.is_del,
+        t.cnName,
+        t.mt4_datasource_type,
+        t.phone_num,
+        t.mt4_datasource_id
+        FROM
+        tb_user_register t
+        WHERE
+        t.id IN (
+        SELECT
+        u.id
+        FROM
+        tb_user_register u,
+        tb_sys_organization org
+        WHERE
+        u.is_del = 0
+        and u.org_id = org.id and u.website_user_type =6
+        ${sqlMap.dsf}
+        )
+        AND t.is_del = 0
+        UNION ALL
+        SELECT
+        c.superior_id,
+        c.is_ibId,
+        c.id,
+        ib_list.xLEVEL + 1,
+        c.is_del,
+        c.cnName,
+        c.mt4_datasource_type,
+        c.phone_num,
+        c.mt4_datasource_id
+        FROM
+        tb_user_register c
+        INNER JOIN ib_list ON (c.superior_id = ib_list.id and c.website_user_type =6 )or(c.is_ibId = ib_list.id)
+        )
+        select DISTINCT  m.uid, m.mt4_account as mt4Account from tb_user_mt4_account m
+        where
+        uid IN (
+        SELECT id from   ib_list A
+        where is_del = 0
+        <if test="sqlMap.support!=null">
+            <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+                and (A.cnName LIKE #{sqlMap.userq, jdbcType=VARCHAR}
+                )
+            </if>
+        </if>
+        <if test="sqlMap.support==null">
+            <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+                AND (  A.cnName LIKE #{sqlMap.userq, jdbcType=VARCHAR} )
+            </if>
+        </if>
+        )
+        <if test="sqlMap.support!=null">
+            <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+                OR(uid IN (
+                SELECT id from   ib_list A
+                where is_del = 0 ) and m.mt4_account LIKE #{sqlMap.userq, jdbcType=INTEGER})
+            </if>
+        </if>
+        <if test="sqlMap.support==null">
+            <if test="sqlMap.userq != null and sqlMap.userq !='' ">
+                OR (uid IN (
+                SELECT id from   ib_list A
+                where is_del = 0 ) and m.mt4_account LIKE #{sqlMap.userq, jdbcType=INTEGER})
+            </if>
+        </if>
+    </select>
+
+    <select id="getUserMT4AccountByLoginList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_mt4_account
+        where is_del = 0
+        <if test="login!=null"> and  mt4_account = #{login} </if>
+        <if test="login==null">
+            <if test="loginList != null">
+                and mt4_account in
+                <foreach item="login" index="index" collection="loginList" open="(" separator="," close=")">
+                    #{login}
+                </foreach>
+            </if>
+        </if>
+        and mt4_account > 0 and userStaus=1 order by mt4_account
+    </select>
+    <select id="getBeanByMt4Account" resultMap="BaseResultMap" parameterType="com.fx.payment.model.UserMT4Account">
+        select
+      m.id, m.uid, m.mt4_account,m.userMT4AccountType, m.status, m.create_user, m.create_time,     m.create_ip, m.update_user, m.update_time,
+      m.update_ip, m.is_del,m.userStaus,m.refuseReason,m.ib_id,m.data_source_id,m.mt4_datasource_type,m.automated_review,m.agent_mt4Account,m.namesake,m.accountType
+      from tb_user_mt4_account m,tb_user_register u,tb_sys_organization org
+      where m.is_del = 0 and u.is_del = 0
+      and m.ib_id = u.id and u.org_id = org.id
+      ${sqlMap.dsf}
+      and m.mt4_account = #{sqlMap.login,jdbcType=INTEGER}
+      and m.is_del = 0
+      order by m.id
+    </select>
+</mapper>

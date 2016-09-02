@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.configuration.dao.IIbEaDeveloperProgramConfDao" >
+  <resultMap id="BaseResultMap" type="com.fx.configuration.model.IbEaDeveloperProgramConf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cash_dividend_commission" property="cashDividendCommission" jdbcType="NUMERIC" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_uid" property="createUid" jdbcType="INTEGER" />
+    <result column="update_uid" property="updateUid" jdbcType="INTEGER" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="eaDeveloper_id" property="eaDeveloperId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, cash_dividend_commission, is_del, create_time, update_time, 
+    create_uid, update_uid, create_ip, update_ip,eaDeveloper_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_ib_ea_developer_program_conf
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.configuration.model.IbEaDeveloperProgramConf" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_ib_ea_developer_program_conf (name, cash_dividend_commission, 
+      is_del, create_time, update_time, 
+      create_uid, update_uid, create_ip, 
+      update_ip,eaDeveloper_id)
+    values (#{name,jdbcType=VARCHAR}, #{cashDividendCommission,jdbcType=NUMERIC}, 
+      #{isDel,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUid,jdbcType=INTEGER}, #{updateUid,jdbcType=INTEGER}, #{createIp,jdbcType=VARCHAR}, 
+      #{updateIp,jdbcType=VARCHAR},#{eaDeveloperId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.configuration.model.IbEaDeveloperProgramConf" >
+    update tb_ib_ea_developer_program_conf
+    set name = #{name,jdbcType=VARCHAR},
+      cash_dividend_commission = #{cashDividendCommission,jdbcType=NUMERIC},
+      is_del = #{isDel,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_uid = #{createUid,jdbcType=INTEGER},
+      update_uid = #{updateUid,jdbcType=INTEGER},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      eaDeveloper_id = #{eaDeveloperId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ib_ea_developer_program_conf
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ib_ea_developer_program_conf
+  </select>
+  
+  <select id="getNotDelIbEaDeveloperConfList" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ib_ea_developer_program_conf
+    where is_del = 0
+  </select>
+  
+  <select id="getIbEaDeveloperProgramConfByEaId" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ib_ea_developer_program_conf
+    where is_del = 0 and eaDeveloper_id = #{eaDeveloperId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_ib_ea_developer_program_conf
+    where is_del = 0 
+    <if test="eaDeveloperId != null">
+        and eaDeveloper_id = #{eaDeveloperId, jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_ib_ea_developer_program_conf
+    where is_del = 0 
+    <if test="eaDeveloperId != null">
+        and eaDeveloper_id = #{eaDeveloperId, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_ib_ea_developer_program_conf
+    	  where is_del = 0 
+		    <if test="eaDeveloperId != null">
+		        and eaDeveloper_id = #{eaDeveloperId, jdbcType=INTEGER}
+		    </if>
+    	    ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+</mapper>

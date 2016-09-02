@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	
+	<aop:aspectj-autoproxy />
+	
+<!-- 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.**.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+ -->    <!-- enable component scanning  -->
+	<context:component-scan base-package="com.fx.*" />
+	<context:component-scan base-package="mybatis.framework.*" />
+	<!-- 引入jdbc配置文件-->
+	<!-- 开发库 -->
+
+	<bean id="sqlSessionWrapper" class="mybatis.framework.core.support.SqlSessionWrapper" />
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:/config/dev_env_setting.properties</value>
+				<value>classpath*:configs.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+	
+	<!-- 获取bean工具注入 -->
+	<bean id="springUtil" class="com.fx.util.SpringUtils" lazy-init="false" />
+
+	<bean id="cacheManager" class="com.fx.cache.redis.RedisCacheManager">
+		<property name="redisManager" ref="redisManager"/>
+		<property name="keyPrefix" value="cache_test:"/>
+	</bean>
+
+
+	<bean id="redisManager" class="com.fx.cache.redis.RedisManager">
+		<property name="port" value="6379"/>
+		<property name="host" value="192.168.1.217"/>
+		<property name="maxIdel" value="10"/>
+		<property name="maxTotal" value="30"/>
+		<property name="maxWaitMillis" value="3000"/>
+		<property name="expire" value="10800"/>
+	</bean>
+
+
+	<!--<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
+		<!--<property name="cacheManager" ref="ehcacheManager"/>-->
+	<!--</bean>-->
+
+	<!--&lt;!&ndash;ehcache&ndash;&gt;-->
+	<!--<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+		<!--<property name="configLocation" value="classpath:cache/ehcache.xml"/>-->
+	<!--</bean>-->
+
+	<!-- fx DB -->
+    <!--创建bonecp数据源 -->
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="net.sourceforge.jtds.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:jtds:sqlserver://192.168.1.214:1433;DatabaseName=Michael_COMMON_SERVICE;useUnicode=true;characterEncoding=UTF-8" />
+		<property name="username" value="Michael"/>
+		<property name="password" value="michael.W"/>
+		<property name="idleConnectionTestPeriod" value="60"/>
+		<property name="idleMaxAge" value="240"/>
+		<property name="maxConnectionsPerPartition" value="10"/>
+		<property name="minConnectionsPerPartition" value="5"/>
+		<property name="partitionCount" value="3"/>
+		<property name="acquireIncrement" value="5"/>
+		<property name="statementsCacheSize" value="100"/>
+		<property name="releaseHelperThreads" value="3"/>
+	</bean>
+    
+    <!-- 创建SqlSessionFactory，同时指定数据源-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource" />
+    	<property name="mapperLocations"  value="classpath*:/com/fx/**/mapper/*Mapper.xml"></property>
+    </bean>
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.fx.**.mapper" />
+	</bean> -->
+
+    <bean id="globalSqlSessionWrapper" class="mybatis.framework.core.support.SqlSessionWrapperGlobal" />
+    
+    <!--创建bonecp数据源 -->
+    <bean id="globalDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="net.sourceforge.jtds.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:jtds:sqlserver://192.168.1.212:1433;DatabaseName=DB_KCM_AU_TEST_GLOBAL;useUnicode=true;characterEncoding=UTF-8" />
+		<property name="username" value="crm_v2"/>
+		<property name="password" value="crm_v2@123"/>
+		<property name="idleConnectionTestPeriod" value="60"/>
+		<property name="idleMaxAge" value="240"/>
+		<property name="maxConnectionsPerPartition" value="10"/>
+		<property name="minConnectionsPerPartition" value="5"/>
+		<property name="partitionCount" value="3"/>
+		<property name="acquireIncrement" value="5"/>
+		<property name="statementsCacheSize" value="100"/>
+		<property name="releaseHelperThreads" value="3"/>
+	</bean>
+    
+    <!-- 创建SqlSessionFactory，同时指定数据源-->
+    <bean id="globalSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="globalDataSource" />
+    	<property name="mapperLocations" >
+    		<list>
+    			<value>classpath*:/com/fx/global/dao/mapper/*Mapper.xml</value>
+				<value>classpath:/com/fx/bonus/dao/mapper/*Mapper.xml</value>
+    		</list>
+    	</property>
+    </bean>
+
+    <bean id="mt4TradeRecordSqlSessionWrapper" class="mybatis.framework.core.support.SqlSessionWrapperMt4TradeRecord" />
+<!--     <bean id="mt4TradeDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close"> -->
+<!-- 		<property name="driverClass" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<property name="jdbcUrl" value="jdbc:mysql://192.168.1.212:3306/db_vfx_mt4_report?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false" /> -->
+<!-- 		<property name="username" value="mt4report"/> -->
+<!-- 		<property name="password" value="mt4@report"/> -->
+<!-- 		<property name="idleConnectionTestPeriod" value="60"/> -->
+<!-- 		<property name="idleMaxAge" value="240"/> -->
+<!-- 		<property name="maxConnectionsPerPartition" value="10"/> -->
+<!-- 		<property name="minConnectionsPerPartition" value="5"/> -->
+<!-- 		<property name="partitionCount" value="3"/> -->
+<!-- 		<property name="acquireIncrement" value="5"/> -->
+<!-- 		<property name="statementsCacheSize" value="100"/> -->
+<!-- 		<property name="releaseHelperThreads" value="3"/> -->
+<!-- 	</bean> -->
+	
+	<bean id="mt4TradeRecordSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="mutiDataSource" />
+    	<property name="mapperLocations" >
+    		<list>
+    			<value>classpath*:/com/fx/mt4TradeRecord/dao/mapper/*Mapper.xml</value>
+    		</list>
+    	</property>
+    </bean>
+    <bean id="mutiDataSource" class="com.fx.multidatasource.MultiDataSource">
+    		<property name="idleConnectionTestPeriod" value="60"/>
+			<property name="idleMaxAge" value="240"/>
+			<property name="maxConnectionsPerPartition" value="10"/>
+			<property name="minConnectionsPerPartition" value="5"/>
+			<property name="partitionCount" value="3"/>
+			<property name="acquireIncrement" value="5"/>
+			<property name="statementsCacheSize" value="100"/>
+			<property name="releaseHelperThreads" value="3"/>
+    </bean>  
+    
+    <!--<bean id="aspectBean" class="com.fx.aop.LoggerAspect" />-->
+    <!--<aop:config>  -->
+        <!--<aop:aspect id="loggerAspect" ref="aspectBean">-->
+			<!--&lt;!&ndash; 配置com.spring.service包下所有类或接口的所有方法  &ndash;&gt;-->
+            <!--<aop:pointcut id="businessService" expression="execution(* com.fx.admin.service.*.*(..))" />  -->
+            <!--<aop:before pointcut-ref="businessService" method="doBefore"/>-->
+            <!--<aop:around pointcut-ref="businessService" method="doAround"/>  -->
+            <!---->
+            <!--&lt;!&ndash;<aop:after pointcut-ref="businessService" method="doAfter"/>  &ndash;&gt;-->
+            <!--&lt;!&ndash;<aop:after-throwing pointcut-ref="businessService" method="doThrowing" throwing="ex"/>&ndash;&gt;-->
+              <!--&lt;!&ndash;&ndash;&gt;-->
+        <!--</aop:aspect>  -->
+    <!--</aop:config>-->
+
+    <!--<tx:advice id="userTxAdvice" transaction-manager="transactionManager">-->
+    	<!--<tx:attributes>-->
+			<!--<tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>-->
+	      	<!--<tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.RuntimeException" />-->
+	      	<!--<tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />-->
+	      	<!--<tx:method name="find*" propagation="SUPPORTS"/>-->
+	      	<!--<tx:method name="get*" propagation="SUPPORTS"/>-->
+	      	<!--<tx:method name="select*" propagation="SUPPORTS"/>-->
+	    <!--</tx:attributes>-->
+  	<!--</tx:advice>-->
+
+	<!--<aop:config>-->
+		<!--&lt;!&ndash;把事务控制在Service层&ndash;&gt;-->
+    	<!--<aop:pointcut id="pc" expression="execution(public * com.fx.common.service.*.*(..))" />-->
+    	<!--<aop:advisor pointcut-ref="pc" advice-ref="userTxAdvice" />-->
+	<!--</aop:config>-->
+
+
+</beans>

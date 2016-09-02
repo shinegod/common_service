@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.crm.sys.log.dao.IOperationLoggerDao" >
+  <resultMap id="BaseResultMap" type="com.fx.crm.sys.log.model.OperationLogger" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="VARCHAR" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+    <result column="operation_url" property="operationUrl" jdbcType="VARCHAR" />
+    <result column="operation_detail" property="operationDetail" jdbcType="VARCHAR" />
+    <result column="recycle" property="recycle" jdbcType="CHAR" />
+    <result column="operation_Type" property="operationType" jdbcType="VARCHAR" />
+    <result column="operation_Result" property="operationResult" jdbcType="VARCHAR" />
+    <result column="operationIp" property="operationip" jdbcType="VARCHAR" />
+    <result column="loginName" property="loginname" jdbcType="VARCHAR" />
+    <result column="user_agent" property="userAgent" jdbcType="VARCHAR" />
+    <result column="req_method" property="reqMethod" jdbcType="VARCHAR" />
+    <result column="req_params" property="reqParams" jdbcType="VARCHAR" />
+    <result column="exception" property="exception" jdbcType="CLOB" />
+
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="log_type" property="logType" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, operator, operate_time, module, operation_url, operation_detail, recycle, operation_Type, 
+    operation_Result, operationIp, loginName, user_agent, req_method, req_params, exception,system_id,log_type
+  </sql>
+  <insert id="insert" parameterType="com.fx.crm.sys.log.model.OperationLogger" >
+    insert into tb_sys_operation_logger (id, operator, operate_time, 
+      module, operation_url, operation_detail, 
+      recycle, operation_Type, operation_Result, 
+      operationIp, loginName, user_agent, 
+      req_method, req_params, exception,system_id,log_type
+      )
+    values (#{id,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=VARCHAR}, 
+      #{module,jdbcType=VARCHAR}, #{operationUrl,jdbcType=VARCHAR}, #{operationDetail,jdbcType=VARCHAR}, 
+      #{recycle,jdbcType=CHAR}, #{operationType,jdbcType=VARCHAR}, #{operationResult,jdbcType=VARCHAR}, 
+      #{operationip,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
+      #{reqMethod,jdbcType=VARCHAR}, #{reqParams,jdbcType=VARCHAR}, #{exception,jdbcType=CLOB}
+      , #{systemId,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertTraderLog" parameterType="com.fx.crm.sys.log.model.OperationLogger">
+    insert into tb_trader_operation_logger (id, operator, operate_time,
+      module, operation_url, operation_detail,
+      recycle, operation_Type, operation_Result,
+      operationIp, loginName, user_agent,
+      req_method, req_params, exception,system_id,log_type
+      )
+    values (#{id,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=VARCHAR},
+      #{module,jdbcType=VARCHAR}, #{operationUrl,jdbcType=VARCHAR}, #{operationDetail,jdbcType=VARCHAR},
+      #{recycle,jdbcType=CHAR}, #{operationType,jdbcType=VARCHAR}, #{operationResult,jdbcType=VARCHAR},
+      #{operationip,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR},
+      #{reqMethod,jdbcType=VARCHAR}, #{reqParams,jdbcType=VARCHAR}, #{exception,jdbcType=CLOB}
+      , #{systemId,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.crm.sys.log.model.OperationLogger">
+    update tb_sys_operation_logger
+    set
+     operator = #{operator,jdbcType=VARCHAR},
+     operate_time = #{operateTime,jdbcType=VARCHAR},
+     module = #{module,jdbcType=VARCHAR},
+      operation_url =#{operationUrl,jdbcType=VARCHAR},
+      operation_detail =  #{operationDetail,jdbcType=VARCHAR},
+     recycle = #{recycle,jdbcType=CHAR},
+       operation_Type=#{operationType,jdbcType=VARCHAR},
+       operation_Result= #{operationResult,jdbcType=VARCHAR},
+     operationIp= #{operationip,jdbcType=VARCHAR},
+      loginName= #{loginname,jdbcType=VARCHAR},
+        user_agent=#{userAgent,jdbcType=VARCHAR},
+     req_method= #{reqMethod,jdbcType=VARCHAR},
+     req_params= #{reqParams,jdbcType=VARCHAR},
+       exception=#{exception,jdbcType=CLOB} ,
+       system_id=#{systemId,jdbcType=VARCHAR},
+       log_type=#{logType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_operation_logger
+    where id = #{id,jdbcType=VARCHAR} and recycle = '0'
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sys_operation_logger
+  </select>
+
+  <select id="queryByEntity" resultMap="BaseResultMap" parameterType="com.fx.util.Pagination">
+    select
+      <include refid="Base_Column_List" />
+    from tb_sys_operation_logger
+      where 1 = 1
+      <if test="operationMod != '0'.toString()">
+        and [module] = #{operationMod,jdbcType=VARCHAR}
+      </if>
+      <if test="operationType != '0'.toString() and operationType != 'LOG_ALL'">
+        and operation_Type = #{operationType,jdbcType=VARCHAR}
+      </if>
+      and [module] is not null
+      and operation_Type is not null
+    order by operate_time desc
+  </select>
+</mapper>

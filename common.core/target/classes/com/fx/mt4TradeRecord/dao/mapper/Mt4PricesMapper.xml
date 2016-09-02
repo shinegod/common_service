@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.mt4TradeRecord.dao.IMt4PricesDao" >
+  <resultMap id="BaseResultMap" type="com.fx.mt4TradeRecord.model.Mt4Prices" >
+    <id column="SYMBOL" property="symbol" jdbcType="CHAR" />
+    <result column="TIME" property="time" jdbcType="TIMESTAMP" />
+    <result column="BID" property="bid" jdbcType="DOUBLE" />
+    <result column="ASK" property="ask" jdbcType="DOUBLE" />
+    <result column="LOW" property="low" jdbcType="DOUBLE" />
+    <result column="HIGH" property="high" jdbcType="DOUBLE" />
+    <result column="DIRECTION" property="direction" jdbcType="INTEGER" />
+    <result column="DIGITS" property="digits" jdbcType="INTEGER" />
+    <result column="SPREAD" property="spread" jdbcType="INTEGER" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SYMBOL, TIME, BID, ASK, LOW, HIGH, DIRECTION, DIGITS, SPREAD, MODIFY_TIME
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mt4_prices
+    where SYMBOL = #{symbol,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fx.mt4TradeRecord.model.Mt4Prices" >
+    insert into mt4_prices (SYMBOL, TIME, BID, 
+      ASK, LOW, HIGH, DIRECTION, 
+      DIGITS, SPREAD, MODIFY_TIME
+      )
+    values (#{symbol,jdbcType=CHAR}, #{time,jdbcType=TIMESTAMP}, #{bid,jdbcType=DOUBLE}, 
+      #{ask,jdbcType=DOUBLE}, #{low,jdbcType=DOUBLE}, #{high,jdbcType=DOUBLE}, #{direction,jdbcType=INTEGER}, 
+      #{digits,jdbcType=INTEGER}, #{spread,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.mt4TradeRecord.model.Mt4Prices" >
+    update mt4_prices
+    set TIME = #{time,jdbcType=TIMESTAMP},
+      BID = #{bid,jdbcType=DOUBLE},
+      ASK = #{ask,jdbcType=DOUBLE},
+      LOW = #{low,jdbcType=DOUBLE},
+      HIGH = #{high,jdbcType=DOUBLE},
+      DIRECTION = #{direction,jdbcType=INTEGER},
+      DIGITS = #{digits,jdbcType=INTEGER},
+      SPREAD = #{spread,jdbcType=INTEGER},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+    where SYMBOL = #{symbol,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mt4_prices
+    where SYMBOL = #{symbol,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from mt4_prices
+  </select>
+  <select id="selectAllByDataSourceName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from mt4_prices
+  </select>
+</mapper>

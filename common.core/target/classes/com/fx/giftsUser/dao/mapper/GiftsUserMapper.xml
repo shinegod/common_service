@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.giftsUser.dao.IGiftsUserDao" >
+  <resultMap id="BaseResultMap" type="com.fx.giftsUser.model.GiftsUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="participate_time" property="participateTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="deposit_id" property="depositId" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="mt4_account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, gid, is_del, status, participate_time, update_time, operate_time, operate_user, 
+    remark,deposit_id,end_time,mt4_account,type
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_gifts_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.giftsUser.model.GiftsUser" >
+    insert into tb_gifts_user (uid, gid, 
+      is_del, status, participate_time, 
+      update_time, operate_time, operate_user, 
+      remark, deposit_id, end_time, mt4_account,type)
+    values (#{uid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, 
+      #{isDel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{participateTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{operateTime,jdbcType=TIMESTAMP}, #{operateUser,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{depositId,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, #{mt4Account,jdbcType=INTEGER},#{type,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.giftsUser.model.GiftsUser" >
+    update tb_gifts_user
+    set uid = #{uid,jdbcType=INTEGER},
+      gid = #{gid,jdbcType=INTEGER},
+      is_del = #{isDel,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      participate_time = #{participateTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      deposit_id = #{depositId,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      mt4_account = #{mt4Account,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_gifts_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_gifts_user
+  </select>
+  <select id="getGidsByUid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+  	SELECT
+		gid
+	FROM
+		tb_gifts_user
+	WHERE
+		uid = #{id,jdbcType=INTEGER} and is_del = 0 
+  </select>
+  <update id="doDeleteByUid" parameterType="java.lang.Integer" >
+    update tb_gifts_user
+    set 
+      is_del = 1
+    where uid = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="findByGid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	SELECT
+		 <include refid="Base_Column_List" />
+	FROM
+		tb_gifts_user
+	WHERE
+		gid = #{id,jdbcType=INTEGER} and is_del = 0 
+  </select>
+  <select id="getByUidDate" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    tb_gifts_user
+    WHERE
+    is_del = 0
+    <if test="uid != null">
+    and uid = #{uid,jdbcType=INTEGER}
+    </if>
+    <if test="today != null">
+    and  DATEDIFF(day, end_time , #{today,jdbcType=TIMESTAMP}) &lt; 0
+    </if>
+  </select>
+  <select id="getByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    tb_gifts_user
+    WHERE
+    is_del = 0
+    <if test="agentuidlist != null">
+      and uid in
+      <foreach item="uid" index="index" collection="agentuidlist" open="(" separator="," close=")">
+        #{uid}
+      </foreach>
+    </if>
+    <if test="uidList != null">
+      and uid in
+      <foreach item="uid" index="index" collection="uidList" open="(" separator="," close=")">
+        #{uid}
+      </foreach>
+    </if>
+    <if test="uidList == null">
+      and uid in ('')
+    </if>
+    <if test="giftsUserType != null">
+      and type = #{giftsUserType,jdbcType=INTEGER}
+    </if>
+    <if test="activityId != null">
+      and gid = #{activityId,jdbcType=INTEGER}
+    </if>
+
+    order by participate_time DESC
+  </select>
+
+  <select id="getByUidCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    tb_gifts_user
+    WHERE
+    is_del = 0
+    <if test="uid != null">
+      and uid = #{uid,jdbcType=INTEGER}
+    </if>
+    order by participate_time
+  </select>
+</mapper>

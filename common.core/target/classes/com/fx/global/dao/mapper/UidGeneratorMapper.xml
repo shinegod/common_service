@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.global.dao.IUidGeneratorDao" >
+  <resultMap id="BaseResultMap" type="com.fx.global.model.UidGenerator" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="next_id_live" property="nextIdLive" jdbcType="INTEGER" />
+    <result column="next_id_demo" property="nextIdDemo" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, next_id_live, next_id_demo,company_id
+  </sql>
+  
+  
+  <update id="updateNextIdLive" parameterType="com.fx.global.model.UidGenerator" >
+    update tb_uid_generator
+    set next_id_live = #{nextIdLive,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateNextIdDemo" parameterType="com.fx.global.model.UidGenerator" >
+    update tb_uid_generator
+    set next_id_demo = #{nextIdDemo,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="selectNextIdLive" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    select next_id_live
+    from tb_uid_generator
+    where company_id =  #{companyId,jdbcType=INTEGER}
+  </select>
+  <select id="selectNextIdDemo" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    select next_id_demo
+    from tb_uid_generator
+    where company_id =  #{companyId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

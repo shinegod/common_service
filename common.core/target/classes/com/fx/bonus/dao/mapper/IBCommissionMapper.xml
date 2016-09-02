@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.IIBCommissionDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.IBCommission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="ib_id" property="ibId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="NUMERIC" />
+    <result column="payment_date" property="paymentDate" jdbcType="VARCHAR" />
+    <result column="from_transaction_id" property="fromTransactionId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="is_paid" property="isPaid" jdbcType="TINYINT" />
+    <result column="volume" property="volume" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="isInnerSales" property="isInnerSales" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, ib_id, amount, payment_date, from_transaction_id, comment, is_paid, volume, status,isInnerSales
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_NZGFTB1_IB_commission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.IBCommission" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_NZGFTB1_IB_commission (uid, ib_id, amount, 
+      payment_date, from_transaction_id, comment, 
+      is_paid,volume,status,isInnerSales)
+    values (#{uid,jdbcType=INTEGER}, #{ibId,jdbcType=INTEGER}, #{amount,jdbcType=NUMERIC}, 
+      #{paymentDate,jdbcType=VARCHAR}, #{fromTransactionId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, 
+      #{isPaid,jdbcType=TINYINT}, #{volume,jdbcType=NUMERIC}, #{status,jdbcType=TINYINT}, #{isInnerSales,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.IBCommission" >
+    update tb_NZGFTB1_IB_commission
+    set uid = #{uid,jdbcType=INTEGER},
+      ib_id = #{ibId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=NUMERIC},
+      payment_date = #{paymentDate,jdbcType=VARCHAR},
+      from_transaction_id = #{fromTransactionId,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      is_paid = #{isPaid,jdbcType=TINYINT},
+      volume = #{volume,jdbcType=NUMERIC},
+      status = #{status,jdbcType=TINYINT},
+      isInnerSales = #{isInnerSales,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_IB_commission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_IB_commission
+  </select>
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_NZGFTB1_IB_commission
+    where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} and amount>0
+    <if test="status != null">
+    
+        and status = #{status, jdbcType=TINYINT}
+    </if>
+    <if test="ib_id != 0">
+        and ib_id = #{ib_id, jdbcType=TINYINT}
+    </if>
+  </select>
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_IB_commission
+    where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} and amount>0
+    <if test="status != null">
+    	<if test="status != -1">
+        and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+    <if test="ib_id != 0">
+        and ib_id = #{ib_id, jdbcType=TINYINT}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_NZGFTB1_IB_commission 
+    	   where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} and amount>0
+		    <if test="status != null">
+		    	<if test="status != -1">
+		        and status = #{status, jdbcType=TINYINT}
+		        </if>
+		    </if>
+		    <if test="ib_id != 0">
+		        and ib_id = #{ib_id, jdbcType=TINYINT}
+		    </if>
+    	   ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  <select id="getThisMonthIBCommissionByIbId" resultMap="BaseResultMap" >
+	select
+	<include refid="Base_Column_List" />
+	from tb_NZGFTB1_IB_commission
+	where ib_id=#{ib_id, jdbcType=TINYINT} 
+	and DATEPART(month,payment_date)=DATEPART(month,getdate())
+	and   DATEPART(year,payment_date)=DATEPART(year,getdate())
+</select>
+  <select id="queryCountByIbId" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_NZGFTB1_IB_commission
+    where ib_id = #{ib_id, jdbcType=TINYINT}
+  </select>
+  <select id="queryByIbId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_NZGFTB1_IB_commission
+    where ib_id = #{ib_id, jdbcType=TINYINT} 
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_NZGFTB1_IB_commission 
+    	   where ib_id = #{ib_id, jdbcType=TINYINT} 
+    	   ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+</mapper>

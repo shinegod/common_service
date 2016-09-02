@@ -1,6 +1,5 @@
 package com.fx.controller.ip;
 
-import com.fx.config.ConfigProperties;
 import com.fx.controller.base.BaseController;
 import com.fx.ip.model.Authorization;
 import com.fx.ip.model.IPWhiteList;
@@ -8,8 +7,7 @@ import com.fx.ip.service.IAuthorizationService;
 import com.fx.ip.service.IIPWhiteListService;
 import com.fx.pojo.JsonResult;
 import com.fx.util.DecryptUtils;
-import com.fx.util.Hmac_sha256Util;
-import com.fx.util.StringUtil;
+import com.fx.util.RequestUtil;
 import com.fx.util.StringUtils;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -31,7 +28,6 @@ import java.util.Set;
  * Created by Michael on 8/16/2016.
  */
 @Controller
-@RequestMapping("/login")
 public class IPWhiteListController extends BaseController {
 
     @Autowired
@@ -40,39 +36,7 @@ public class IPWhiteListController extends BaseController {
     @Autowired
     IAuthorizationService authorizationService;
 
-    @RequestMapping(value = "/ipWhiteList/testService", method = RequestMethod.POST)
-    @ResponseBody
-    public String testService() {
-        response.setHeader("Access-Control-Allow-Origin", ConfigProperties.getProperty("access.control"));
-        String header = request.getHeader("X-Authorization");
-        String privateKey = ConfigProperties.getProperty("service.private.key");
-        Hmac_sha256Util hmac_sha256Util = new Hmac_sha256Util();
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = request.getReader();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "{code:TYEE0001,msg:'error', value:{}}";
-        }
-        String data = getBodyString(bufferedReader);
-        String resultKey = hmac_sha256Util.signature(data, privateKey);
-        // 比较本地加密后与传来的是否相同
-        String[] temp = header.split(":");
-        String receivedKey = "";
-        for (String str : temp) {
-            if (StringUtil.equals(str, "Access_token")) {
-                continue;
-            } else {
-                receivedKey = str;
-            }
-        }
-        if (!StringUtil.equals(resultKey, receivedKey)) {
-            return "{code:TYEE0001,msg:'error', value:{}}";
-        }
-        return "{code:TYES0000,msg:'success',value:{}}";
-    }
-
-    @RequestMapping(value = "/ipwhitelist", method = RequestMethod.GET)
+    @RequestMapping(value = "/login/ipwhitelist", method = RequestMethod.GET)
     @ResponseBody
     public String check() throws Base64DecodingException {
         String queryString = request.getQueryString();
@@ -81,7 +45,7 @@ public class IPWhiteListController extends BaseController {
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
         String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
-        Map<String, Object> queryParams = getUrlParams(queryStringResult);
+        Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();
         for(Object obj: keySet) {
@@ -92,29 +56,14 @@ public class IPWhiteListController extends BaseController {
             String currentIp = getUserIP();
             if (ipWhiteList.getIp_list().contains(currentIp)) {
                 msg = "success";
-                code = "S00001";
+                code = "S00000";
             }
         }
         JsonResult jsonResult = new JsonResult(msg, code);
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
 
-    public static Map<String, Object> getUrlParams(String param) {
-        Map<String, Object> map = new HashMap<>();
-        if ("".equals(param) || null == param) {
-            return map;
-        }
-        String[] params = param.split("&");
-        for (int i = 0; i < params.length; i++) {
-            String[] p = params[i].split("=");
-            if (p.length == 2) {
-                map.put(p[0], p[1]);
-            }
-        }
-        return map;
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/test", method = RequestMethod.POST)
     public void test() throws IOException, ServletException {
         StringUtils.toRequestParams(request.getParameterMap());
         StringBuffer info = new java.lang.StringBuffer();

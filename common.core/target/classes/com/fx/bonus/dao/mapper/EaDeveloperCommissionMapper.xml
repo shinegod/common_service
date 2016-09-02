@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.IEaDeveloperCommissionDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.EaDeveloperCommission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eadeveloperid" property="eadeveloperid" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="NUMERIC" />
+    <result column="payment_date" property="paymentDate" jdbcType="VARCHAR" />
+    <result column="from_transaction_id" property="fromTransactionId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="is_paid" property="isPaid" jdbcType="TINYINT" />
+    <result column="volume" property="volume" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eadeveloperid, amount, payment_date, from_transaction_id, comment, is_paid, volume, 
+    status, uid
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_EaDeveloper_commission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.EaDeveloperCommission" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_EaDeveloper_commission (eadeveloperid, amount, payment_date, 
+      from_transaction_id, comment, is_paid, 
+      volume, status, uid
+      )
+    values (#{eadeveloperid,jdbcType=INTEGER}, #{amount,jdbcType=NUMERIC}, #{paymentDate,jdbcType=VARCHAR}, 
+      #{fromTransactionId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{isPaid,jdbcType=TINYINT}, 
+      #{volume,jdbcType=NUMERIC}, #{status,jdbcType=TINYINT}, #{uid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.EaDeveloperCommission" >
+    update tb_EaDeveloper_commission
+    set eadeveloperid = #{eadeveloperid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=NUMERIC},
+      payment_date = #{paymentDate,jdbcType=VARCHAR},
+      from_transaction_id = #{fromTransactionId,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      is_paid = #{isPaid,jdbcType=TINYINT},
+      volume = #{volume,jdbcType=NUMERIC},
+      status = #{status,jdbcType=TINYINT},
+      uid = #{uid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_EaDeveloper_commission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_EaDeveloper_commission
+  </select>
+  <select id="pageQueryCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_EaDeveloper_commission
+    where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} 
+    <if test="status != null">
+        <if test="status != -1">
+        	and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+  </select>
+  
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_EaDeveloper_commission
+    where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} 
+    <if test="status != null">
+    	<if test="status != -1">
+        	and status = #{status, jdbcType=TINYINT}
+        </if>
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_EaDeveloper_commission 
+    	   where payment_date between #{queryFrom,jdbcType=VARCHAR} and #{queryTo,jdbcType=VARCHAR} 
+		    <if test="status != null">
+		    	<if test="status != -1">
+		        	and status = #{status, jdbcType=TINYINT}
+		        </if>
+		    </if>
+    	   ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  <select id="queryCountByConditionByUid" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_EaDeveloper_commission
+    where 1 = 1 
+    <if test="uid != null">
+        and uid = #{uid, jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="queryByConditionByUid" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}  
+    <include refid="Base_Column_List" />
+    from tb_EaDeveloper_commission
+    where 1 = 1 
+    <if test="uid != null">
+        and uid = #{uid, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+    and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_EaDeveloper_commission where 1 = 1 
+		    <if test="uid != null">
+		        and uid = #{uid, jdbcType=INTEGER}
+		    </if>
+    	   ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+</mapper>

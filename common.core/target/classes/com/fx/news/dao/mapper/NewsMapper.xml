@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.news.dao.INewsDao" >
+  <resultMap id="BaseResultMap" type="com.fx.news.model.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="language" property="language" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+     <result column="summary" property="summary" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, content, time, language, status, create_time, type,summary
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.news.model.News" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_news (title, content, time, 
+      language, status, create_time,type,summary
+      )
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{language,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},#{type,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.news.model.News" >
+    update tb_news
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      language = #{language,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      summary =  #{summary,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_news
+  </select>
+  
+  <select id="pageQueryListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from tb_news
+    where 1=1
+    <if test="status != null">
+    	and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="type != null">
+        and type = #{type, jdbcType=INTEGER}
+    </if>
+    <if test="language != null">
+        and language = #{language, jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="pageQueryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select top ${limit}
+    <include refid="Base_Column_List" />
+    from tb_news
+    where 1=1
+    <if test="status != null">
+    	and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="type != null">
+        and type = #{type, jdbcType=INTEGER}
+    </if>
+    <if test="language != null">
+        and language = #{language, jdbcType=INTEGER}
+    </if>
+    <if test="offset gt 0">
+    	and (
+    	  (SELECT MIN(id) FROM (SELECT TOP ${offset} id	FROM tb_news
+    	   where 1=1
+		    <if test="status != null">
+		    	and status = #{status,jdbcType=INTEGER}
+		    </if>
+		    <if test="type != null">
+		        and type = #{type, jdbcType=INTEGER}
+		    </if>
+		    <if test="language != null">
+		        and language = #{language, jdbcType=INTEGER}
+		    </if>
+    	   ORDER BY id desc) AS T) > id
+		)
+    </if>
+	order by id desc
+  </select>
+  <select id="findByTitle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_news
+    where title = #{name,jdbcType=INTEGER}
+  </select>
+  <select id="findListByCondition" resultMap="BaseResultMap" parameterType="com.fx.news.model.News" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_news
+    <where>
+    <if test="status != null">
+      and status = #{status, jdbcType=INTEGER}
+    </if>
+      <if test="type != null">
+        and type = #{type, jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

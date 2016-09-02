@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.imp.dao.ICommissionSetImpDao" >
+  <resultMap id="BaseResultMap" type="com.fx.imp.model.CommissionSetImp" >
+    <result column="login" property="login" jdbcType="INTEGER" />
+    <result column="mt4_group" property="mt4Group" jdbcType="VARCHAR" />
+    <result column="product_group" property="productGroup" jdbcType="VARCHAR" />
+    <result column="closing_form" property="closingForm" jdbcType="VARCHAR" />
+    <result column="commission_val" property="commissionVal" jdbcType="VARCHAR" />
+    <result column="comms" property="comms" jdbcType="VARCHAR" />
+    <result column="trade_flag" property="tradeFlag" jdbcType="VARCHAR" />
+    <result column="datasource" property="datasource" jdbcType="VARCHAR" />
+    <result column="ud1" property="ud1" jdbcType="VARCHAR" />
+    <result column="ud2" property="ud2" jdbcType="VARCHAR" />
+    <result column="ud3" property="ud3" jdbcType="VARCHAR" />
+    <result column="ud4" property="ud4" jdbcType="VARCHAR" />
+    <result column="ud5" property="ud5" jdbcType="VARCHAR" />
+    <result column="ud6" property="ud6" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    login, mt4_group, product_group, closing_form, commission_val, comms, trade_flag, 
+    datasource, ud1, ud2, ud3, ud4, ud5, ud6
+  </sql>
+  <insert id="insert" parameterType="com.fx.imp.model.CommissionSetImp" >
+    insert into test_commission_set_imp (login, mt4_group, product_group, 
+      closing_form, commission_val, comms, 
+      trade_flag, datasource, ud1, 
+      ud2, ud3, ud4, ud5, 
+      ud6)
+    values (#{login,jdbcType=INTEGER}, #{mt4Group,jdbcType=VARCHAR}, #{productGroup,jdbcType=VARCHAR}, 
+      #{closingForm,jdbcType=VARCHAR}, #{commissionVal,jdbcType=VARCHAR}, #{comms,jdbcType=VARCHAR}, 
+      #{tradeFlag,jdbcType=VARCHAR}, #{datasource,jdbcType=VARCHAR}, #{ud1,jdbcType=VARCHAR}, 
+      #{ud2,jdbcType=VARCHAR}, #{ud3,jdbcType=VARCHAR}, #{ud4,jdbcType=VARCHAR}, #{ud5,jdbcType=VARCHAR}, 
+      #{ud6,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from test_commission_set_imp
+     WHERE ud1 is not null and ud1 != '' and comms = ''
+  </select>
+
+  <select id="selectGroup" resultMap="BaseResultMap" parameterType="com.fx.imp.model.CommissionSetImp" >
+    select 0 as login,'' as  mt4_group,'' as    commission_val,'' as  comms,
+    '' as  trade_flag, '' as  ud1,'' as  ud2, '' as ud3, '' as ud4,'' as ud5,
+    product_group,closing_form,datasource, str(count(1)) as ud6
+    from test_commission_set_imp
+    where closing_form != '' and comms = ''
+    GROUP BY product_group,closing_form,datasource
+    ORDER BY datasource
+  </select>
+
+  <update id="updateBatchByGroup" parameterType="com.fx.imp.model.CommissionSetImp" >
+
+    update test_commission_set_imp
+    set ud1 = #{ud1,jdbcType=VARCHAR}
+    where product_group = #{productGroup,jdbcType=VARCHAR}
+     and closing_form = #{closingForm,jdbcType=VARCHAR}
+     and datasource = #{datasource,jdbcType=VARCHAR}
+     and comms is not null and comms = ''
+  </update>
+
+  <select id="selectCommCoefficient" resultMap="BaseResultMap" parameterType="com.fx.imp.model.CommissionSetImp" >
+    select 0 as login,'' as  mt4_group, commission_val,'' as  comms,
+    '' as  trade_flag,  ud1,'' as  ud2, '' as ud3, '' as ud4,'' as ud5,
+    '' as product_group,closing_form,datasource, str(count(1)) as ud6
+    from test_commission_set_imp
+    where closing_form = #{closingForm,jdbcType=VARCHAR}
+     and datasource = #{datasource,jdbcType=VARCHAR}
+     and ud1 = #{ud1,jdbcType=VARCHAR}
+    group by commission_val,ud1,closing_form,datasource
+	order by commission_val asc
+  </select>
+
+  <update id="updateBatchByGroup2" parameterType="com.fx.imp.model.CommissionSetImp" >
+
+    update test_commission_set_imp
+    set ud2 = #{ud2,jdbcType=VARCHAR},ud3 = #{ud3,jdbcType=VARCHAR}
+    where ud1 = #{ud1,jdbcType=VARCHAR}
+    and closing_form = #{closingForm,jdbcType=VARCHAR}
+    and datasource = #{datasource,jdbcType=VARCHAR}
+    and commission_val = #{commissionVal,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateUserID" parameterType="com.fx.imp.model.CommissionSetImp" >
+
+    update test_commission_set_imp
+    set ud4 = #{ud4,jdbcType=VARCHAR}
+    where login = #{login,jdbcType=VARCHAR}
+    and datasource = #{datasource,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectValImpByRule"  resultMap="BaseResultMap" parameterType="com.fx.bonus.model.CommissionRules" >
+    select 0 as login,'' as  mt4_group, commission_val,'' as  comms,
+    '' as  trade_flag, '' as  ud1,'' as  ud2, '' as ud3, '' as ud4,'' as ud5,
+    '' as product_group,'' as closing_form,'' as datasource, str(count(1)) as ud6
+    from test_commission_set_imp
+    where closing_form = #{settleMode, jdbcType=VARCHAR}
+      and datasource = #{dataSourceName,jdbcType=VARCHAR}
+      AND UD1 = #{ruleName,jdbcType=VARCHAR}
+  GROUP  BY commission_val
+  </select>
+
+  <select id="selectImpByRuleGroup" resultMap="BaseResultMap" parameterType="com.fx.bonus.model.CommissionRules" >
+    select top 1 <include refid="Base_Column_List" />
+      from test_commission_set_imp
+    where closing_form = #{settleMode, jdbcType=VARCHAR}
+      and datasource = #{dataSourceName,jdbcType=VARCHAR}
+      AND UD1 = #{ruleName,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

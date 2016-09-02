@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.payment.dao.IUserAccountDao" >
+  <resultMap id="BaseResultMap" type="com.fx.payment.model.UserAccount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="trade_code" property="tradeCode" jdbcType="VARCHAR" />
+    <result column="mt4_account" property="mt4Account" jdbcType="INTEGER" />
+    <result column="mt4_account_type" property="mt4AccountType" jdbcType="TINYINT" />
+    <result column="mt4_group_id" property="mt4GroupId" jdbcType="VARCHAR" />
+    <result column="account_balance" property="accountBalance" jdbcType="NUMERIC" />
+    <result column="freeze_balance" property="freezeBalance" jdbcType="NUMERIC" />
+    <result column="operate_password" property="operatePassword" jdbcType="VARCHAR" />
+    <result column="all_funds_into" property="allFundsInto" jdbcType="NUMERIC" />
+    <result column="all_funds_out" property="allFundsOut" jdbcType="NUMERIC" />
+    <result column="funds_into_number" property="fundsIntoNumber" jdbcType="INTEGER" />
+    <result column="funds_out_number" property="fundsOutNumber" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="CHAR" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="ib_id" property="ib_id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, trade_code, mt4_account, mt4_account_type, mt4_group_id, account_balance, freeze_balance, operate_password, all_funds_into, 
+    all_funds_out, funds_into_number, funds_out_number, status, create_user, create_time, 
+    create_ip, update_user, update_time, update_ip, is_del,ib_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_user_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.payment.model.UserAccount" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_user_account (uid, trade_code, mt4_account, mt4_account_type, mt4_group_id, 
+      account_balance, freeze_balance, operate_password, all_funds_into, 
+      all_funds_out, funds_into_number, funds_out_number, 
+      status, create_user, create_time, 
+      create_ip, update_user, update_time, 
+      update_ip, is_del,ib_id)
+    values (#{uid,jdbcType=INTEGER}, #{tradeCode,jdbcType=VARCHAR}, #{mt4Account,jdbcType=INTEGER}, #{mt4AccountType,jdbcType=TINYINT}, 
+      #{mt4GroupId,jdbcType=VARCHAR}, #{accountBalance,jdbcType=NUMERIC}, #{freezeBalance,jdbcType=NUMERIC}, #{operatePassword,jdbcType=VARCHAR},
+      #{allFundsInto,jdbcType=NUMERIC}, #{allFundsOut,jdbcType=NUMERIC}, #{fundsIntoNumber,jdbcType=INTEGER}, #{fundsOutNumber,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{createIp,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=CHAR}, #{updateIp,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{ib_id,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.payment.model.UserAccount" >
+    update tb_user_account
+    set uid = #{uid,jdbcType=INTEGER},
+      trade_code = #{tradeCode,jdbcType=VARCHAR},
+      mt4_account = #{mt4Account,jdbcType=INTEGER},
+      mt4_account_type = #{mt4AccountType,jdbcType=TINYINT}, 
+      mt4_group_id = #{mt4GroupId,jdbcType=VARCHAR},
+      account_balance = #{accountBalance,jdbcType=NUMERIC},
+      freeze_balance = #{freezeBalance,jdbcType=NUMERIC},
+      operate_password = #{operatePassword,jdbcType=VARCHAR},
+      all_funds_into = #{allFundsInto,jdbcType=NUMERIC},
+      all_funds_out = #{allFundsOut,jdbcType=NUMERIC},
+      funds_into_number = #{fundsIntoNumber,jdbcType=INTEGER},
+      funds_out_number = #{fundsOutNumber,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=CHAR},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      ib_id = #{ib_id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    where uid = #{uid,jdbcType=INTEGER} and is_del=0
+  </select>
+  <select id="getByMT4Account" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    where mt4_account = #{mt4Account,jdbcType=INTEGER} and is_del=0
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+  </select>
+  
+  <select id="getByUidList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    <if test="uidList != null">
+    where uid in  
+    <foreach collection="uidList" item="uid" separator="," open="(" close=")">#{uid,jdbcType=INTEGER}</foreach>
+    </if>
+  </select>
+  <select id="pageQueryMt4TypeList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account 
+    where mt4_account_type &lt; 20 and mt4_account_type &gt; 9
+  </select>
+  <select id="getByGroup" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    where mt4_group_id = #{groupId,jdbcType=VARCHAR} and is_del=0
+  </select>
+  <select id="getByGroupIbId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_user_account
+    where  is_del=0 
+    <if test="groupId != -1">
+        and  mt4_group_id = #{groupId,jdbcType=VARCHAR}
+    </if>
+    <if test="ib_id != 0">
+        and  ib_id = #{ib_id,jdbcType=INTEGER}
+    </if>
+  </select>
+  <update id="deleteByUid" parameterType="java.lang.Integer">
+    UPDATE tb_user_account SET is_del = 1 WHERE uid = #{uid,jdbcType=INTEGER}
+  </update>
+</mapper>

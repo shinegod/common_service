@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.trademsg.dao.ITraderClendarDao" >
+  <resultMap id="BaseResultMap" type="com.fx.trademsg.model.TraderClendar" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, date, time, currency, event, language, status, create_time
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_trader_calendar
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.trademsg.model.TraderClendar" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_trader_calendar (type, date, time, 
+      currency, event, language, 
+      status, create_time)
+    values (#{type,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{time,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR}, #{language,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.trademsg.model.TraderClendar" >
+    update tb_trader_calendar
+    set type = #{type,jdbcType=INTEGER},
+      date = #{date,jdbcType=TIMESTAMP},
+      time = #{time,jdbcType=VARCHAR},
+      currency = #{currency,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR},
+      language = #{language,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trader_calendar
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_trader_calendar
+  </select>
+</mapper>

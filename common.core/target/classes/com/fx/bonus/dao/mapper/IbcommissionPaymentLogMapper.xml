@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.fx.bonus.dao.IIbcommissionPaymentLogDao" >
+  <resultMap id="BaseResultMap" type="com.fx.bonus.model.IbcommissionPaymentLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="mt4Account" property="mt4account" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="ib_id" property="ibId" jdbcType="INTEGER" />
+    <result column="commission_ids" property="commissionIds" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="apply_amount" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="total_volume" property="totalVolume" jdbcType="DECIMAL" />
+    <result column="times_month" property="timesMonth" jdbcType="INTEGER" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+    <result column="apply_comment" property="applyComment" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, operator, operator_id, start_time, amount, create_time, update_time, update_user, 
+    update_user_id, end_time, comment, mt4Account, uid, ib_id, commission_ids, status, apply_amount,
+    total_volume, times_month, fee, refuse_reason, apply_comment
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_ibcommission_payment_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fx.bonus.model.IbcommissionPaymentLog" useGeneratedKeys="true" keyProperty="id" >
+    insert into tb_ibcommission_payment_log (type, operator, operator_id, 
+      start_time, amount, create_time, 
+      update_time, update_user, update_user_id, 
+      end_time, comment, mt4Account, 
+      uid, ib_id, commission_ids, status,
+      apply_amount,total_volume, times_month,
+      fee, refuse_reason, apply_comment)
+    values (#{type,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operatorId,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, #{mt4account,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{ibId,jdbcType=INTEGER}, #{commissionIds,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{applyAmount,jdbcType=DECIMAL}, #{totalVolume,jdbcType=DECIMAL},
+       #{timesMonth,jdbcType=INTEGER}, #{fee,jdbcType=DECIMAL}, #{refuseReason,jdbcType=VARCHAR},
+       #{applyComment,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fx.bonus.model.IbcommissionPaymentLog" >
+    update tb_ibcommission_payment_log
+    set type = #{type,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      amount = #{amount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=VARCHAR},
+      mt4Account = #{mt4account,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      ib_id = #{ibId,jdbcType=INTEGER},
+      commission_ids = #{commissionIds,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      apply_amount = #{applyAmount,jdbcType=DECIMAL},
+      total_volume = #{totalVolume,jdbcType=DECIMAL},
+      times_month = #{timesMonth,jdbcType=INTEGER},
+      fee = #{fee,jdbcType=DECIMAL},
+      refuse_reason = #{refuseReason,jdbcType=VARCHAR},
+      apply_comment = #{applyComment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ibcommission_payment_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_ibcommission_payment_log
+  </select>
+  <select id="findIBCommissionPaymentLogByParams" resultMap="BaseResultMap" parameterType="com.fx.bonus.model.IbcommissionPaymentLog">
+    select
+    <include refid="Base_Column_List" />
+    from tb_ibcommission_payment_log
+    <where>
+      uid = #{uid,jdbcType=INTEGER}
+
+      and  mt4Account = #{mt4account,jdbcType=INTEGER} AND  (status = 2 OR  status = 3)
+      and  ( start_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND start_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP}
+      or end_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND end_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP})
+    </where>
+    ORDER BY create_time
+  </select>
+  <select id="getMT4ListByParams" resultType="java.lang.Integer" parameterType="com.fx.bonus.model.IbcommissionPaymentLog">
+    select
+    distinct mt4Account
+    from tb_ibcommission_payment_log
+    <where>
+      and   (status = 2 OR  status = 3)  and ( start_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND start_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP}
+      or end_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND end_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP})
+    </where>
+  </select>
+
+  <select id="getTotalAmountByParams" resultType="java.math.BigDecimal" parameterType="com.fx.bonus.model.IbcommissionPaymentLog">
+    select
+    sum(amount)
+    from tb_ibcommission_payment_log
+    <where>
+      uid = #{uid,jdbcType=INTEGER}
+      and  mt4Account = #{mt4account,jdbcType=INTEGER} AND  (status = 2 OR  status = 3)
+      and  ( start_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND start_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP}
+      or end_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND end_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP})
+    </where>
+  </select>
+  <select id="getTotalApplyAmountByParams" resultType="java.math.BigDecimal" parameterType="com.fx.bonus.model.IbcommissionPaymentLog">
+    select
+    sum(apply_amount)
+    from tb_ibcommission_payment_log
+    <where>
+      uid = #{uid,jdbcType=INTEGER}
+      and  mt4Account = #{mt4account,jdbcType=INTEGER} AND (status = 2 OR  status = 3)
+      and  ( start_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND start_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP}
+      or end_time &lt;=  #{sqlMap.endTime, jdbcType=TIMESTAMP} AND end_time &gt;=  #{sqlMap.startTime, jdbcType=TIMESTAMP})
+    </where>
+  </select>
+    <select id="getCountByUserIdAndMT4Account" resultType="java.lang.Integer" parameterType="java.util.Map">
+      SELECT
+      max(times_month)
+      FROM tb_ibcommission_payment_log
+      WHERE 1 = 1
+      AND uid = #{userId, jdbcType=INTEGER}
+      AND mt4Account = #{mt4account, jdbcType=INTEGER}
+      and  ( create_time &lt;=  #{endTime, jdbcType=TIMESTAMP} AND create_time &gt;=  #{startTime, jdbcType=TIMESTAMP}
+      or create_time &lt;=  #{endTime, jdbcType=TIMESTAMP} AND create_time &gt;=  #{startTime, jdbcType=TIMESTAMP})
+    </select>
+  <select id="getIbCommissionByCondition" resultMap="BaseResultMap" parameterType="com.fx.bonus.model.IbcommissionPaymentLog">
+    select
+    <include refid="Base_Column_List" />
+    from tb_ibcommission_payment_log
+    <where>
+      <if test="ibId != null">
+        and ib_id = #{ibId,jdbcType=INTEGER}
+      </if>
+      <if test="login != null">
+        and  mt4Account LIKE #{login,jdbcType=INTEGER}
+      </if>
+      <if test="status !=null">
+        AND  status = #{status,jdbcType=INTEGER}
+      </if>
+      and  ( start_time &lt;=  #{interviewDate2, jdbcType=TIMESTAMP} AND start_time &gt;=  #{interviewDate1, jdbcType=TIMESTAMP}
+      or end_time &lt;=  #{interviewDate2, jdbcType=TIMESTAMP} AND end_time &gt;=  #{interviewDate1, jdbcType=TIMESTAMP})
+    </where>
+    ORDER BY create_time
+  </select>
+</mapper>
