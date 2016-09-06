@@ -1,3 +1,4 @@
-/.idea
 .idea/
 *.iml
+/common.core/target/
+/common.service/target/

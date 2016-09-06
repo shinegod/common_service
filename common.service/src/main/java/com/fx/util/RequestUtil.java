@@ -1,5 +1,6 @@
 package com.fx.util;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,17 @@ public class RequestUtil {
             }
         }
         return map;
+    }
+
+    public static String getPostParams(InputStream in) throws IOException {
+        StringBuffer info = new StringBuffer(0);
+        BufferedInputStream buf = new BufferedInputStream(in);
+        byte[] buffer = new byte[1024];
+        int iRead;
+        while ((iRead = buf.read(buffer)) != -1) {
+            info.append(new String(buffer, 0, iRead, "UTF-8"));
+        }
+        return info.toString();
     }
 
 }

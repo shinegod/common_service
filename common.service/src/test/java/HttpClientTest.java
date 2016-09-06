@@ -1,3 +1,4 @@
+import com.fx.util.DecryptUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -81,17 +82,21 @@ public class HttpClientTest {
             }
         }*/
 
-
-        String uriAPI = "http://127.0.0.1:8080/login/test";
+        String sysType = "kcm";
+        String sysTypeResult = DecryptUtils.encode(sysType, "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
+        String uriAPI = "http://127.0.0.1:8080/login/putCache/" + sysTypeResult;
         String result = "";
-        HttpPost httpRequst = new HttpPost(uriAPI);
+        HttpPost httpPost = new HttpPost(uriAPI);
+        httpPost.setHeader("app_id", "c42723b1-0d86-4da1-9a19-401c8fe6763c");
+        httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");
 
-        String data = "{limit: 10, offset: 0, search: '', agentuserQuery: '', order: 'asc', ibId: '-1', ibId_all: '-1'}";
-        StringEntity entity = new StringEntity(data, "UTF-8");
-
+        String data = "{userId=1, loginName='root', password='null', email='754354038@qq.com', loginCaption='Unknown', loginIP='127.0.0.1', locale=null, roleIds=null, roles=null, rightMenu=null, orgId=null, superUser=false, org=null, company=null, sesssionId=null, simpleAuthorizationInfo=null, extend=null}";
+        StringEntity entity = new StringEntity(DecryptUtils.encode(data, "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj"), "UTF-8");
+        entity.setContentEncoding("UTF-8");
+        entity.setContentType("application/json");
         try {
-            httpRequst.setEntity(entity);
-            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequst);
+            httpPost.setEntity(entity);
+            HttpResponse httpResponse = new DefaultHttpClient().execute(httpPost);
             if(httpResponse.getStatusLine().getStatusCode() == 200)
             {
                 HttpEntity httpEntity = httpResponse.getEntity();

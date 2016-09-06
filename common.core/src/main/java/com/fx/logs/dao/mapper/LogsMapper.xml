@@ -23,7 +23,7 @@
         )
         VALUES
         (
-          #{id, jdbcType=VALUES}, #{app_id, jdbcType=VARCHAR}, #{req_url, jdbcType=VARCHAR}, #{get_params, jdbcType=VARCHAR},
+          #{id, jdbcType=VARCHAR}, #{app_id, jdbcType=VARCHAR}, #{req_url, jdbcType=VARCHAR}, #{get_params, jdbcType=VARCHAR},
           #{req_ip, jdbcType=VARCHAR}, #{post_params, jdbcType=VARCHAR}, #{req_method, jdbcType=VARCHAR}
         )
     </insert>

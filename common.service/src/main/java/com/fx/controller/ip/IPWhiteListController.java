@@ -1,6 +1,8 @@
 package com.fx.controller.ip;
 
 import com.fx.controller.base.BaseController;
+import com.fx.enums.ExceptionEnum;
+import com.fx.enums.SuccessEnum;
 import com.fx.ip.model.Authorization;
 import com.fx.ip.model.IPWhiteList;
 import com.fx.ip.service.IAuthorizationService;
@@ -40,8 +42,8 @@ public class IPWhiteListController extends BaseController {
     @ResponseBody
     public String check() throws Base64DecodingException {
         String queryString = request.getQueryString();
-        String msg = "failure";
-        String code = "E00003";
+        String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
+        String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
         String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
@@ -55,8 +57,8 @@ public class IPWhiteListController extends BaseController {
         if (ipWhiteList != null) {
             String currentIp = getUserIP();
             if (ipWhiteList.getIp_list().contains(currentIp)) {
-                msg = "success";
-                code = "S00000";
+                msg = SuccessEnum.getMsg(SuccessEnum.QUERY_SUCCESS.getCode());
+                code = SuccessEnum.QUERY_SUCCESS.getCode();
             }
         }
         JsonResult jsonResult = new JsonResult(msg, code);

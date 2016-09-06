@@ -1,5 +1,6 @@
 package com.fx.controller.session;
 
+import com.fx.common.mail.MailBaseMessage;
 import com.fx.controller.base.BaseController;
 import com.fx.enums.ExceptionEnum;
 import com.fx.enums.SuccessEnum;
@@ -7,8 +8,7 @@ import com.fx.ip.model.Authorization;
 import com.fx.ip.service.IAuthorizationService;
 import com.fx.pojo.JsonResult;
 import com.fx.shiro.UserCacheEntity;
-import com.fx.util.CacheMgr;
-import com.fx.util.DecryptUtils;
+import com.fx.util.*;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Michael on 9/1/2016.
@@ -26,19 +30,49 @@ public class SessionCheckController extends BaseController {
     @Autowired
     private IAuthorizationService authorizationService;
 
-    @RequestMapping(value = "/login/sessioncheck/{user_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/login/sessioncheck", method = RequestMethod.GET)
     @ResponseBody
-    public String sessionCheck(@PathVariable String user_id) throws Base64DecodingException {
-        String msg = ExceptionEnum.QUERY_FAILURE.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
+    public String sessionCheck() throws Base64DecodingException {
+        String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
         String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String user_idResult = DecryptUtils.decode(user_id, authorization.getApp_secret());
-        UserCacheEntity user = CacheMgr.getUserOnLine(user_idResult);
+        String queryParams = request.getQueryString();
+        String user_idResult = DecryptUtils.decode(queryParams, authorization.getApp_secret());
+        UserCacheEntity user = CacheMgr.get(user_idResult);
         if (user != null) {
-            msg = SuccessEnum.QUERY_SUCCESS.getMsg(SuccessEnum.QUERY_SUCCESS.getCode());
+            msg = SuccessEnum.getMsg(SuccessEnum.QUERY_SUCCESS.getCode());
+            code = SuccessEnum.QUERY_SUCCESS.getCode();
+            // 发送邮件 已经登录
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", user.getLoginName());
+            data.put("date", DateUtil.getCurrentTime());
+            data.put("ip", getUserIP());
+            MailBaseMessage message = new MailBaseMessage(getUserIP(), user.getLoginName(), "754354038@qq.com", data, "系统通知", "login_check");
+            com.fx.util.mail.MailUtil.sendMail(message);
+        }
+        JsonResult jsonResult = new JsonResult(msg, code);
+        return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
+    }
+
+    @RequestMapping(value = "/login/putCache/{sys_type}", method = RequestMethod.POST)
+    @ResponseBody
+    public String putCache(@PathVariable String sys_type) throws IOException, Base64DecodingException {
+        System.out.println(request);
+        String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
+        String code = ExceptionEnum.QUERY_FAILURE.getCode();
+        String postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
+        String app_id = request.getHeader("app_id");
+        Authorization authorization = authorizationService.findById(app_id);
+        String sys_typeResult = DecryptUtils.decode(sys_type, authorization.getApp_secret());
+        String paramsResult = DecryptUtils.decode(postParams, authorization.getApp_secret());
+        UserCacheEntity user = gson.fromJson(paramsResult, UserCacheEntity.class);
+        if (user != null) {
+            msg = SuccessEnum.getMsg(SuccessEnum.QUERY_SUCCESS.getCode());
             code = SuccessEnum.QUERY_SUCCESS.getCode();
         }
+        String key = sys_typeResult + "_" + user.getUserId();
+        CacheMgr.put(key, user);
         JsonResult jsonResult = new JsonResult(msg, code);
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
