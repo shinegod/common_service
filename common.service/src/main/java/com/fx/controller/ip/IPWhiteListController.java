@@ -10,7 +10,6 @@ import com.fx.ip.service.IIPWhiteListService;
 import com.fx.pojo.JsonResult;
 import com.fx.util.DecryptUtils;
 import com.fx.util.RequestUtil;
-import com.fx.util.StringUtils;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletException;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -64,20 +59,5 @@ public class IPWhiteListController extends BaseController {
         JsonResult jsonResult = new JsonResult(msg, code);
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
-
-    @RequestMapping(value = "/login/test", method = RequestMethod.POST)
-    public void test() throws IOException, ServletException {
-        StringUtils.toRequestParams(request.getParameterMap());
-        StringBuffer info = new java.lang.StringBuffer();
-        InputStream in = request.getInputStream();
-        BufferedInputStream buf = new BufferedInputStream(in);
-        byte[] buffer = new byte[1024];
-        int iRead;
-        while ((iRead = buf.read(buffer)) != -1) {
-            info.append(new String(buffer, 0, iRead, "UTF-8"));
-        }
-        System.out.println(info);
-    }
-
 
 }
