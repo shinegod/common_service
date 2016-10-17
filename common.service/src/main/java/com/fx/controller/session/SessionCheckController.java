@@ -83,7 +83,6 @@ public class SessionCheckController extends BaseController {
     @RequestMapping(value = "/login/removeCache", method = RequestMethod.POST)
     @ResponseBody
     public String removeCache() throws Base64DecodingException {
-        //TODO
         String postParams = request.getQueryString();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
