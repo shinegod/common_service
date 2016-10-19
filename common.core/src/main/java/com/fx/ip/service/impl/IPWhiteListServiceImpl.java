@@ -7,6 +7,7 @@ import mybatis.framework.core.service.BaseVOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,33 @@ public class IPWhiteListServiceImpl extends BaseVOService<IPWhiteList> implement
     private IIPWhiteListDao ipWhiteListDao;
 
     @Override
-    public IPWhiteList findBySysTypeAndUserId(Map<String, Object> params) {
-        return ipWhiteListDao.findBySysTypeAndUserId(params);
+    public IPWhiteList findBySysTypeAndUserIdAndIp(Map<String, Object> params) {
+        return ipWhiteListDao.findBySysTypeAndUserIdAndIp(params);
     }
+
+    @Override
+    public int delAllByUserId(Map<String, Object> params) {
+        return ipWhiteListDao.delAllByUserId(params);
+    }
+
+    @Override
+    public int delById(Map<String, Object> params) {
+        return ipWhiteListDao.delById(params);
+    }
+
+    @Override
+    public List<IPWhiteList> queryByUserIds(Map<String, Object> params) {
+        return ipWhiteListDao.queryByUserIds(params);
+    }
+
+    @Override
+    public IPWhiteList findBySysAndUserIdAndPermission(Map<String, Object> params) {
+        return ipWhiteListDao.findBySysAndUserIdAndPermission(params);
+    }
+
+    @Override
+    public List<IPWhiteList> queryByUserId(Map<String, Object> params) {
+        return ipWhiteListDao.queryByUserId(params);
+    }
+
 }

@@ -21,6 +21,8 @@ public class IPWhiteList extends BaseValueObject {
 
     private String system_type;
 
+    private String description;
+
     private String create_user;
 
     private String create_ip;
@@ -79,6 +81,14 @@ public class IPWhiteList extends BaseValueObject {
 
     public void setSystem_type(String system_type) {
         this.system_type = system_type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCreate_user() {

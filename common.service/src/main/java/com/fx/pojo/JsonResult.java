@@ -9,9 +9,12 @@ public class JsonResult {
 
     private String code;
 
-    public JsonResult(String msg, String code) {
+    private String result;
+
+    public JsonResult(String msg, String code, String result) {
         this.msg = msg;
         this.code = code;
+        this.result = result;
     }
 
     public String getMsg() {
@@ -28,5 +31,13 @@ public class JsonResult {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

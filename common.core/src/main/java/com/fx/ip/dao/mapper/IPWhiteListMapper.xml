@@ -14,9 +14,10 @@
         <result column="update_user" property="update_user" jdbcType="VARCHAR"/>
         <result column="update_ip" property="update_ip" jdbcType="VARCHAR"/>
         <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, user_id, user_name, ip_list, is_del, system_type, create_user, create_ip, create_time, update_user, update_ip, update_time
+        id, user_id, user_name, ip_list, is_del, system_type, create_user, create_ip, create_time, update_user, update_ip, update_time, description
     </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM tb_ip_white_list WHERE id = #{id, jdbcType=INTEGER}
@@ -24,13 +25,13 @@
     <insert id="insert" parameterType="com.fx.ip.model.IPWhiteList" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_ip_white_list
           (
-            user_id, user_name, ip_list, is_del, system_type, create_user, create_ip, create_time, update_user, update_ip, update_time
+            user_id, user_name, ip_list, is_del, system_type, create_user, create_ip, create_time, update_user, update_ip, update_time, description
           )
         VALUES
           (
             #{user_id,jdbcType=INTEGER},#{user_name,jdbcType=VARCHAR},#{ip_list,jdbcType=VARCHAR},#{is_del,jdbcType=INTEGER},
             #{system_type,jdbcType=VARCHAR},#{create_user,jdbcType=VARCHAR},#{create_ip,jdbcType=VARCHAR},#{create_time,jdbcType=TIMESTAMP},
-            #{update_user,jdbcType=VARCHAR},#{update_ip,jdbcType=VARCHAR},#{update_time,jdbcType=TIMESTAMP}
+            #{update_user,jdbcType=VARCHAR},#{update_ip,jdbcType=VARCHAR},#{update_time,jdbcType=TIMESTAMP},#{description,jdbcType=VARCHAR}
           )
     </insert>
     <update id="update" parameterType="com.fx.ip.model.IPWhiteList">
@@ -45,15 +46,36 @@
           create_time = #{create_time, jdbcType=TIMESTAMP},
           update_user = #{update_user, jdbcType=VARCHAR},
           update_ip = #{update_ip, jdbcType=VARCHAR},
-          update_time = #{update_time, jdbcType=TIMESTAMP}
+          update_time = #{update_time, jdbcType=TIMESTAMP},
+          description = #{description, jdbcType=VARCHAR}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT <include refid="Base_Column_List"/>
         FROM tb_ip_white_list WHERE id = #{id, jdbcType=INTEGER}
     </select>
-    <select id="findBySysTypeAndUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <select id="findBySysTypeAndUserIdAndIp" resultMap="BaseResultMap" parameterType="java.util.Map">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM tb_ip_white_list WHERE system_type = #{system_type,jdbcType=VARCHAR} AND user_id = #{user_id,jdbcType=INTEGER}
+        FROM tb_ip_white_list WHERE system_type = #{system_type, jdbcType=VARCHAR} AND user_id = #{user_id, jdbcType=INTEGER} AND ip_list = #{ip_list, jdbcType=VARCHAR} AND is_del = 0
+    </select>
+    <update id="delAllByUserId" parameterType="java.util.Map">
+        UPDATE tb_ip_white_list SET is_del = 1 WHERE system_type = #{system_type, jdbcType=VARCHAR} AND user_id = #{user_id, jdbcType=INTEGER}
+    </update>
+    <update id="delById" parameterType="java.util.Map">
+        UPDATE tb_ip_white_list SET is_del = 1 WHERE system_type = #{system_type, jdbcType=VARCHAR} AND user_id = #{user_id, jdbcType=INTEGER}
+    </update>
+    <select id="queryByUserIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tb_ip_white_list WHERE system_type = #{system_type, jdbcType=VARCHAR} AND is_del = 0 AND user_id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">#{id, jdbcType=INTEGER}</foreach>
+        GROUP BY user_id ORDER BY create_time DESC
+    </select>
+    <select id="findBySysAndUserIdAndPermission" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tb_ip_white_list WHERE system_type = #{system_type, jdbcType=VARCHAR} AND user_id = #{user_id, jdbcType=INTEGER} AND ip_list = #{permission_ip, jdbcType=VARCHAR} AND is_del = 0
+    </select>
+    <select id="queryByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tb_ip_white_list WHERE system_type = #{system_type, jdbcType=VARCHAR} AND user_id = #{user_id, jdbcType=INTEGER} AND is_del = 0
     </select>
 </mapper>

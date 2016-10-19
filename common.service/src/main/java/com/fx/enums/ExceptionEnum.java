@@ -8,7 +8,8 @@ public enum ExceptionEnum {
     LACK_PARAM("app_id is required","E00001"),
     PERMISSION_DENIED("permission denied", "E00002"),
     QUERY_FAILURE("query fails", "E00003"),
-    OPERATE_FAILURE("operate fails", "E00004");
+    OPERATE_FAILURE("operate fails", "E00004"),
+    PARAMS_TOO_LONG("params are too long", "E00005");
 
     String code;
     String msg;

@@ -53,7 +53,7 @@ public class SessionCheckController extends BaseController {
                                                             "login_check");
             com.fx.util.mail.MailUtil.sendMail(message);
         }
-        JsonResult jsonResult = new JsonResult(msg, code);
+        JsonResult jsonResult = new JsonResult(msg, code, "");
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
 
@@ -76,7 +76,7 @@ public class SessionCheckController extends BaseController {
             msg = ExceptionEnum.getMsg(ExceptionEnum.OPERATE_FAILURE.getCode());
             code = ExceptionEnum.OPERATE_FAILURE.getCode();
         }
-        JsonResult jsonResult = new JsonResult(msg, code);
+        JsonResult jsonResult = new JsonResult(msg, code, "");
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
 
@@ -90,7 +90,7 @@ public class SessionCheckController extends BaseController {
         CacheMgr.remove(postParamsResult);
         String msg = SuccessEnum.getMsg(SuccessEnum.OPERATE_SUCCESS.getCode());
         String code = SuccessEnum.OPERATE_SUCCESS.getCode();
-        JsonResult jsonResult = new JsonResult(msg, code);
+        JsonResult jsonResult = new JsonResult(msg, code, "");
         return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
     }
 

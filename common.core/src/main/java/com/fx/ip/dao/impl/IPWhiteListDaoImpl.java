@@ -5,6 +5,7 @@ import com.fx.ip.model.IPWhiteList;
 import mybatis.framework.core.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +19,32 @@ public class IPWhiteListDaoImpl extends BaseDao<IPWhiteList> implements IIPWhite
     }
 
     @Override
-    public IPWhiteList findBySysTypeAndUserId(Map<String, Object> params) {
-        return (IPWhiteList) findOne("findBySysTypeAndUserId", params);
+    public IPWhiteList findBySysTypeAndUserIdAndIp(Map<String, Object> params) {
+        return (IPWhiteList) findOne("findBySysTypeAndUserIdAndIp", params);
+    }
+
+    @Override
+    public int delAllByUserId(Map<String, Object> params) {
+        return doUpdate("delAllByUserId", params);
+    }
+
+    @Override
+    public int delById(Map<String, Object> params) {
+        return doUpdate("delById", params);
+    }
+
+    @Override
+    public List<IPWhiteList> queryByUserIds(Map<String, Object> params) {
+        return findList("queryByUserIds", params);
+    }
+
+    @Override
+    public IPWhiteList findBySysAndUserIdAndPermission(Map<String, Object> params) {
+        return (IPWhiteList) findOne("findBySysAndUserIdAndPermission", params);
+    }
+
+    @Override
+    public List<IPWhiteList> queryByUserId(Map<String, Object> params) {
+        return findList("queryByUserId", params);
     }
 }

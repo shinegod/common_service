@@ -121,7 +121,7 @@ public class DecryptUtils {
         byte[] enk = hex("YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");//用户名
         System.out.println(new String(enk));
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
-        String password = "1234567";//密码
+        String password = "1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000";//密码
         System.out.println("加密前的字符串:" + password);
         byte[] encoded = encryptMode(enk,password.getBytes());
         String pword = Base64.encode(encoded);
