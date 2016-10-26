@@ -5,8 +5,8 @@ package com.fx.enums;
  */
 public enum SuccessEnum {
 
-    QUERY_SUCCESS("query success", "S00000"),
-    OPERATE_SUCCESS("operate success", "S00001");
+    QUERY_SUCCESS("success", "S00000"),    // 查询成功
+    OPERATE_SUCCESS("success", "S00001");  // 操作成功
 
     String code;
 

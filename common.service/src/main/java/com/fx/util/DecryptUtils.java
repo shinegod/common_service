@@ -127,7 +127,7 @@ public class DecryptUtils {
         String pword = Base64.encode(encoded);
         System.out.println("加密后的字符串:" + pword);
 
-        byte[] reqPassword = Base64.decode(pword);
+        byte[] reqPassword = Base64.decode("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
         byte[] srcBytes = decryptMode(enk,reqPassword);
         System.out.println("解密后的字符串:" + (new String(srcBytes)));
     }
