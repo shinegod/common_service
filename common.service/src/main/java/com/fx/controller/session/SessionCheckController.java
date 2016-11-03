@@ -9,7 +9,6 @@ import com.fx.ip.service.IAuthorizationService;
 import com.fx.pojo.JsonResult;
 import com.fx.shiro.UserCacheEntity;
 import com.fx.util.*;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +31,7 @@ public class SessionCheckController extends BaseController {
 
     @RequestMapping(value = "/login/sessioncheck", method = RequestMethod.GET)
     @ResponseBody
-    public String sessionCheck() throws Base64DecodingException {
+    public String sessionCheck() throws IOException {
         String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
         String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
@@ -59,7 +58,7 @@ public class SessionCheckController extends BaseController {
 
     @RequestMapping(value = "/login/putCache/{sys_type}", method = RequestMethod.POST)
     @ResponseBody
-    public String putCache(@PathVariable String sys_type) throws IOException, Base64DecodingException {
+    public String putCache(@PathVariable String sys_type) throws IOException {
         String msg, code;
         String postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
         String app_id = request.getHeader("app_id");
@@ -82,7 +81,7 @@ public class SessionCheckController extends BaseController {
 
     @RequestMapping(value = "/login/removeCache", method = RequestMethod.POST)
     @ResponseBody
-    public String removeCache() throws Base64DecodingException {
+    public String removeCache() throws IOException {
         String postParams = request.getQueryString();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);

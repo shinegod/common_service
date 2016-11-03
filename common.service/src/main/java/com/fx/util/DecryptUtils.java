@@ -1,12 +1,13 @@
 package com.fx.util;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.Security;
 
 /*字符串 DESede(3DES) 加密
@@ -102,33 +103,44 @@ public class DecryptUtils {
         byte[] enk = hex(key);
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
         byte[] srcArrEnc = encryptMode(enk,src.getBytes());
-        String srcResult = Base64.encode(srcArrEnc);
+//        String srcResult = Base64.encode(srcArrEnc);
+        String srcResult = new Base64().encodeToString(srcArrEnc);
         return srcResult;
     }
 
     // 解密
-    public static String decode(String src, String key) throws Base64DecodingException {
+    public static String decode(String src, String key) throws IOException {
         byte[] enk = hex(key);
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
-        byte[] srcDecodeArr = Base64.decode(src);
+//        byte[] srcDecodeArr = Base64.decode(src);
+//        byte[] srcDecodeArr = new BASE64Decoder().decodeBuffer(src);
+        byte[] srcDecodeArr = new Base64().decode(src);
         byte[] srcDecodeDec = decryptMode(enk, srcDecodeArr);
         String strResult = new String(srcDecodeDec);
         return strResult;
     }
 
-    public static void main(String[] args) throws Base64DecodingException {
+    public static void main(String[] args) throws IOException {
         //添加新安全算法,如果用JCE就要把它添加进去
         byte[] enk = hex("YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");//用户名
         System.out.println(new String(enk));
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
-        String password = "1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000";//密码
+        String password = "asdfasetawegaersdraesfesryeargaer4tsdfardgaretwasfartaweawtfwaetgawefgawtawerfgarwea";
         System.out.println("加密前的字符串:" + password);
         byte[] encoded = encryptMode(enk,password.getBytes());
-        String pword = Base64.encode(encoded);
+//        String pword = new BASE64Encoder().encode(encoded);
+        String pword = new Base64().encodeAsString(encoded);
         System.out.println("加密后的字符串:" + pword);
 
-        byte[] reqPassword = Base64.decode("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
+//        byte[] reqPassword = new BASE64Decoder().decodeBuffer("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
+        byte[] reqPassword = new Base64().decodeBase64("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
         byte[] srcBytes = decryptMode(enk,reqPassword);
         System.out.println("解密后的字符串:" + (new String(srcBytes)));
+
+        BigDecimal a = new BigDecimal("2.0");
+        BigDecimal b = new BigDecimal("2.00");
+
+        System.out.println(a.equals(b));
+        System.out.println(a.compareTo(b));
     }
 }

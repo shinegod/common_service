@@ -48,7 +48,8 @@ public class HttpClientTest {
             String sys_type = "kcm";
             String user_id = "1";
             String queryString = "sys_type=" + sys_type + "&user_id=" + user_id;
-            String queryParams = DecryptUtils.encode(queryString, "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
+            String queryParams = DecryptUtils.encode("system_type=vcn&ids=128573,122121,122103,122091,122087,122086,122085,122081,122075,120947", "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
+            System.out.println(queryParams);
             HttpGet httpGet = new HttpGet("http://127.0.0.1:8080/login/ipwhitelist?" + queryParams);
             httpGet.setHeader("Content-Type", "application/json;charset=UTF-8");
             httpGet.setHeader("app_id", "c42723b1-0d86-4da1-9a19-401c8fe6763c");

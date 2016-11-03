@@ -5,7 +5,7 @@ import com.fx.ip.service.IAuthorizationService;
 import com.fx.logs.model.Logs;
 import com.fx.logs.service.ILogsService;
 import com.fx.util.*;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +51,13 @@ public class CommonServiceInterceptor extends HandlerInterceptorAdapter {
         String queryString = request.getQueryString();
         // 从header中取app_id
         String app_id = request.getHeader("app_id");
-        LOGGER.info("请求app_id:{}, 请求地址:{}, 请求参数:{}", app_id, request.getRequestURI(), request.getQueryString());
+        LOGGER.info("请求app_id:{}, 请求地址:{}, GET请求参数:{}, POST请求参数:{}", app_id, request.getRequestURI(), queryString, postParams);
         if (StringUtils.isEmpty(app_id) || StringUtils.isBlank(app_id)) {
             LOGGER.error("请求没有app_id");
             response.sendRedirect("http://"+ ConfigProperties.getProperty("domain.www") + "/exception/message/E00001");
             return false;
         }
-        String app_secret = Base64.encode(app_id.getBytes());
+        String app_secret = new Base64().encodeToString(app_id.getBytes());
         Authorization authorization = authorizationService.findById(app_id);
         if (authorization != null) {
             if (authorization.getApp_secret().equals(app_secret)) {

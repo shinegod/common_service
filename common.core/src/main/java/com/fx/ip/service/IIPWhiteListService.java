@@ -16,9 +16,9 @@ public interface IIPWhiteListService extends IValueObjectService<IPWhiteList> {
 
     public int delById(Map<String, Object> params);
 
-    public List<IPWhiteList> queryByUserIds(Map<String, Object> params);
-
     public IPWhiteList findBySysAndUserIdAndPermission(Map<String, Object> params);
 
     public List<IPWhiteList> queryByUserId(Map<String, Object> params);
+
+    public IPWhiteList queryTop1ByUserId(Map<String, Object> params);
 }

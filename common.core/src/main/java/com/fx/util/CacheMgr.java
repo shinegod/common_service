@@ -18,7 +18,6 @@ import com.fx.common.service.IProvinceService;
 import com.fx.crm.sys.datarule.model.DataRuleDefine;
 import com.fx.crm.sys.datarule.service.IDataRuleDefineService;
 import com.fx.crm.sys.log.model.OperationReference;
-import com.fx.crm.sys.log.service.IOperationReferenceService;
 import com.fx.crm.sys.org.model.Organization;
 import com.fx.crm.sys.org.service.IOrganizationService;
 import com.fx.crm.sys.permission.model.Permission;
@@ -501,12 +500,12 @@ public class CacheMgr {
 
     public static Map<String, OperationReference> refreshOperationReference() {
         Map<String, OperationReference> orMap = Maps.newHashMap();
-        IOperationReferenceService operationReferenceService = SpringUtils.getBean(IOperationReferenceService.class);
+        /*IOperationReferenceService operationReferenceService = SpringUtils.getBean(IOperationReferenceService.class);
         List<OperationReference> list = operationReferenceService.findAll();
         for (OperationReference or : list) {
             orMap.put(or.getUri(), or);
         }
-        getDefaultCache().put(Constants.CACHE_KEY.LOGGER_OPERATION_REFERENCE, orMap);
+        getDefaultCache().put(Constants.CACHE_KEY.LOGGER_OPERATION_REFERENCE, orMap);*/
         return orMap;
     }
 

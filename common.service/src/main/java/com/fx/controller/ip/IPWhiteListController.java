@@ -12,7 +12,6 @@ import com.fx.util.ConfigProperties;
 import com.fx.util.DecryptUtils;
 import com.fx.util.InputStreamCacher;
 import com.fx.util.RequestUtil;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Michael on 8/16/2016.
@@ -40,17 +36,22 @@ public class IPWhiteListController extends BaseController {
     /**
      * 根据用户ID、系统类型、当前登录IP判断是否有登录权限
      * @return 加密结果
-     * @throws Base64DecodingException
      */
     @RequestMapping(value = "/login/checkIpPermission", method = RequestMethod.GET)
     @ResponseBody
-    public String check() throws Base64DecodingException {
+    public String check() {
         String queryString = request.getQueryString();
         String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
         String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        String queryStringResult = null;
+        try {
+            queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", queryString, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();
@@ -75,17 +76,22 @@ public class IPWhiteListController extends BaseController {
     /**
      * 根据用户ID、系统类型删除用户所有IP白名单记录
      * @return 加密结果
-     * @throws Base64DecodingException
      */
-    @RequestMapping(value = "/login/delAllByUserId", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/delAllByUserId", method = RequestMethod.GET)
     @ResponseBody
-    public String delAllByUserId() throws Base64DecodingException {
+    public String delAllByUserId() {
         String queryString = request.getQueryString();
         String msg = ExceptionEnum.getMsg(ExceptionEnum.OPERATE_FAILURE.getCode());
         String code = ExceptionEnum.OPERATE_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        String queryStringResult = null;
+        try {
+            queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", queryString, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();
@@ -104,17 +110,28 @@ public class IPWhiteListController extends BaseController {
     /**
      * 根据IP的ID、系统类型删除单条IP记录
      * @return
-     * @throws Base64DecodingException
      */
     @RequestMapping(value = "/login/delById", method = RequestMethod.POST)
     @ResponseBody
-    public String delById() throws Base64DecodingException {
-        String queryString = request.getQueryString();
+    public String delById() {
+        String postParams = null;
+        try {
+            postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
+        } catch (IOException e) {
+            logger.error("获取POST请求参数失败，POST请求参数：{}", postParams);
+            e.printStackTrace();
+        }
         String msg = ExceptionEnum.getMsg(ExceptionEnum.OPERATE_FAILURE.getCode());
         String code = ExceptionEnum.OPERATE_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        String queryStringResult = null;
+        try {
+            queryStringResult = DecryptUtils.decode(postParams, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", postParams, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();
@@ -133,16 +150,26 @@ public class IPWhiteListController extends BaseController {
     /**
      * 新增一条IP白名单记录
      * @return
-     * @throws Base64DecodingException
-     * @throws IOException
      */
     @RequestMapping(value = "/login/addByUserId", method = RequestMethod.POST)
     @ResponseBody
-    public String addByUserId() throws Base64DecodingException, IOException {
-        String postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
+    public String addByUserId() {
+        String postParams = null;
+        try {
+            postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
+        } catch (IOException e) {
+            logger.error("获取POST请求参数失败，POST请求参数：{}", postParams);
+            e.printStackTrace();
+        }
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String postParamsResult = DecryptUtils.decode(postParams, authorization.getApp_secret());
+        String postParamsResult = null;
+        try {
+            postParamsResult = DecryptUtils.decode(postParams, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", postParams, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         String msg = ExceptionEnum.getMsg(ExceptionEnum.OPERATE_FAILURE.getCode());
         String code = ExceptionEnum.OPERATE_FAILURE.getCode();
         IPWhiteList ipWhiteList = gson.fromJson(postParamsResult, IPWhiteList.class);
@@ -158,17 +185,22 @@ public class IPWhiteListController extends BaseController {
     /**
      * 根据传来的用户ID列表，查询IP白名单
      * @return
-     * @throws Base64DecodingException
      */
     @RequestMapping(value = "/login/queryByUserIds", method = RequestMethod.GET)
     @ResponseBody
-    public String queryByUserIds() throws Base64DecodingException {
+    public String queryByUserIds() {
         String queryString = request.getQueryString();
-        String msg = ExceptionEnum.getMsg(ExceptionEnum.OPERATE_FAILURE.getCode());
-        String code = ExceptionEnum.OPERATE_FAILURE.getCode();
+        String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
+        String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        String queryStringResult = null;
+        try {
+            queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", queryString, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();
@@ -183,8 +215,15 @@ public class IPWhiteListController extends BaseController {
             JsonResult jsonResult = new JsonResult(msg, code, "");
             return DecryptUtils.encode(gson.toJson(jsonResult), authorization.getApp_secret());
         }
-        params.put("ids", idsArr);
-        List<IPWhiteList> ipWhiteLists = ipWhiteListService.queryByUserIds(params);
+        List<IPWhiteList> ipWhiteLists = new ArrayList<>();
+        params.remove("ids");
+        for (String s : idsArr) {
+            params.put("user_id", s);
+            IPWhiteList ipWhiteList = ipWhiteListService.queryTop1ByUserId(params);
+            if (ipWhiteList != null) {
+                ipWhiteLists.add(ipWhiteList);
+            }
+        }
         String result = "";
         if (ipWhiteLists != null && ipWhiteLists.size() > 0) {
             msg = SuccessEnum.getMsg(SuccessEnum.QUERY_SUCCESS.getCode());
@@ -198,17 +237,22 @@ public class IPWhiteListController extends BaseController {
     /**
      * 根据系统类型、用户ID查询IP白名单列表
      * @return
-     * @throws Base64DecodingException
      */
     @RequestMapping(value = "/login/queryByUserId", method = RequestMethod.GET)
     @ResponseBody
-    public String queryByUserId() throws Base64DecodingException {
+    public String queryByUserId() {
         String queryString = request.getQueryString();
         String msg = ExceptionEnum.getMsg(ExceptionEnum.QUERY_FAILURE.getCode());
         String code = ExceptionEnum.QUERY_FAILURE.getCode();
         String app_id = request.getHeader("app_id");
         Authorization authorization = authorizationService.findById(app_id);
-        String queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        String queryStringResult = null;
+        try {
+            queryStringResult = DecryptUtils.decode(queryString, authorization.getApp_secret());
+        } catch (IOException e) {
+            logger.error("加密失败，请求加密内容：{}，加密key：{}", queryString, authorization.getApp_secret());
+            e.printStackTrace();
+        }
         Map<String, Object> queryParams = RequestUtil.getUrlParams(queryStringResult);
         Map<String, Object> params = new HashMap<>();
         Set keySet = queryParams.keySet();

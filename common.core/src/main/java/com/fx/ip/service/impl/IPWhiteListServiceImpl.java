@@ -35,11 +35,6 @@ public class IPWhiteListServiceImpl extends BaseVOService<IPWhiteList> implement
     }
 
     @Override
-    public List<IPWhiteList> queryByUserIds(Map<String, Object> params) {
-        return ipWhiteListDao.queryByUserIds(params);
-    }
-
-    @Override
     public IPWhiteList findBySysAndUserIdAndPermission(Map<String, Object> params) {
         return ipWhiteListDao.findBySysAndUserIdAndPermission(params);
     }
@@ -47,6 +42,11 @@ public class IPWhiteListServiceImpl extends BaseVOService<IPWhiteList> implement
     @Override
     public List<IPWhiteList> queryByUserId(Map<String, Object> params) {
         return ipWhiteListDao.queryByUserId(params);
+    }
+
+    @Override
+    public IPWhiteList queryTop1ByUserId(Map<String, Object> params) {
+        return ipWhiteListDao.queryTop1ByUserId(params);
     }
 
 }

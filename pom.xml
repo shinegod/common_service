@@ -97,6 +97,11 @@
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.5</version>
+        </dependency>
         <!-- json support -->
         <dependency>
             <groupId>com.alibaba</groupId>

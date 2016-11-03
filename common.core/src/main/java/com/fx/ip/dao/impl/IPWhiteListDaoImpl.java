@@ -34,11 +34,6 @@ public class IPWhiteListDaoImpl extends BaseDao<IPWhiteList> implements IIPWhite
     }
 
     @Override
-    public List<IPWhiteList> queryByUserIds(Map<String, Object> params) {
-        return findList("queryByUserIds", params);
-    }
-
-    @Override
     public IPWhiteList findBySysAndUserIdAndPermission(Map<String, Object> params) {
         return (IPWhiteList) findOne("findBySysAndUserIdAndPermission", params);
     }
@@ -46,5 +41,10 @@ public class IPWhiteListDaoImpl extends BaseDao<IPWhiteList> implements IIPWhite
     @Override
     public List<IPWhiteList> queryByUserId(Map<String, Object> params) {
         return findList("queryByUserId", params);
+    }
+
+    @Override
+    public IPWhiteList queryTop1ByUserId(Map<String, Object> params) {
+        return (IPWhiteList) findOne("queryTop1ByUserId", params);
     }
 }

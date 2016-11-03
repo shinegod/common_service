@@ -13,15 +13,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.List;
 
 /**
- * 
+ *
  */
 public class SqlSessionWrapper implements ISqlSessionWrapper {
     private static final Logger LOG = LoggerFactory.getLogger(SqlSessionWrapper.class);
-    
+
    @Autowired
    @Qualifier("sqlSessionFactory")
    private SqlSessionFactory sqlSessionFactory;
-   
+
 	public Object selectOne(String statement, Object parameter) {
         SqlSession sqlSession = null;
         try {
