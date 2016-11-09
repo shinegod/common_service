@@ -35,6 +35,8 @@ public class IPWhiteList extends BaseValueObject {
 
     private Date update_time;
 
+    private Integer sort;
+
     public Integer getId() {
         return id;
     }
@@ -137,5 +139,13 @@ public class IPWhiteList extends BaseValueObject {
 
     public void setUpdate_time(Date update_time) {
         this.update_time = update_time;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

@@ -1,18 +1,12 @@
 import com.fx.util.DecryptUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
 /**
@@ -45,37 +39,37 @@ public class HttpClientTest {
 
         CloseableHttpClient httpClient = getHttpClient();
         try {
-            String sys_type = "kcm";
+            String sys_type = "vcn";
             String user_id = "1";
-            String queryString = "sys_type=" + sys_type + "&user_id=" + user_id;
-            String queryParams = DecryptUtils.encode("system_type=vcn&ids=128573,122121,122103,122091,122087,122086,122085,122081,122075,120947", "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
+            String queryString = "sys_type=" + sys_type + "&user_id=" + user_id + "&ip_list=127.0.0.1";
+            String queryParams = DecryptUtils.encode(queryString, "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
             System.out.println(queryParams);
-            HttpGet httpGet = new HttpGet("http://127.0.0.1:8080/login/ipwhitelist?" + queryParams);
+            HttpGet httpGet = new HttpGet("http://192.168.1.237:8031/login/checkIpPermission?" + queryParams);
             httpGet.setHeader("Content-Type", "application/json;charset=UTF-8");
             httpGet.setHeader("app_id", "c42723b1-0d86-4da1-9a19-401c8fe6763c");
-            System.out.println("执行get请求:...."+httpGet.getURI());
+            System.out.println("执行get请求:...." + httpGet.getURI());
             CloseableHttpResponse httpResponse = null;
             httpResponse = httpClient.execute(httpGet);
-            try{
+            try {
                 HttpEntity entity = httpResponse.getEntity();
-                if (null != entity){
-                    System.out.println("响应状态码:"+ httpResponse.getStatusLine());
+                if (null != entity) {
+                    System.out.println("响应状态码:" + httpResponse.getStatusLine());
                     System.out.println("响应内容:" + EntityUtils.toString(entity));
                 }
-            }
-            finally{
+            } finally {
                 httpResponse.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally{
-            try{
+        } finally {
+            try {
                 closeHttpClient(httpClient);
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+        /*
 
         String sysType = "kcm";
         String sysTypeResult = DecryptUtils.encode(sysType, "YzQyNzIzYjEtMGQ4Ni00ZGExLTlhMTktNDAxYzhmZTY3NjNj");
@@ -113,7 +107,7 @@ public class HttpClientTest {
             result = e.getMessage().toString();
         }
         System.out.println(result);
-    }
+    }*/
 
     private static CloseableHttpClient getHttpClient(){
         return HttpClients.createDefault();

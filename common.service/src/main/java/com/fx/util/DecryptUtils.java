@@ -133,7 +133,7 @@ public class DecryptUtils {
         System.out.println("加密后的字符串:" + pword);
 
 //        byte[] reqPassword = new BASE64Decoder().decodeBuffer("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
-        byte[] reqPassword = new Base64().decodeBase64("6Enb8hsfvil6qZQsmjZZLHFL6YYUqzmlgeJSjk5veJLH9YkOqIoR0I4YM12UCbO/zdoQJ6JoSS/KRrvc0j+XgpThAs5W+zmSrPUBUsof5AXZA9HvwrhN1g==");
+        byte[] reqPassword = new Base64().decodeBase64("DV7I0ywtKob7RZEgiq8M4lLrGj1sskX50fDlBgR4HRjbxNMBJ3Eo+LSVrrF+2iqRHtSD6PAf4VuqsimjmtyYMFaGGLuMcMdUUOjezNxC/9B8kCCck7Fgmhzt0KmDJEO0YiqlhkE51Av2KPbkeIwfXjB9QCn41HKHzQRQt0OTIiw10mCBSIBWrTR4riDQ9DxjzJ9xAEUXY9rx4G1l1/KXyauAfTT/luq1OTFX/1/RipuAQgu2j/lt2dyUww1mdJ/gLtzVHdqHkfmmmXeCb3Jqprd5+ml/DUFFY923mO9nE4wxeurN07/1+nYByuZXHNJ5twiB7ZbeBdO7y+cicphmix65hqi+i3ya");
         byte[] srcBytes = decryptMode(enk,reqPassword);
         System.out.println("解密后的字符串:" + (new String(srcBytes)));
 

@@ -155,6 +155,7 @@ public class IPWhiteListController extends BaseController {
     @ResponseBody
     public String addByUserId() {
         String postParams = null;
+        System.out.println("=======================================" + getUserIP());
         try {
             postParams = RequestUtil.getPostParams(InputStreamCacher.getInputStream());
         } catch (IOException e) {
@@ -174,6 +175,9 @@ public class IPWhiteListController extends BaseController {
         String code = ExceptionEnum.OPERATE_FAILURE.getCode();
         IPWhiteList ipWhiteList = gson.fromJson(postParamsResult, IPWhiteList.class);
         int result = ipWhiteListService.doInsert(ipWhiteList);
+
+        logger.info("==========================描述为:{}", ipWhiteList.getDescription());
+
         if (result > 0) {
             msg = SuccessEnum.getMsg(SuccessEnum.OPERATE_SUCCESS.getCode());
             code = SuccessEnum.OPERATE_SUCCESS.getCode();
